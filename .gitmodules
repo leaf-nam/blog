@@ -1,6 +1,3 @@
-[submodule "themes/PaperMod"]
-	path = themes/PaperMod
-	url = https://github.com/adityatelange/hugo-PaperMod.git
 [submodule "public"]
 	path = public
 	url = https://github.com/SangyeopNam/leaf_public.git
