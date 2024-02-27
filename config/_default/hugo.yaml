@@ -10,6 +10,8 @@ buildExpired: false
 
 googleAnalytics: UA-123-45
 
+enableEmoji: true
+
 minify:
   disableXML: true
   minifyOutput: true
@@ -73,8 +75,14 @@ params:
 
   # home-info mode
   homeInfoParams:
-    Title: "Hi there \U0001F44B"
-    Content: Welcome to my blog
+    Title: "Leaf 블로그 :wave:"
+    Content: Leaf waiting for Spring | 봄을 기다리는 잎사귀    
+    buttons:
+      - name: Archive
+        url: "/archive"
+      - name: Github
+        url: "https://github.com/"
+
 
   socialIcons:
     - name: x
@@ -113,19 +121,20 @@ params:
     minMatchCharLength: 0
     limit: 10 # refer: https://www.fusejs.io/api/methods.html#search
     keys: ["title", "permalink", "summary", "content"]
+    
 menu:
   main:
     - identifier: categories
-      name: categories
+      name: 카테고리
       url: /categories/
       weight: 10
     - identifier: tags
-      name: tags
+      name: 태그
       url: /tags/
       weight: 20
-    - identifier: example
-      name: example.org
-      url: https://example.org
+    - identifier: git
+      name: Git
+      url: https://github.com/SangyeopNam
       weight: 30
 # Read: https://github.com/adityatelange/hugo-PaperMod/wiki/FAQs#using-hugos-syntax-highlighter-chroma
 pygmentsUseClasses: true
