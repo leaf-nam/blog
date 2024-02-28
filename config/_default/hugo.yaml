@@ -1,5 +1,5 @@
-baseURL: "https://examplesite.com/"
-title: ExampleSite
+baseURL: "https://leaf-nam.github.io"
+title: "Leaf, waiting for Spring"
 paginate: 5
 theme: PaperMod
 
@@ -18,11 +18,10 @@ minify:
 
 params:
   env: production # to enable google analytics, opengraph, twitter-cards and schema.
-  title: ExampleSite
-  description: "ExampleSite description"
+  title: "Leaf, waiting for Spring"
+  description: "Leaf, waiting for Spring"
   keywords: [Blog, Portfolio, PaperMod]
-  author: Me
-  # author: ["Me", "You"] # multiple authors
+  author: Leaf
   images: ["<link or path of image for opengraph, twitter-cards>"]
   DateFormat: "January 2, 2006"
   defaultTheme: auto # dark, light
@@ -47,11 +46,11 @@ params:
   assets:
     # disableHLJS: true # to disable highlight.js
     # disableFingerprinting: true
-    favicon: "<link / abs url>"
-    favicon16x16: "<link / abs url>"
-    favicon32x32: "<link / abs url>"
-    apple_touch_icon: "<link / abs url>"
-    safari_pinned_tab: "<link / abs url>"
+    favicon: "/favicon.ico"
+    favicon16x16: "/favicon-16x16.png"
+    favicon32x32: "/favicon-32x32.png"
+    apple_touch_icon: "/apple-touch-icon.png"
+    safari_pinned_tab: "/safari-pinned-tab.svg"
 
   label:
     text: "Home"
@@ -76,12 +75,12 @@ params:
   # home-info mode
   homeInfoParams:
     Title: "Leaf 블로그 :wave:"
-    Content: Leaf waiting for Spring | 봄을 기다리는 잎사귀    
+    Content: "Leaf, waiting for Spring | 봄을 기다리는 잎사귀"
     buttons:
       - name: Archive
         url: "/archive"
       - name: Github
-        url: "https://github.com/"
+        url: "https://github.com/leaf-nam"
 
 
   socialIcons:
@@ -90,7 +89,7 @@ params:
     - name: stackoverflow
       url: "https://stackoverflow.com"
     - name: github
-      url: "https://github.com/"
+      url: "https://github.com/leaf-nam"
 
   analytics:
     google:
@@ -106,7 +105,7 @@ params:
     hiddenInSingle: true # hide on single page
 
   editPost:
-    URL: "https://github.com/<path_to_repo>/content"
+    URL: "https://github.com/leaf-nam/content"
     Text: "Suggest Changes" # edit text
     appendFilePath: true # to append file path to Edit link
 
@@ -134,7 +133,7 @@ menu:
       weight: 20
     - identifier: git
       name: Git
-      url: https://github.com/SangyeopNam
+      url: https://github.com/leaf-nam
       weight: 30
 # Read: https://github.com/adityatelange/hugo-PaperMod/wiki/FAQs#using-hugos-syntax-highlighter-chroma
 pygmentsUseClasses: true
