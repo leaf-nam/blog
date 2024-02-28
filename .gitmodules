@@ -1,6 +1,6 @@
 [submodule "public"]
 	path = public
-	url = https://github.com/SangyeopNam/leaf-nam.github.io.git
+	url = https://github.com/leaf-nam/leaf-nam.github.io.git
 	branch = main
 [submodule "themes/PaperMod"]
 	path = themes/PaperMod
