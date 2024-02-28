@@ -40,8 +40,8 @@ params:
   comments: false
   hidemeta: false
   hideSummary: false
-  showtoc: false
-  tocopen: false
+  showtoc: true
+  tocopen: true
 
   assets:
     # disableHLJS: true # to disable highlight.js
@@ -74,7 +74,7 @@ params:
 
   # home-info mode
   homeInfoParams:
-    Title: "Leaf 블로그 :wave:"
+    Title: "낙엽의 블로그 🍃"
     Content: "Leaf, waiting for Spring | 봄을 기다리는 잎사귀"
     buttons:
       - name: Archive
@@ -82,12 +82,7 @@ params:
       - name: Github
         url: "https://github.com/leaf-nam"
 
-
   socialIcons:
-    - name: x
-      url: "https://x.com/"
-    - name: stackoverflow
-      url: "https://stackoverflow.com"
     - name: github
       url: "https://github.com/leaf-nam"
 
@@ -120,7 +115,7 @@ params:
     minMatchCharLength: 0
     limit: 10 # refer: https://www.fusejs.io/api/methods.html#search
     keys: ["title", "permalink", "summary", "content"]
-    
+
 menu:
   main:
     - identifier: categories
