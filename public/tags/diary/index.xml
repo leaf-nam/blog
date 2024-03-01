@@ -1,23 +1,18 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>Diary on Leaf, waiting for Spring</title>
-    <link>https://leaf-nam.github.io/tags/diary/</link>
-    <description>Recent content in Diary on Leaf, waiting for Spring</description>
-    <image>
-      <title>Leaf, waiting for Spring</title>
-      <url>https://leaf-nam.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
-      <link>https://leaf-nam.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
-    </image>
+    <title>Diary on 봄을 기다리는 낙엽</title>
+    <link>http://localhost:1313/tags/diary/</link>
+    <description>Recent content in Diary on 봄을 기다리는 낙엽</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en</language>
+    <language>ko</language>
     <lastBuildDate>Wed, 28 Feb 2024 21:06:14 +0900</lastBuildDate>
-    <atom:link href="https://leaf-nam.github.io/tags/diary/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/tags/diary/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>블로그를 쓰게 된 계기와 앞으로의 방향성</title>
-      <link>https://leaf-nam.github.io/posts/%EB%B8%94%EB%A1%9C%EA%B7%B8%EB%A5%BC_%EC%93%B0%EA%B2%8C_%EB%90%9C_%EA%B3%84%EA%B8%B0%EC%99%80_%EC%95%9E%EC%9C%BC%EB%A1%9C%EC%9D%98_%EB%B0%A9%ED%96%A5%EC%84%B1_240228/</link>
+      <link>http://localhost:1313/posts/%EB%B8%94%EB%A1%9C%EA%B7%B8%EB%A5%BC_%EC%93%B0%EA%B2%8C_%EB%90%9C_%EA%B3%84%EA%B8%B0%EC%99%80_%EC%95%9E%EC%9C%BC%EB%A1%9C%EC%9D%98_%EB%B0%A9%ED%96%A5%EC%84%B1_240228/</link>
       <pubDate>Wed, 28 Feb 2024 21:06:14 +0900</pubDate>
-      <guid>https://leaf-nam.github.io/posts/%EB%B8%94%EB%A1%9C%EA%B7%B8%EB%A5%BC_%EC%93%B0%EA%B2%8C_%EB%90%9C_%EA%B3%84%EA%B8%B0%EC%99%80_%EC%95%9E%EC%9C%BC%EB%A1%9C%EC%9D%98_%EB%B0%A9%ED%96%A5%EC%84%B1_240228/</guid>
+      <guid>http://localhost:1313/posts/%EB%B8%94%EB%A1%9C%EA%B7%B8%EB%A5%BC_%EC%93%B0%EA%B2%8C_%EB%90%9C_%EA%B3%84%EA%B8%B0%EC%99%80_%EC%95%9E%EC%9C%BC%EB%A1%9C%EC%9D%98_%EB%B0%A9%ED%96%A5%EC%84%B1_240228/</guid>
       <description>내 첫번째 블로그 포스팅</description>
     </item>
   </channel>

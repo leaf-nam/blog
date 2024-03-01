@@ -1,79 +1,74 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>Tags on Leaf, waiting for Spring</title>
-    <link>https://leaf-nam.github.io/tags/</link>
-    <description>Recent content in Tags on Leaf, waiting for Spring</description>
-    <image>
-      <title>Leaf, waiting for Spring</title>
-      <url>https://leaf-nam.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
-      <link>https://leaf-nam.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
-    </image>
+    <title>Tags on 봄을 기다리는 낙엽</title>
+    <link>http://localhost:1313/tags/</link>
+    <description>Recent content in Tags on 봄을 기다리는 낙엽</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en</language>
+    <language>ko</language>
     <lastBuildDate>Thu, 29 Feb 2024 21:28:56 +0900</lastBuildDate>
-    <atom:link href="https://leaf-nam.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Blog Management</title>
-      <link>https://leaf-nam.github.io/tags/blog-management/</link>
+      <link>http://localhost:1313/tags/blog-management/</link>
       <pubDate>Thu, 29 Feb 2024 21:28:56 +0900</pubDate>
-      <guid>https://leaf-nam.github.io/tags/blog-management/</guid>
+      <guid>http://localhost:1313/tags/blog-management/</guid>
       <description></description>
     </item>
     <item>
       <title>Choices</title>
-      <link>https://leaf-nam.github.io/tags/choices/</link>
+      <link>http://localhost:1313/tags/choices/</link>
       <pubDate>Thu, 29 Feb 2024 21:28:56 +0900</pubDate>
-      <guid>https://leaf-nam.github.io/tags/choices/</guid>
+      <guid>http://localhost:1313/tags/choices/</guid>
       <description></description>
     </item>
     <item>
       <title>Plan</title>
-      <link>https://leaf-nam.github.io/tags/plan/</link>
+      <link>http://localhost:1313/tags/plan/</link>
       <pubDate>Thu, 29 Feb 2024 21:28:56 +0900</pubDate>
-      <guid>https://leaf-nam.github.io/tags/plan/</guid>
+      <guid>http://localhost:1313/tags/plan/</guid>
       <description></description>
     </item>
     <item>
       <title>Blog</title>
-      <link>https://leaf-nam.github.io/tags/blog/</link>
+      <link>http://localhost:1313/tags/blog/</link>
       <pubDate>Thu, 29 Feb 2024 06:16:48 +0900</pubDate>
-      <guid>https://leaf-nam.github.io/tags/blog/</guid>
+      <guid>http://localhost:1313/tags/blog/</guid>
       <description></description>
     </item>
     <item>
       <title>Documentation</title>
-      <link>https://leaf-nam.github.io/tags/documentation/</link>
+      <link>http://localhost:1313/tags/documentation/</link>
       <pubDate>Thu, 29 Feb 2024 06:16:48 +0900</pubDate>
-      <guid>https://leaf-nam.github.io/tags/documentation/</guid>
+      <guid>http://localhost:1313/tags/documentation/</guid>
       <description></description>
     </item>
     <item>
       <title>Github</title>
-      <link>https://leaf-nam.github.io/tags/github/</link>
+      <link>http://localhost:1313/tags/github/</link>
       <pubDate>Thu, 29 Feb 2024 06:16:48 +0900</pubDate>
-      <guid>https://leaf-nam.github.io/tags/github/</guid>
+      <guid>http://localhost:1313/tags/github/</guid>
       <description></description>
     </item>
     <item>
       <title>Hugo</title>
-      <link>https://leaf-nam.github.io/tags/hugo/</link>
+      <link>http://localhost:1313/tags/hugo/</link>
       <pubDate>Thu, 29 Feb 2024 06:16:48 +0900</pubDate>
-      <guid>https://leaf-nam.github.io/tags/hugo/</guid>
+      <guid>http://localhost:1313/tags/hugo/</guid>
       <description></description>
     </item>
     <item>
       <title>Papermod</title>
-      <link>https://leaf-nam.github.io/tags/papermod/</link>
+      <link>http://localhost:1313/tags/papermod/</link>
       <pubDate>Thu, 29 Feb 2024 06:16:48 +0900</pubDate>
-      <guid>https://leaf-nam.github.io/tags/papermod/</guid>
+      <guid>http://localhost:1313/tags/papermod/</guid>
       <description></description>
     </item>
     <item>
       <title>Diary</title>
-      <link>https://leaf-nam.github.io/tags/diary/</link>
+      <link>http://localhost:1313/tags/diary/</link>
       <pubDate>Wed, 28 Feb 2024 21:06:14 +0900</pubDate>
-      <guid>https://leaf-nam.github.io/tags/diary/</guid>
+      <guid>http://localhost:1313/tags/diary/</guid>
       <description></description>
     </item>
   </channel>
