@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Categories on Leaf, waiting for Spring</title>
+    <link>https://leaf-nam.github.io/categories/</link>
+    <description>Recent content in Categories on Leaf, waiting for Spring</description>
+    <image>
+      <title>Leaf, waiting for Spring</title>
+      <url>https://leaf-nam.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://leaf-nam.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Thu, 29 Feb 2024 21:28:56 +0900</lastBuildDate>
+    <atom:link href="https://leaf-nam.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Documentation</title>
+      <link>https://leaf-nam.github.io/categories/documentation/</link>
+      <pubDate>Thu, 29 Feb 2024 21:28:56 +0900</pubDate>
+      <guid>https://leaf-nam.github.io/categories/documentation/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Diary</title>
+      <link>https://leaf-nam.github.io/categories/diary/</link>
+      <pubDate>Wed, 28 Feb 2024 21:06:14 +0900</pubDate>
+      <guid>https://leaf-nam.github.io/categories/diary/</guid>
+      <description></description>
+    </item>
+  </channel>
+</rss>

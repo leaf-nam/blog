@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Blog Management on Leaf, waiting for Spring</title>
+    <link>https://leaf-nam.github.io/tags/blog-management/</link>
+    <description>Recent content in Blog Management on Leaf, waiting for Spring</description>
+    <image>
+      <title>Leaf, waiting for Spring</title>
+      <url>https://leaf-nam.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://leaf-nam.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Thu, 29 Feb 2024 21:28:56 +0900</lastBuildDate>
+    <atom:link href="https://leaf-nam.github.io/tags/blog-management/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>개발 블로그의 종류와 선택</title>
+      <link>https://leaf-nam.github.io/posts/blog/%EA%B0%9C%EB%B0%9C_%EB%B8%94%EB%A1%9C%EA%B7%B8%EC%9D%98_%EC%A2%85%EB%A5%98%EC%99%80_%EC%84%A0%ED%83%9D_240229/</link>
+      <pubDate>Thu, 29 Feb 2024 21:28:56 +0900</pubDate>
+      <guid>https://leaf-nam.github.io/posts/blog/%EA%B0%9C%EB%B0%9C_%EB%B8%94%EB%A1%9C%EA%B7%B8%EC%9D%98_%EC%A2%85%EB%A5%98%EC%99%80_%EC%84%A0%ED%83%9D_240229/</guid>
+      <description>처음 마주하는 갈림길</description>
+    </item>
+  </channel>
+</rss>
