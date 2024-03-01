@@ -1,9 +1,14 @@
+# 기본 도메인 주소 : 차후 정적파일이나 소스파일 등의 기본경로가 됨
 baseURL: "https://leaf-nam.github.io"
+# 해당 페이지의 기본 제목
 title: "Leaf, waiting for Spring"
+# 페이지네이션
 paginate: 5
+# 테마 설정가능 : https://themes.gohugo.io/
 theme: PaperMod
-
+# SEO(검색엔진 최적화)
 enableRobotsTXT: true
+#
 buildDrafts: false
 buildFuture: false
 buildExpired: false
@@ -179,10 +184,67 @@ menu:
 # Read: https://github.com/adityatelange/hugo-PaperMod/wiki/FAQs#using-hugos-syntax-highlighter-chroma
 pygmentsUseClasses: true
 markup:
+  _merge: none
+  defaultMarkdownHandler: goldmark
+  goldmark:
+    duplicateResourceFiles: false
+    extensions:
+      cjk:
+        eastAsianLineBreaks: false
+        eastAsianLineBreaksStyle: simple
+        enable: false
+        escapedSpace: false
+      definitionList: true
+      footnote: true
+      linkify: true
+      linkifyProtocol: https
+      passthrough:
+        delimiters:
+          block: []
+          inline: []
+        enable: false
+      strikethrough: true
+      table: true
+      taskList: true
+      typographer:
+        apostrophe: "&rsquo;"
+        disable: false
+        ellipsis: "&hellip;"
+        emDash: "&mdash;"
+        enDash: "&ndash;"
+        leftAngleQuote: "&laquo;"
+        leftDoubleQuote: "&ldquo;"
+        leftSingleQuote: "&lsquo;"
+        rightAngleQuote: "&raquo;"
+        rightDoubleQuote: "&rdquo;"
+        rightSingleQuote: "&rsquo;"
+    parser:
+      attribute:
+        block: true
+        title: true
+      autoHeadingID: true
+      autoHeadingIDType: github
+      wrapStandAloneImageWithinParagraph: true
+    renderHooks:
+      image:
+        enableDefault: false
+      link:
+        enableDefault: false
+    renderer:
+      hardWraps: false
+      unsafe: false
+      xhtml: false
   highlight:
-    noClasses: false
-    # anchorLineNos: true
-    # codeFences: true
-    # guessSyntax: true
-    # lineNos: true
-    # style: monokai
+    anchorLineNos: false
+    codeFences: true
+    guessSyntax: false
+    hl_Lines: ""
+    hl_inline: false
+    lineAnchors: ""
+    lineNoStart: 1
+    lineNos: false
+    lineNumbersInTable: true
+    noClasses: true
+    noHl: false
+    style: monokai
+    tabWidth: 4
