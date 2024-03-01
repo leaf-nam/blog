@@ -1,41 +1,18 @@
 ---
-title: '개발 블로그의 종류와 선택'
+title: "개발 블로그의 종류와 선택"
 date: 2024-02-29T21:28:56+09:00
 # weight: 1
-# aliases: ["/first"]
 tags: ["blog management", "plan", "choices"]
 categories: ["documentation"]
 author: "Leaf"
-# author: ["Me", "You"] # multiple authors
-showToc: true
-TocOpen: false
-draft: false
-hidemeta: false
-comments: false
 description: "처음 마주하는 갈림길"
 canonicalURL: "https://leaf-nam.github.io/"
-disableHLJS: true # to disable highlightjs
-disableShare: false
-disableHLJS: false
-hideSummary: false
-searchHidden: true
-ShowReadingTime: true
-ShowBreadCrumbs: true
-ShowPostNavLinks: true
-ShowWordCount: true
-ShowRssButtonInSectionTermList: true
-UseHugoToc: true
-
 cover:
-    image: "<image path/url>" # image path/url
-    alt: "<alt text>" # alt text
-    caption: "<text>" # display caption under cover
-    relative: false # when using page bundles set this to true
-    hidden: true # only hide on current single page
-editPost:
-    URL: "https://github.com/leaf-nam/blog/issues"
-    Text: "Suggest Changes" # edit text
-    appendFilePath: true # to append file path to Edit link
+  image: "cover.png" # image path/url
+  alt: "갈림길 이미지" # alt text
+  caption: "처음 시작부터 선택의 연속" # display caption under cover
+  relative: true # when using page bundles set this to true
+  hidden: true # only hide on current single page
 ---
 
 ## 도입
@@ -48,15 +25,13 @@ editPost:
 
 각각의 장단점을 살펴보고, 제가 깃허브 블로그를 선택한 이유에 대해서 설명하려고 합니다.
 
-## 개발 블로그 종류
+## velog
 
 ![velog image](velog.png#center)
 
-### velog
-
 velopert(김민준) 님께서 개발하신 개발 블로그입니다. 플랫폼이 개발 블로그에 특화되어 있고, UI도 깔끔해서 블로깅을 할때 1순위로 고민되는 옵션입니다.
 
-#### 장점
+### 장점
 
 1. **간편한 사용법과 블로깅**
 
@@ -70,7 +45,7 @@ velopert(김민준) 님께서 개발하신 개발 블로그입니다. 플랫폼�
 
    훌륭한 개발자분들께서 이미 좋은 글들을 많이 남겨주고 계시고, 커뮤니티처럼 본인만의 의견이나 짤, 드립들도 심심치 않게 올라옵니다. 개발 커뮤니티답게 업계의 좋은 정보들도 많이 얻을 수 있고, 다른 분들의 글을 보며 좋은 자극을 받을 수 있습니다.
 
-#### 단점
+### 단점
 
 1. **적은 옵션과 선택폭, 획일화된 디자인**
 
@@ -84,13 +59,13 @@ velopert(김민준) 님께서 개발하신 개발 블로그입니다. 플랫폼�
 
    본인이 작성한 게시물에 대한 조회수나 좋아요 등에 대한 개수정도만 확인 가능하여 구체적인 통계 시스템을 구축하는 것은 힘들어 보입니다. 개인 블로그에 대해 좀더 철저히 관리하고 싶으면 망설여지는 부분입니다.
 
-### tistory
+## tistory
 
 ![tistory image](tistory.png#center)
 
 kakao에서 운영하는 블로그입니다. 2006년이라는 오랜 세월동안 국내의 메이저 블로그로 자리잡았고, 다양한 분야의 블로그와 본인만의 커스터마이징이 장점입니다.
 
-#### 장점
+### 장점
 
 1. **자유로운 스킨 편집**
 
@@ -104,7 +79,7 @@ kakao에서 운영하는 블로그입니다. 2006년이라는 오랜 세월동�
 
    구글 애드센스나 카카오 애드핏 등 광고 서비스와 쉽게 연동이 가능합니다. 광고를 통해 수익을 얻으시려는 분들은 많이 고민하게 되는 옵션 중 하나일 것 같습니다. 실제로 찾아보니 네이버 블로그보다 광고 연동이 잘 되어 티스토리를 사용한다는 분들도 많이 접할 수 있었습니다.
 
-#### 단점
+### 단점
 
 1. **지나친 광고노출**
 
@@ -116,15 +91,15 @@ kakao에서 운영하는 블로그입니다. 2006년이라는 오랜 세월동�
 
 3. **많은 사용자에 따른 보안 및 기타 이슈**
 
-   개인적인 파일이나 정보 등을 함부로 블로그에 올리면 안되겠지만, 이러한 본인의 파일이 많은 사람들이 사용하고 어떤 정책으로 관리될지 모를 티스토리 서버의 db로 전송된다는 부분은 찝찝합니다.  
+   개인적인 파일이나 정보 등을 함부로 블로그에 올리면 안되겠지만, 본인의 개인정보가 많은 사람들이 사용하고 어떤 정책으로 관리될지 모를 티스토리 서버의 db로 전송된다는 부분은 찝찝합니다.  
    ~~(사실 깃허브나 여타 블로그도 서버에 파일이 올라가는건 똑같긴 하지만, 티스토리는 좀더 많은 사람이 사용하다 보니 불안한 감이 있습니다.)~~  
    그리고 국내에서 많은 트래픽이 발생하는 메이저 포털인 만큼, 여러 사람들에게 포스팅이 노출될 것이고 필연적으로 불필요한 충돌이나 문제(도배나 악성댓글 등)가 발생할 수도 있을 것 같습니다.
 
-### github
+## github
 
 ![github image](github.png#center)
 
-#### 장점
+### 장점
 
 1. **극강의 자유도, 확장의 용이성**
 
@@ -139,7 +114,7 @@ kakao에서 운영하는 블로그입니다. 2006년이라는 오랜 세월동�
 
    사실 개발자로서 본인만의 페이지를 운영하는 경험은 향후 많은 도움이 될 것입니다. 직접 페이지를 빌드하거나 수정하고, 다른 유저의 피드백을 받고, 어떻게 하면 나의 페이지를 노출할 수 있을지 고민하는 일련의 과정이 개발자의 현업과도 일맥상통하는 부분이 있습니다.
 
-#### 단점
+### 단점
 
 1. **초기 진입장벽**
 

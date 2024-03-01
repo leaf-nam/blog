@@ -1,26 +1,39 @@
 # 기본 도메인 주소 : 차후 정적파일이나 소스파일 등의 기본경로가 됨
 baseURL: "https://leaf-nam.github.io"
+
 # 해당 페이지의 기본 제목
 title: "Leaf, waiting for Spring"
+
 # 페이지네이션
 paginate: 5
+
 # 테마 설정가능 : https://themes.gohugo.io/
 theme: PaperMod
+
 # SEO(검색엔진 최적화)
 enableRobotsTXT: true
-#
+
 buildDrafts: false
 buildFuture: false
 buildExpired: false
 
 googleAnalytics: UA-123-45
 
+# 이모지 사용가능여부
 enableEmoji: true
 
 minify:
   disableXML: true
   minifyOutput: true
 
+# 블로그 글 검색기능 사용
+outputs:
+  home:
+    - HTML
+    - RSS
+    - JSON # necessary for search
+
+defaultContentLanguage: ko
 languages:
   ko:
     languageName: ":ko:"
@@ -32,12 +45,16 @@ languages:
       series: series
     menu:
       main:
-        - identifier: categories
-          name: 카테고리
+        - name: 아카이브
+          url: /archives/
+          weight: 10
+        - name: 카테고리
           url: /categories/
           weight: 10
-        - identifier: tags
-          name: 태그
+        - name: 검색
+          url: /search/
+          weight: 10
+        - name: 태그
           url: /tags/
           weight: 20
         - identifier: git
@@ -45,52 +62,40 @@ languages:
           url: https://github.com/leaf-nam/blog
           weight: 30
 
-  en:
-    languageName: "English"
-    weight: 1
-    taxonomies:
-      category: categories
-      tag: tags
-      series: series
-    menu:
-      main:
-        - name: Archives
-          url: /archives/
-          weight: 10
-        - name: Categories
-          url: /categories/
-          weight: 10
-        - name: Tags
-          url: tags/
-          weight: 10
-        - name: Git
-          url: https://github.com/leaf-nam/blog
-          weight: 30
-
+# 해당 변수들은 페이지 단위로도 설정 가능
 params:
   env: production # to enable google analytics, opengraph, twitter-cards and schema.
-  title: "Leaf, waiting for Spring"
-  description: "Leaf, waiting for Spring"
-  keywords: [Blog, Portfolio, PaperMod]
-  author: Leaf
-  images: ["<link or path of image for opengraph, twitter-cards>"]
-  DateFormat: "January 2, 2006"
-  defaultTheme: auto # dark, light
-  disableThemeToggle: false
 
+  DateFormat: "2006. 1. 2."
+  defaultTheme: auto # dark, light
+
+  disableThemeToggle: false
+  # 읽는데 걸리는시간 표시
   ShowReadingTime: true
+  # 단어 개수 표시
+  ShowWordCount: true
   ShowShareButtons: true
   ShowPostNavLinks: true
   ShowBreadCrumbs: true
   ShowCodeCopyButtons: false
-  ShowWordCount: true
   ShowRssButtonInSectionTermList: true
   UseHugoToc: true
+
   disableSpecial1stPost: false
+
+  # 맨위로 스크롤버튼 사용여부
   disableScrollToTop: false
-  comments: false
+
+  # 댓글 사용여부(with utterances)
+  comments: true
+
+  # 메타데이터(위에 설정한 값들) 표시여부
   hidemeta: false
+
+  # 요약 표시여부(제목 밑에 요약해서 나옴)
   hideSummary: false
+
+  # ToC(Table of Contents; 목차) 표시여부
   showtoc: true
   tocopen: true
 
@@ -109,34 +114,17 @@ params:
     hiddenInSingle: false # hide on single page
 
   label:
-    text: "Home"
-    icon: /apple-touch-icon.png
-    iconHeight: 35
-
-  # profile-mode
-  profileMode:
-    enabled: false # needs to be explicitly set
-    title: ExampleSite
-    subtitle: "This is subtitle"
-    imageUrl: "<img location>"
-    imageWidth: 120
-    imageHeight: 120
-    imageTitle: my image
-    buttons:
-      - name: Posts
-        url: posts
-      - name: Tags
-        url: tags
+    text: "LEAF"
 
   # home-info mode
   homeInfoParams:
     Title: "낙엽의 블로그 🍃"
-    Content: "Leaf, waiting for Spring | 봄을 기다리는 잎사귀"
-    buttons:
-      - name: Archive
-        url: "/archive"
-      - name: Github
-        url: "https://github.com/leaf-nam"
+    Content: >
+      Leaf, waiting for Spring | 봄을 기다리는 낙엽
+
+      > - **봄**을 찾아 군에서 세상밖으로 나온 **백엔드 개발자**입니다.
+
+      > - 많은 사람들에게 쓰임과 도움이 된다면 그걸로 좋습니다.
 
   socialIcons:
     - name: github
@@ -151,12 +139,11 @@ params:
       SiteVerificationTag: "XYZabc"
 
   editPost:
-    URL: "https://github.com/leaf-nam/content"
+    URL: "https://github.com/leaf-nam/blog/blob/main/content"
     Text: "Suggest Changes" # edit text
     appendFilePath: true # to append file path to Edit link
 
-  # for search
-  # https://fusejs.io/api/options.html
+  # 검색기능 옵션 : https://fusejs.io/api/options.html 참고
   fuseOpts:
     isCaseSensitive: false
     shouldSort: true
@@ -164,23 +151,9 @@ params:
     distance: 1000
     threshold: 0.4
     minMatchCharLength: 0
-    limit: 10 # refer: https://www.fusejs.io/api/methods.html#search
+    limit: 10 # https://www.fusejs.io/api/methods.html#search 참고
     keys: ["title", "permalink", "summary", "content"]
 
-menu:
-  main:
-    - identifier: categories
-      name: 카테고리
-      url: /categories/
-      weight: 10
-    - identifier: tags
-      name: 태그
-      url: /tags/
-      weight: 20
-    - identifier: git
-      name: Git
-      url: https://github.com/leaf-nam/blog
-      weight: 30
 # Read: https://github.com/adityatelange/hugo-PaperMod/wiki/FAQs#using-hugos-syntax-highlighter-chroma
 pygmentsUseClasses: true
 markup:
