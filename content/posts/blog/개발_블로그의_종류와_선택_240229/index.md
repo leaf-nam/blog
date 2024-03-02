@@ -1,12 +1,11 @@
 ---
 title: "개발 블로그의 종류와 선택"
 date: 2024-02-29T21:28:56+09:00
-# weight: 1
+weight: 999
 tags: ["blog management", "plan", "choices"]
 categories: ["documentation"]
 author: "Leaf"
 description: "처음 마주하는 갈림길"
-canonicalURL: "https://leaf-nam.github.io/posts/blog/%EA%B0%9C%EB%B0%9C_%EB%B8%94%EB%A1%9C%EA%B7%B8%EC%9D%98_%EC%A2%85%EB%A5%98%EC%99%80_%EC%84%A0%ED%83%9D_240229/"
 cover:
   image: "cover.png" # image path/url
   alt: "갈림길 이미지" # alt text

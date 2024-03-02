@@ -1,6 +1,6 @@
 ---
 title: '{{ replace .File.ContentBaseName "-" " " | title }}'
-date: { { .Date } }
+date: {{.Date}}
 # weight: 1
 # aliases: ["/first"]
 tags: ["not allocated"]
@@ -13,7 +13,7 @@ author: "Leaf"
 # hidemeta: false
 # comments: false
 description: "Desc Text."
-canonicalURL: "https://leaf-nam.github.io/"
+# canonicalURL: "https://leaf-nam.github.io/"
 # disableHLJS: true # to disable highlightjs
 # disableShare: false
 # disableHLJS: false

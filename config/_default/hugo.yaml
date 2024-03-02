@@ -137,11 +137,17 @@ params:
       SiteVerificationTag: "XYZabc"
     yandex:
       SiteVerificationTag: "XYZabc"
+    naver:
+      SiteVerificationTag: "XYZabc"
 
   editPost:
     URL: "https://github.com/leaf-nam/blog/blob/main/content"
     Text: "Suggest Changes" # edit text
     appendFilePath: true # to append file path to Edit link
+
+  canonicalURL:
+    URL: "https://github.com/leaf-nam/blog/blob/main/content"
+    appendFilePath: true
 
   # 검색기능 옵션 : https://fusejs.io/api/options.html 참고
   fuseOpts:
