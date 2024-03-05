@@ -2,7 +2,7 @@
 title: "개발 블로그의 종류와 선택"
 date: 2024-02-29T21:28:56+09:00
 weight: 999
-tags: ["velog", "tistory", "github", "plan", "choices"]
+tags: ["velog", "tistory", "github", "plan", "choices", "blog"]
 categories: ["blog management"]
 author: "Leaf"
 description: "처음 마주하는 갈림길"
@@ -12,6 +12,10 @@ cover:
   caption: "처음 시작부터 선택의 연속" # display caption under cover
   relative: true # when using page bundles set this to true
   hidden: true # only hide on current single page
+editPost:
+  URL: "https://github.com/leaf-nam/blog/blob/main/content/"
+  Text: "Suggest Changes" # edit text
+  appendFilePath: true # to append file path to Edit link
 ---
 
 ## 도입

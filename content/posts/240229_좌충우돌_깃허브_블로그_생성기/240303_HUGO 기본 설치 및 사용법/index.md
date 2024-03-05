@@ -2,7 +2,7 @@
 title: "HUGO 기본 설치 및 사용법"
 date: 2024-03-03T07:49:45+09:00
 weight: 997
-tags: ["hugo", "install", "setting", "papermod", "ssg"]
+tags: ["hugo", "install", "setting", "papermod", "ssg", "blog"]
 categories: ["blog management"]
 author: "Leaf"
 description: "HUGO를 이제 직접 설치 및 세팅해보겠습니다."

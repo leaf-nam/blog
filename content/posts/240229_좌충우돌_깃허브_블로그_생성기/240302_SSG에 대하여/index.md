@@ -2,7 +2,7 @@
 title: "SSG에 대하여"
 date: 2024-03-02T07:28:40+09:00
 weight: 998
-tags: ["ssg", "concept", "hugo", "next.js", "jekyll", "jamstack"]
+tags: ["ssg", "concept", "hugo", "next.js", "jekyll", "jamstack", "blog"]
 categories: ["blog management"]
 author: "Leaf"
 description: "SSG에 대해 알아보는 시간을 가집니다."

@@ -2,7 +2,7 @@
 title: "Git 연동과 정적 페이지 배포"
 date: 2024-03-04T16:50:39+09:00
 weight: 996
-tags: ["Git", "deploy", "hugo"]
+tags: ["git", "deploy", "hugo", "blog"]
 categories: ["blog management"]
 author: "Leaf"
 description: "생성한 블로그와 깃을 연동 후 웹페이지를 등록합니다."
@@ -15,7 +15,7 @@ cover:
 editPost:
   URL: "https://github.com/leaf-nam/blog/blob/main/content/"
   Text: "Suggest Changes" # edit text
-  appendFilePath: false # to append file path to Edit link
+  appendFilePath: true # to append file path to Edit link
 ---
 
 ## 도입
