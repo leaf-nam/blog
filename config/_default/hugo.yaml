@@ -8,7 +8,7 @@ title: "Leaf, waiting for Spring"
 paginate: 5
 
 # 테마 설정가능 : https://themes.gohugo.io/
-theme: PaperMod
+theme: ["PaperMod"]
 
 # SEO(검색엔진 최적화)
 enableRobotsTXT: true
