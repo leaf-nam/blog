@@ -5,12 +5,12 @@ weight: 1000
 tags: ["documentation", "hugo", "papermod", "github", "blog"]
 categories: ["documentation"]
 author: "Leaf"
-description: "깃허브 블로그를 만들면서 겪은 시행착오 정리"
+description: "깃허브 블로그를 만들면서 겪은 시행착오들을 정리했습니다."
 disableHLJS: true # to disable highlightjs
 ShowReadingTime: false
 ShowWordCount: false
 cover:
-  image: "/images/cover.jpg" # image path/url
+  image: "cover.jpg" # image path/url
   alt: "blog cover image" # alt text
   caption: "github - hugo - papermod 삼위일체" # display caption under cover
   relative: true # when using page bundles set this to true
