@@ -1,30 +1,11 @@
 ---
 title: '{{ replace .File.ContentBaseName "-" " " | title }}'
 date: {{.Date}}
-# weight: 1
-# aliases: ["/first"]
+weight: #1
 tags: ["not allocated"]
 categories: ["not categorized"]
-author: "Leaf"
-# author: ["Me", "You"] # multiple authors
-# showToc: true
-# TocOpen: false
-# draft: false
-# hidemeta: false
-# comments: false
+author: "Leaf" # ["Me", "You"] multiple authors
 description: "Desc Text."
-# canonicalURL: "https://leaf-nam.github.io/"
-# disableHLJS: true # to disable highlightjs
-# disableShare: false
-# disableHLJS: false
-# hideSummary: false
-# searchHidden: true
-# ShowReadingTime: true
-# ShowBreadCrumbs: true
-# ShowPostNavLinks: true
-# ShowWordCount: true
-# ShowRssButtonInSectionTermList: true
-# UseHugoToc: true
 cover:
   image: "<image path/url>" # image path/url
   alt: "<alt text>" # alt text
@@ -37,4 +18,11 @@ editPost:
   appendFilePath: false # to append file path to Edit link
 ---
 
-# 여기에 글을 작성합니다.
+## 도입
+
+## 결론
+
+## References
+
+| URL | 게시일자 | 방문일자 | 작성자 |
+| :-- | :------- | :------- | :----- |

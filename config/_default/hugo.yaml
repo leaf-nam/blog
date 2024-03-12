@@ -67,11 +67,16 @@ params:
   env: production # to enable google analytics, opengraph, twitter-cards and schema.
 
   DateFormat: "2006. 1. 2."
-  defaultTheme: auto # dark, light
 
+  # dark, light
+  defaultTheme: auto
+
+  # dark <-> light 토글
   disableThemeToggle: false
+
   # 읽는데 걸리는시간 표시
   ShowReadingTime: true
+
   # 단어 개수 표시
   ShowWordCount: true
   ShowShareButtons: true
@@ -79,7 +84,6 @@ params:
   ShowBreadCrumbs: true
   ShowCodeCopyButtons: false
   ShowRssButtonInSectionTermList: true
-  UseHugoToc: true
 
   disableSpecial1stPost: false
 
@@ -96,6 +100,7 @@ params:
   hideSummary: false
 
   # ToC(Table of Contents; 목차) 표시여부
+  UseHugoToc: true
   showtoc: true
   tocopen: true
 
