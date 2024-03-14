@@ -20,6 +20,9 @@ editPost:
 
 ## 도입
 
+> 이전 포스팅 참조 :
+> [DB 이중화 및 CQRS 패턴의 중요성](https://leaf-nam.github.io/posts/240310_mysql_springboot_cqrs_%ED%8C%A8%ED%84%B4_%EA%B5%AC%ED%98%84%EC%9D%84_%EC%9C%84%ED%95%9C_db_%EC%9D%B4%EC%A4%91%ED%99%94/240313_mysql_replication_database_%EA%B5%AC%ED%98%84/)
+
 ## MySQL Docker 생성
 
 ## Master DB 설정
