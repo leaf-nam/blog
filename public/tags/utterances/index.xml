@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Utterances on 봄을 기다리는 낙엽</title>
+    <link>https://leaf-nam.github.io/tags/utterances/</link>
+    <description>Recent content in Utterances on 봄을 기다리는 낙엽</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ko</language>
+    <lastBuildDate>Tue, 05 Mar 2024 19:08:20 +0900</lastBuildDate>
+    <atom:link href="https://leaf-nam.github.io/tags/utterances/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>깃허브 블로그 댓글 구현 : Utterances 도입기</title>
+      <link>https://leaf-nam.github.io/posts/240229_%EC%A2%8C%EC%B6%A9%EC%9A%B0%EB%8F%8C_%EA%B9%83%ED%97%88%EB%B8%8C_%EB%B8%94%EB%A1%9C%EA%B7%B8_%EC%83%9D%EC%84%B1%EA%B8%B0/240305_%EA%B9%83%ED%97%88%EB%B8%8C_%EB%B8%94%EB%A1%9C%EA%B7%B8_%EB%8C%93%EA%B8%80_%EA%B5%AC%ED%98%84_utterances_%EB%8F%84%EC%9E%85%EA%B8%B0/</link>
+      <pubDate>Tue, 05 Mar 2024 19:08:20 +0900</pubDate>
+      <guid>https://leaf-nam.github.io/posts/240229_%EC%A2%8C%EC%B6%A9%EC%9A%B0%EB%8F%8C_%EA%B9%83%ED%97%88%EB%B8%8C_%EB%B8%94%EB%A1%9C%EA%B7%B8_%EC%83%9D%EC%84%B1%EA%B8%B0/240305_%EA%B9%83%ED%97%88%EB%B8%8C_%EB%B8%94%EB%A1%9C%EA%B7%B8_%EB%8C%93%EA%B8%80_%EA%B5%AC%ED%98%84_utterances_%EB%8F%84%EC%9E%85%EA%B8%B0/</guid>
+      <description>블로그 댓글을 구현할 수 있는 utterances를 적용합니다.</description>
+    </item>
+  </channel>
+</rss>

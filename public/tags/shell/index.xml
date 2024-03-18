@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Shell on 봄을 기다리는 낙엽</title>
+    <link>https://leaf-nam.github.io/tags/shell/</link>
+    <description>Recent content in Shell on 봄을 기다리는 낙엽</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ko</language>
+    <lastBuildDate>Wed, 13 Mar 2024 23:07:00 +0900</lastBuildDate>
+    <atom:link href="https://leaf-nam.github.io/tags/shell/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>MySQL Replication Database 구현</title>
+      <link>https://leaf-nam.github.io/posts/240310_mysql_springboot_cqrs_%ED%8C%A8%ED%84%B4_%EA%B5%AC%ED%98%84%EC%9D%84_%EC%9C%84%ED%95%9C_db_%EC%9D%B4%EC%A4%91%ED%99%94/240313_mysql_replication_database_%EA%B5%AC%ED%98%84/</link>
+      <pubDate>Wed, 13 Mar 2024 23:07:00 +0900</pubDate>
+      <guid>https://leaf-nam.github.io/posts/240310_mysql_springboot_cqrs_%ED%8C%A8%ED%84%B4_%EA%B5%AC%ED%98%84%EC%9D%84_%EC%9C%84%ED%95%9C_db_%EC%9D%B4%EC%A4%91%ED%99%94/240313_mysql_replication_database_%EA%B5%AC%ED%98%84/</guid>
+      <description>Docker와 MySQL을 활용하여 Replication Database를 구현하는 실습을 진행합니다.</description>
+    </item>
+  </channel>
+</rss>
