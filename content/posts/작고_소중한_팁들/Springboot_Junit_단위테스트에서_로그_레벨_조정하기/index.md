@@ -1,11 +1,11 @@
 ---
 title: "Springboot 단위테스트에서 로그 레벨 조정하기"
 date: 2024-03-20T23:43:14+09:00
-weight: #1
-tags: ["tips", "springboot"]
+weight: 2001
+tags: ["tips", "springboot", "jnuit"]
 categories: ["tinytips"]
 author: "Leaf" # ["Me", "You"] multiple authors
-description: "단위테스트에서 간단하게 로그 레벨을 조정할 수 있습니다."
+description: "스프링부트 단위테스트에서 간단하게 로그 레벨을 조정할 수 있습니다."
 editPost:
   URL: "https://github.com/leaf-nam/blog/blob/main/content/"
   Text: "Suggest Changes" # edit text
