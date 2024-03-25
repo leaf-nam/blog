@@ -1,7 +1,7 @@
 ---
 title: "작고 소중한 미세팁들"
 date: 2024-03-20T23:18:37+09:00
-weight: 2000
+weight: 100
 tags: ["tips"]
 categories: ["tinytips"]
 author: "Leaf" # ["Me", "You"] multiple authors

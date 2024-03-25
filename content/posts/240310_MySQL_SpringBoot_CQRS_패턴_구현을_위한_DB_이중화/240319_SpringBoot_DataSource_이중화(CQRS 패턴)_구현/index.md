@@ -1,7 +1,7 @@
 ---
 title: "SpringBoot DataSource 이중화(CQRS 패턴) 구현"
 date: 2024-03-19T20:20:06+09:00
-weight: 987
+weight: 9870
 tags: ["springboot", "implement", "mysql", "datasource", "jpa"]
 categories: ["database"]
 author: "Leaf"
@@ -27,13 +27,22 @@ editPost:
 >
 > - Docker : v25.0.3
 > - MySQL : v8.3.0
+> - Java : v17.0.9
+> - Spring : v3.2.4
 
-// 실습 간단한 소개
+저번 시간에 생성한 Master / Slave DB에 SpringBoot를 직접 연동해서 CRUD를 하는 실습을 진행합니다.
 
 ## 프로젝트 생성
 
-- start.spring.io
-- 의존성 추가
+1. [Springboot 프로젝트](https://start.spring.io)를 생성합니다.
+
+{{<figure src="springboot.png" caption="스프링부트 프로젝트를 위와 같이 생성합니다.">}}
+
+2. build.gradle 실행
+
+- 위에서 생성한 프로젝트의 jar파일을 풀고, build.gradle 파일을 intellij 혹은 eclipse로 실행합니다.
+
+{{<figure src="gradle.png" caption="gradle로 프로젝트를 실행하면 자동으로 소스파일 경로가 생성됩니다.">}}
 
 ## JpaConfig 설정
 
