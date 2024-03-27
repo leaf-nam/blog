@@ -46,11 +46,11 @@ editPost:
 
 ## JpaConfig 설정
 
+- JpaConfig란?
+
 ## DataSource 구현
 
-### CommandDataSource 구현
-
-### ReadDataSource 구현
+### Command & Read DataSource 구현
 
 ### RoutingDataSource 구현
 
