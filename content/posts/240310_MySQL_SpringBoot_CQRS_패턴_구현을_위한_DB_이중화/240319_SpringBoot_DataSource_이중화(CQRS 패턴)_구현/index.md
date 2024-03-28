@@ -46,7 +46,7 @@ editPost:
 
 ## JpaConfig 설정
 
-- JpaConfig란?
+- JpaConfig란??
 
 ## DataSource 구현
 
