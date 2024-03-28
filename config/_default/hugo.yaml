@@ -56,6 +56,9 @@ languages:
         - name: 검색
           url: /search/
           weight: 10
+        - name: 미세팁
+          url: posts/%EC%9E%91%EA%B3%A0_%EC%86%8C%EC%A4%91%ED%95%9C_%ED%8C%81%EB%93%A4/
+          weight: 10
         - name: 태그
           url: /tags/
           weight: 20
