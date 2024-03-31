@@ -72,5 +72,6 @@ editPost:
 
 ## References
 
-| URL | 게시일자 | 방문일자 | 작성자 |
-| :-- | :------- | :------- | :----- |
+| URL                                                                               | 게시일자 | 방문일자    | 작성자 |
+| :-------------------------------------------------------------------------------- | :------- | :---------- | :----- |
+| https://docs.spring.io/spring-data/relational/reference/jdbc/getting-started.html | 미확인   | 2024.03.31. | Spring |
