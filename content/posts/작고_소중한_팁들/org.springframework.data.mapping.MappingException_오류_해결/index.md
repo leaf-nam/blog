@@ -1,7 +1,7 @@
 ---
-title: "Org.springframework.data.mapping.MappingException_오류_해결"
+title: "Org.springframework.data.mapping.MappingException 오류 해결"
 date: 2024-04-02T22:36:05+09:00
-weight: 2003
+weight: 2004
 tags: ["tips", "springboot", "gradle", "intellij", "mongoDB"]
 categories: ["tinytips"]
 author: "Leaf" # ["Me", "You"] multiple authors
