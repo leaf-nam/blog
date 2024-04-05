@@ -105,6 +105,56 @@ public class JpaConfig {
 
 ### RoutingDataSource 구현
 
+읽기전용 트랜잭션인지 여부에 따라 동적으로 DataSource를 사용해야 하므로, 스프링에게 트랜잭션 시점에 해당 작업에 대해 알려주고, 필요한 DataSource를 동적으로 불러오도록 해야 합니다.
+
+이를 위해 다음과 같이 추상 클래스인 AbstractRoutingDataSource를 상속받는 사용자 정의 클래스를 생성합니다.
+
+```java
+    @Slf4j // AbstractRoutingDataSource 구현
+    public static class ReplicationRoutingDataSource extends AbstractRoutingDataSource {
+        @Override
+        protected Object determineCurrentLookupKey() {
+            boolean isReadOnly = TransactionSynchronizationManager.isCurrentTransactionReadOnly();
+            log.info("Use ReadOnly Datasource : {}", isReadOnly);
+            return isReadOnly ? "replication" : "original";
+        }
+    }
+```
+
+> 위 설정에서 determineCurrentLookupKey 메서드를 구현하면 동적으로 DataSource를 라우팅하는 것이 가능한데, 그 key를 TransactionSynchronizationManager[^1]의 속성값(현재 트랜잭션이 읽기전용인지?)으로 사용해서 DataSource를 읽기 / 쓰기 시점에 결정합니다.
+
+다음으로 위 클래스를 활용해서 실제로 DataSource를 결정 후 해당 DataSource를 Bean으로 등록합니다.
+
+ReplicationRoutingDataSource 클래스는 AbstractRoutingDataSource를 상속받고 있기 때문에 해당 추상클래스의 메서드를 사용가능하여 다음과 같이 ReadOnly 여부에 따른 데이터소스를 설정하는 것이 가능합니다.
+
+```java
+    @Bean // DataSource 종류에 따른 DataSource 라우팅(변경)
+    public DataSource routingDataSource(@Qualifier("commandDataSource") DataSource commandDataSource,
+                                        @Qualifier("queryDataSource") DataSource queryDataSource) {
+        ReplicationRoutingDataSource routingDataSource = new ReplicationRoutingDataSource();
+
+        // DataSource 라우팅
+        Map<Object, Object> dataSourceMap = new HashMap<>();
+        dataSourceMap.put("command", commandDataSource);
+        dataSourceMap.put("query", queryDataSource);
+
+        // 기본 DataSource 및 ReadOnly 여부에 따른 DataSource 설정
+        routingDataSource.setDefaultTargetDataSource(commandDataSource); // commandDataSource를 기본 사용
+        routingDataSource.setTargetDataSources(dataSourceMap); // ReadOnly여부에 따른 DataSource 변경
+
+        return routingDataSource;
+    }
+```
+
+다음으로 위의 Bean을 LazyConnectionDataSourceProxy으로 감싸는데, 이는 트랜잭션 시점이 아닌 실제 커넥션이 필요한 시점[^2]에 DataSource를 결정하기 위함입니다.
+
+```java
+    @Bean  // Connection 시점에 DataSource 결정하기 위한 Proxy
+    public DataSource routingLazyDataSource(@Qualifier("routingDataSource") DataSource routingDataSource) {
+        return new LazyConnectionDataSourceProxy(routingDataSource);
+    }
+```
+
 ### RoutingLazyDataSource 구현
 
 ## EntityManagerFactory 구현
@@ -126,3 +176,6 @@ public class JpaConfig {
 | URL                                                                               | 게시일자 | 방문일자    | 작성자 |
 | :-------------------------------------------------------------------------------- | :------- | :---------- | :----- |
 | https://docs.spring.io/spring-data/relational/reference/jdbc/getting-started.html | 미확인   | 2024.03.31. | Spring |
+
+[^1]: 트랜잭션 동기화 기법을 사용하기 위한 클래스입니다. 보통 여러 트랜잭션을 한번에 커밋 및 롤백하여 정합성을 보장하기 위해 사용합니다.
+[^2]: 특히 Hibernate의 영속성 컨텍스트와 같은 1차 캐시를 사용할 경우, 데이터소스 접근이 필요하지 않지만 @Transactional로 인해 불필요한 커넥션이 발생하게 됩니다.
