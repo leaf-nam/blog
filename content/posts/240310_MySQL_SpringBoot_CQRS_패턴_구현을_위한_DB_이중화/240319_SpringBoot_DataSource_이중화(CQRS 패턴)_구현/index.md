@@ -59,9 +59,9 @@ import org.springframework.context.annotation.Configuration;
 public class JpaConfig {}
 ```
 
-## DataSource Bean 구현
+## DataSource 구현
 
-JpaConfig내부에 DataSource를 Bean으로 등록하면, 이후 Spring이 해당 Bean의 설정을 통해 JDBC를 구현하므로 펀리하게 DB에 접근할 수 있습니다.
+JpaConfig내부에 DataSource를 Bean으로 등록하면, 이후 Spring이 해당 Bean의 설정을 통해 JDBC를 구현하므로 편리하게 DB에 접근할 수 있습니다.
 
 > 두 개의 DataSource를 각각 구현하고, Transaction시점에 필요한 DataSource를 결정할 수 있도록 Spring에서는 AbstractRoutingDataSource라는 추상클래스를 제공합니다.
 
@@ -121,7 +121,7 @@ public class JpaConfig {
     }
 ```
 
-> 위 설정에서 determineCurrentLookupKey 메서드를 구현하면 동적으로 DataSource를 라우팅하는 것이 가능한데, 그 key를 TransactionSynchronizationManager[^1]의 속성값(현재 트랜잭션이 읽기전용인지?)으로 사용해서 DataSource를 읽기 / 쓰기 시점에 결정합니다.
+> 위 설정에서 determineCurrentLookupKey 메서드를 구현하면 동적으로 DataSource를 라우팅하는 것이 가능한데, 그 key를 TransactionSynchronizationManager[^1]의 속성값(isCurrentTransactionReadOnly; 현재 트랜잭션이 읽기전용인지?)으로 사용해서 DataSource를 읽기 / 쓰기 시점에 결정합니다.
 
 다음으로 위 클래스를 활용해서 실제로 DataSource를 결정 후 해당 DataSource를 Bean으로 등록합니다.
 
@@ -129,6 +129,8 @@ ReplicationRoutingDataSource 클래스는 AbstractRoutingDataSource를 상속받
 
 ```java
     @Bean // DataSource 종류에 따른 DataSource 라우팅(변경)
+    @DependsOn({"commandDataSource, queryDataSource"})
+    @Qualifier("routingDataSource")
     public DataSource routingDataSource(@Qualifier("commandDataSource") DataSource commandDataSource,
                                         @Qualifier("queryDataSource") DataSource queryDataSource) {
         ReplicationRoutingDataSource routingDataSource = new ReplicationRoutingDataSource();
@@ -146,36 +148,83 @@ ReplicationRoutingDataSource 클래스는 AbstractRoutingDataSource를 상속받
     }
 ```
 
-다음으로 위의 Bean을 LazyConnectionDataSourceProxy으로 감싸는데, 이는 트랜잭션 시점이 아닌 실제 커넥션이 필요한 시점[^2]에 DataSource를 결정하기 위함입니다.
+다음으로 위의 Bean을 LazyConnectionDataSourceProxy으로 감싸는데, 이는 트랜잭션 진입 시점이 아닌 실제 커넥션이 필요한 시점[^2]에 DataSource를 결정하기 위함입니다.
 
 ```java
-    @Bean  // Connection 시점에 DataSource 결정하기 위한 Proxy
+    @Bean("routingLazyDataSource")  // Connection 시점에 DataSource 결정하기 위한 Proxy
+    @DependsOn("routingDataSource")
     public DataSource routingLazyDataSource(@Qualifier("routingDataSource") DataSource routingDataSource) {
         return new LazyConnectionDataSourceProxy(routingDataSource);
     }
 ```
 
-### RoutingLazyDataSource 구현
-
 ## EntityManagerFactory 구현
 
-### DataSource 세팅
+Spring에서는 동시성 문제[^3]를 해결하기 위해 EntityManager를 트랜잭션 시마다 생성하는 Factory Method 패턴을 구현하고 있습니다. 이를 위해 저희도 EntityManagerFactory에 위에서 설정한 DataSource를 직접 주입함으로써 동시성 문제를 해결할 수 있습니다.
 
-### JpaVendorAdaptor 세팅
+```java
+    @Bean("entityManagerFactory") // Entity 를 관리하기 위한 JPA Manager 설정
+    @DependsOn("routingLazyDataSource")
+    LocalContainerEntityManagerFactoryBean entityManagerFactory(
+            @Qualifier("routingLazyDataSource") DataSource dataSource) {
+        LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
 
-### JpaProperties 세팅
+        // DataSource 설정
+        emf.setDataSource(dataSource);
+
+        // EntityManager 가 관리할 Base Package 설정
+        emf.setPackagesToScan("com.replication.demo.*");
+
+        // Hibernate Vendor Adaptor 설정
+        emf.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
+
+        // JPA 및 Hibernate 설정
+        Properties properties = new Properties();
+        properties.setProperty("spring.jpa.hibernate.ddl-auto", "create-drop");
+        properties.setProperty("spring.jpa.properties.hibernate.dialect","org.hibernate.dialect.MySQL8Dialect");
+        properties.setProperty("spring.jpa.properties.hibernate.show_sql","true");
+        properties.setProperty("spring.jpa.properties.hibernate.format_sql","true");
+        properties.setProperty("spring.jpa.properties.hibernate.default_batch_fetch_size", "100");
+        emf.setJpaProperties(properties);
+
+        return emf;
+    }
+```
+
+> Vendor Adaptor는 JPA 구현체를 선택하기 위함이며, 보통 Hibernate를 많이 사용합니다.[^4] 기타 JPA 및 Hibernate 설정은 [JPA 공식 문서](https://docs.spring.io/spring-boot/docs/current/reference/html/application-properties.html#appendix.application-properties.data)와 [Hibernate 공식 문서](https://docs.jboss.org/hibernate/orm/6.4/userguide/html_single/Hibernate_User_Guide.html#settings)에서 더욱 자세한 옵션과 설명을 확인하실 수 있습니다.
 
 ## TransactionManager 구현
 
-### JpaTransactionManager 주입
+Spring에서 @Transactional를 통해 트랜잭션이 발생하면, Spring Container에서 TransactinManager를 불러와 트랜잭션을 수행합니다. 이 때, 위에서 구현한 DataSource와 EntityManager를 사용해서 트랜잭션을 수행하도록 하겠습니다.
+
+```java
+    @Bean  // 트랜잭션 매니저 설정
+    @DependsOn("entityManagerFactory")
+    public PlatformTransactionManager transactionManager(
+            @Qualifier("entityManagerFactory") EntityManagerFactory entityManagerFactory) {
+        JpaTransactionManager jpaTransactionManager = new JpaTransactionManager();
+        jpaTransactionManager.setEntityManagerFactory(entityManagerFactory);
+        return jpaTransactionManager;
+    }
+```
+
+> PlatformTransactionManager는 다양한 플랫폼의 트랜잭션을 지원하기 위한 클래스이며, 위에서는 JpaTransactionManager를 사용했지만 HibernateTransactionManager나 JdbcTransactionManager등의 플랫폼도 사용 가능합니다.
+
+## 테스트
+
+이제 Config 설정이 완료되었으니, 직접 Test를 통해 원하는 기능이 제대로 실행되는지 확인해보겠습니다.
 
 ## 결론
 
 ## References
 
-| URL                                                                               | 게시일자 | 방문일자    | 작성자 |
-| :-------------------------------------------------------------------------------- | :------- | :---------- | :----- |
-| https://docs.spring.io/spring-data/relational/reference/jdbc/getting-started.html | 미확인   | 2024.03.31. | Spring |
+| URL                                                                                                                             | 게시일자    | 방문일자    | 작성자  |
+| :------------------------------------------------------------------------------------------------------------------------------ | :---------- | :---------- | :------ |
+| https://docs.spring.io/spring-data/relational/reference/jdbc/getting-started.html                                               | 미확인      | 2024.03.31. | Spring  |
+| https://docs.spring.io/spring-boot/docs/current/reference/html/application-properties.html#appendix.application-properties.data | 미확인      | 2024.04.10. | Spring  |
+| https://stackoverflow.com/questions/24643863/is-entitymanager-really-thread-safe                                                | 2014.07.09. | 2024.04.10. | Ken Y-N |
 
 [^1]: 트랜잭션 동기화 기법을 사용하기 위한 클래스입니다. 보통 여러 트랜잭션을 한번에 커밋 및 롤백하여 정합성을 보장하기 위해 사용합니다.
-[^2]: 특히 Hibernate의 영속성 컨텍스트와 같은 1차 캐시를 사용할 경우, 데이터소스 접근이 필요하지 않지만 @Transactional로 인해 불필요한 커넥션이 발생하게 됩니다.
+[^2]: 특히 Hibernate의 영속성 컨텍스트와 같은 1차 캐시를 사용할 경우, DataSource 접근이 필요하지 않지만 @Transactional로 인해 불필요한 커넥션이 발생하게 됩니다. LazyConnectionDataSourceProxy으로 Proxy객체를 사용할 경우 실제로 Connection이 필요한 시점에 DataSource에 접근하기 때문에 성능상 이점이 많습니다.
+[^3]: Entity Manager는 Thread-Safe하지 않기 때문에, Factory를 통해 필요 시점에 새로운 Entity Manager를 생성해서 활용해야 합니다. [해당 StackOverflow](https://stackoverflow.com/questions/24643863/is-entitymanager-really-thread-safe)를 읽어보시면, 이 때 주입되는 Entity Manager는 Proxy형태로, 실제 트랜잭션 시점에 진짜 Entity Manager로 대체되기 때문에 Thread-Safe 할 수 있다고 합니다.
+[^4]: 참고로 JPA의 EntityManagerFactory대신 Hibernate의 SessionFactory를 구현하는 방법도 있지만, 이는 JPA의 구현체에 의존하므로 좋지 않은 것 같습니다(DIP 위반). 하지만 Hibernate만의 특정 기술을 사용해야만 하는 상황에서는 SessionFactory를 구현 후 TransactionManager에 HibernateTransactionManager를 사용하시면 될 것 같습니다.
