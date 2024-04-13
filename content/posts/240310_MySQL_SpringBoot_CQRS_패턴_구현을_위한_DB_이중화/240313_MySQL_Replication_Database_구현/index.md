@@ -158,10 +158,12 @@ Slave DB가 Master DB의 정보를 받아오기 위해서는 Master 계정을 �
 
 - Slave DB에 접속해서 Replication 설정을 합니다.
 
+  (master에 접속한 터미널은 그대로 두고, 별도의 터미널을 실행하시는 것을 권장합니다.)
+
   - Container 내부로 접근
 
     ```docker
-    docker exec -it mysql_master /bin/bash
+    docker exec -it mysql_slave /bin/bash
     ```
 
   - MySQL root 계정에 접속
@@ -170,6 +172,8 @@ Slave DB가 Master DB의 정보를 받아오기 위해서는 Master 계정을 �
     mysql -u root -p
     # 1234 입력
     ```
+
+    > slave 설정은 root 권한이 필요합니다.
 
   - Replication 설정을 합니다. 이 때, **쉼표와 자료형 문법에 주의**해야 합니다.[^3]
 
@@ -187,8 +191,8 @@ Slave DB가 Master DB의 정보를 받아오기 위해서는 Master 계정을 �
 
   - Replication 동작을 시작합니다.
     ```mysql
-    mysql> start slave;
-    # 만약 replication 설정을 변경하려면 'stop slave;'로 동작을 종료한 후 위 명령어를 통해 변경해야 합니다.
+    mysql> START SLAVE;
+    # 만약 replication 설정을 변경하려면 'STOP SLAVE;'로 동작을 종료한 후 위 명령어를 통해 변경해야 합니다.
     ```
 
 ### 연결 완료여부 확인
@@ -196,7 +200,7 @@ Slave DB가 Master DB의 정보를 받아오기 위해서는 Master 계정을 �
 - 이제 Slave 설정이 정상적으로 완료되었는지 확인해보겠습니다.
 
   ```mysql
-  show slave status\g;
+  SHOW SLAVE STATUS\G;
   #  +----------------------------------+-------------+-------------+-------------+---------------+-------------------+---------------------+-------------------------------+---------------+-----------------------+------------------+-------------------+-----------------+---------------------+--------------------+------------------------+-------------------------+-----------------------------+------------+------------+--------------+---------------------+-----------------+-----------------+----------------+---------------+--------------------+--------------------+--------------------+-----------------+-------------------+----------------+-----------------------+-------------------------------+---------------+---------------+----------------+----------------+-----------------------------+------------------+--------------------------------------+-------------------------+-----------+---------------------+----------------------------------------------------------+--------------------+-------------+-------------------------+--------------------------+----------------+--------------------+--------------------+-------------------+---------------+----------------------+--------------+--------------------+------------------------+-----------------------+-------------------+
   #| Slave_IO_State                   | Master_Host | Master_User | Master_Port | Connect_Retry | Master_Log_File   | Read_Master_Log_Pos | Relay_Log_File                | Relay_Log_Pos | Relay_Master_Log_File | Slave_IO_Running | Slave_SQL_Running | Replicate_Do_DB | Replicate_Ignore_DB | Replicate_Do_Table | Replicate_Ignore_Table | Replicate_Wild_Do_Table | Replicate_Wild_Ignore_Table | Last_Errno | Last_Error | Skip_Counter | Exec_Master_Log_Pos | Relay_Log_Space | Until_Condition | Until_Log_File | Until_Log_Pos | Master_SSL_Allowed | Master_SSL_CA_File | Master_SSL_CA_Path | Master_SSL_Cert | Master_SSL_Cipher | Master_SSL_Key | Seconds_Behind_Master | Master_SSL_Verify_Server_Cert | Last_IO_Errno | Last_IO_Error | Last_SQL_Errno | Last_SQL_Error | Replicate_Ignore_Server_Ids | Master_Server_Id | Master_UUID                          | Master_Info_File        | SQL_Delay | SQL_Remaining_Delay | Slave_SQL_Running_State                                  | Master_Retry_Count | Master_Bind | Last_IO_Error_Timestamp | Last_SQL_Error_Timestamp | Master_SSL_Crl | Master_SSL_Crlpath | Retrieved_Gtid_Set | Executed_Gtid_Set | Auto_Position | Replicate_Rewrite_DB | Channel_Name | Master_TLS_Version | Master_public_key_path | Get_master_public_key | Network_Namespace |
   #+----------------------------------+-------------+-------------+-------------+---------------+-------------------+---------------------+-------------------------------+---------------+-----------------------+------------------+-------------------+-----------------+---------------------+--------------------+------------------------+-------------------------+-----------------------------+------------+------------+--------------+---------------------+-----------------+-----------------+----------------+---------------+--------------------+--------------------+--------------------+-----------------+-------------------+----------------+-----------------------+-------------------------------+---------------+---------------+----------------+----------------+-----------------------------+------------------+--------------------------------------+-------------------------+-----------+---------------------+----------------------------------------------------------+--------------------+-------------+-------------------------+--------------------------+----------------+--------------------+--------------------+-------------------+---------------+----------------------+--------------+--------------------+------------------------+-----------------------+-------------------+
@@ -208,19 +212,48 @@ Slave DB가 Master DB의 정보를 받아오기 위해서는 Master 계정을 �
 
 - Master DB에서 해당 DB에 Table을 생성하고, 컬럼을 추가해보겠습니다.
 
-  ```mysql
-  # master shell
-  mysql> use target_db;
-  mysql> create table test(id int, name varchar(10));
-  mysql> insert into test(id, name) values(1, 'leaf');
-  ```
+  - Container 내부로 접근
+
+    ```docker
+    docker exec -it mysql_master /bin/bash
+    ```
+
+  - MySQL master 계정에 접속
+
+    ```shell
+    mysql -u master_user -p
+    # 1234 입력
+    ```
+
+  - 테이블 및 컬럼 추가
+
+    ```mysql
+    # master shell
+    mysql> USE target_db;
+    mysql> CREATE TABLE test(id int, name varchar(10));
+    mysql> INSERT INTO test(id, name) VALUES(1, 'leaf');
+    ```
 
 - Slave DB에서 해당 변경사항을 인식하는지 확인해보겠습니다.
 
-  ```mysql
+  - Container 내부로 접근
+
+    ```docker
+    docker exec -it mysql_slave /bin/bash
+    ```
+
+  - MySQL slave 계정에 접속
+
+    ```shell
+    mysql -u slave_user -p
+    # 1234 입력
+    ```
+
+  - 컬럼 확인
+    ```mysql
     # slave shell
-    mysql> use target_db;
-    mysql> select * from test;
+    mysql> USE target_db;
+    mysql> SELECT * FROM test;
     # +------+------+
     # | id   | name |
     # +------+------+
@@ -228,7 +261,7 @@ Slave DB가 Master DB의 정보를 받아오기 위해서는 Master 계정을 �
     # +------+------+
     # 1 row in set (0.00 sec)
     # 위와 같이 테이블 및 컬럼이 정상 조회되면 성공입니다.
-  ```
+    ```
 
 ## 결론
 
