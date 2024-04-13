@@ -1,7 +1,7 @@
 ---
 title: "SpringBoot DataSource 이중화(CQRS 패턴) 구현"
 date: 2024-03-19T20:20:06+09:00
-weight: 9870
+weight: 987
 tags: ["springboot", "implement", "mysql", "datasource", "jpa"]
 categories: ["database"]
 author: "Leaf"
