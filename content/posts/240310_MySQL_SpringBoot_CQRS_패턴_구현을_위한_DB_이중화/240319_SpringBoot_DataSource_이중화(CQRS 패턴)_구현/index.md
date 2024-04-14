@@ -61,7 +61,7 @@ public class JpaConfig {}
 
 ## DataSource 구현
 
-JpaConfig내부에 DataSource를 Bean으로 등록하면, 이후 Spring이 해당 Bean의 설정을 통해 JDBC를 구현하므로 편리하게 DB에 접근할 수 있습니다.
+JpaConfig내부에 DataSource를 Bean으로 등록하면, 이후 Spring이 해당 Bean의 설정을 통해 DataSource를 생성하므로 편리하게 DB에 접근할 수 있습니다.
 
 > 두 개의 DataSource를 각각 구현하고, Transaction시점에 필요한 DataSource를 결정할 수 있도록 Spring에서는 AbstractRoutingDataSource라는 추상클래스를 제공합니다.
 
@@ -72,8 +72,7 @@ JpaConfig내부에 DataSource를 Bean으로 등록하면, 이후 Spring이 해�
 ```java
 @Configuration
 public class JpaConfig {
-  @Bean // 원본 DB와 연결된 DataSource
-  @Qualifier("commandDataSource")
+  @Bean("commandDataSource") // 원본 DB와 연결된 DataSource
   public DataSource commandDataSource() {
       HikariDataSource dataSource = DataSourceBuilder.create()
               .driverClassName("com.mysql.cj.jdbc.Driver")
@@ -86,8 +85,7 @@ public class JpaConfig {
       return dataSource;
   }
 
-  @Bean // Repl DB와 연결된 DataSource
-  @Qualifier("queryDataSource")
+  @Bean("queryDataSource") // Repl DB와 연결된 DataSource
   public DataSource queryDataSource() {
       HikariDataSource dataSource = DataSourceBuilder.create()
               .driverClassName("com.mysql.cj.jdbc.Driver")
@@ -130,9 +128,7 @@ ReplicationRoutingDataSource 클래스는 AbstractRoutingDataSource를 상속받
 > ReadOnly여부는 @Transactional(readOnly = true)인지를 확인하여 결정됩니다. 이 때, org.springframework.transaction.annotation.Transactional을 사용해야 함을 주의합니다. (jakarta.transactional 아님!!)
 
 ```java
-    @Bean // DataSource 종류에 따른 DataSource 라우팅(변경)
-    @DependsOn({"commandDataSource, queryDataSource"})
-    @Qualifier("routingDataSource")
+    @Bean("routingDataSource") // DataSource 종류에 따른 DataSource 라우팅(변경)
     public DataSource routingDataSource(@Qualifier("commandDataSource") DataSource commandDataSource,
                                         @Qualifier("queryDataSource") DataSource queryDataSource) {
         ReplicationRoutingDataSource routingDataSource = new ReplicationRoutingDataSource();
@@ -154,7 +150,6 @@ ReplicationRoutingDataSource 클래스는 AbstractRoutingDataSource를 상속받
 
 ```java
     @Bean("routingLazyDataSource")  // Connection 시점에 DataSource 결정하기 위한 Proxy
-    @DependsOn("routingDataSource")
     public DataSource routingLazyDataSource(@Qualifier("routingDataSource") DataSource routingDataSource) {
         return new LazyConnectionDataSourceProxy(routingDataSource);
     }
@@ -162,11 +157,10 @@ ReplicationRoutingDataSource 클래스는 AbstractRoutingDataSource를 상속받
 
 ## EntityManagerFactory 구현
 
-Spring에서는 동시성 문제[^3]를 해결하기 위해 EntityManager를 트랜잭션 시마다 생성하는 Factory Method 패턴을 구현하고 있습니다. 이를 위해 저희도 EntityManagerFactory에 위에서 설정한 DataSource를 직접 주입함으로써 동시성 문제를 해결할 수 있습니다.
+Spring에서는 트랜잭션의 동시성 문제[^3]를 해결하기 위해 EntityManager를 트랜잭션 시마다 생성하는 Factory Method 패턴을 구현하고 있습니다. 이를 위해 저희도 EntityManagerFactory에 위에서 설정한 DataSource를 직접 주입함으로써 동시성 문제를 해결할 수 있습니다.
 
 ```java
     @Bean("entityManagerFactory") // Entity 를 관리하기 위한 JPA Manager 설정
-    @DependsOn("routingLazyDataSource")
     LocalContainerEntityManagerFactoryBean entityManagerFactory(
             @Qualifier("routingLazyDataSource") DataSource dataSource) {
         LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
@@ -178,15 +172,16 @@ Spring에서는 동시성 문제[^3]를 해결하기 위해 EntityManager를 트
         emf.setPackagesToScan("com.replication.demo.*");
 
         // Hibernate Vendor Adaptor 설정
-        emf.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
+        HibernateJpaVendorAdapter hibernateJpaVendorAdapter = new HibernateJpaVendorAdapter();
+        hibernateJpaVendorAdapter.setDatabasePlatform("org.hibernate.dialect.MySQLDialect");
+        emf.setJpaVendorAdapter(hibernateJpaVendorAdapter);
 
         // JPA 및 Hibernate 설정
         Properties properties = new Properties();
         properties.setProperty("spring.jpa.hibernate.ddl-auto", "create-drop");
-        properties.setProperty("spring.jpa.properties.hibernate.dialect","org.hibernate.dialect.MySQL8Dialect");
-        properties.setProperty("spring.jpa.properties.hibernate.show_sql","true");
-        properties.setProperty("spring.jpa.properties.hibernate.format_sql","true");
-        properties.setProperty("spring.jpa.properties.hibernate.default_batch_fetch_size", "100");
+        properties.setProperty("hibernate.show_sql","true");
+        properties.setProperty("hibernate.format_sql","true");
+        properties.setProperty("hibernate.default_batch_fetch_size", "100");
         emf.setJpaProperties(properties);
 
         return emf;
@@ -200,8 +195,7 @@ Spring에서는 동시성 문제[^3]를 해결하기 위해 EntityManager를 트
 Spring에서 @Transactional를 통해 트랜잭션이 발생하면, Spring Container에서 TransactinManager를 불러와 트랜잭션을 수행합니다. 이 때, 위에서 구현한 DataSource와 EntityManager를 사용해서 트랜잭션을 수행하도록 하겠습니다.
 
 ```java
-    @Bean  // 트랜잭션 매니저 설정
-    @DependsOn("entityManagerFactory")
+    @Bean("transactionManager")  // 트랜잭션 매니저 설정
     public PlatformTransactionManager transactionManager(
             @Qualifier("entityManagerFactory") EntityManagerFactory entityManagerFactory) {
         JpaTransactionManager jpaTransactionManager = new JpaTransactionManager();
