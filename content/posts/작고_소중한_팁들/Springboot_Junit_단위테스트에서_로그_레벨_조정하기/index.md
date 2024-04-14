@@ -1,5 +1,5 @@
 ---
-title: "Springboot 단위테스트에서 로그 레벨 조정하기"
+title: "Springboot Junit 단위테스트에서 로그 레벨 조정하기"
 date: 2024-03-20T23:43:14+09:00
 weight: 2001
 tags: ["tips", "springboot", "jnuit"]
