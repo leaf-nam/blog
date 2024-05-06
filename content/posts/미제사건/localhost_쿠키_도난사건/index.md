@@ -2,7 +2,7 @@
 title: 'localhost_쿠키_도난사건'
 date: 2024-05-06T18:08:44+09:00
 weight: #1
-tags: ["coldcase"]
+tags: ["next.js", "springboot", "login", "cookie", "browser"]
 categories: ["coldcase"]
 author: "Leaf" # ["Me", "You"] multiple authors
 description: "브라우저 로컬에서 테스트하던 쿠키가 계속해서 사라졌습니다."

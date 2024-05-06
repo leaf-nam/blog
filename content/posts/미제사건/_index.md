@@ -1,15 +1,15 @@
 ---
-title: "개발 서적 리뷰"
-date: 2024-04-14T22:11:00+09:00
+title: "미제사건"
+date: 2024-05-06T18:08:44+09:00
 weight: 3000
 tags: ["main"]
-categories: ["review"]
+categories: ["coldcase"]
 author: "Leaf" # ["Me", "You"] multiple authors
-description: "개발 서적에 대한 리뷰를 작성하는 공간입니다."
+description: "해결되지 않은 사건을 정리해놓은 공간입니다."
 cover:
-  image: "leaf_with_book.png" # image path/url
+  image: "coldcase.png" # image path/url
   alt: "책과 잎" # alt text
-  caption: "책은 마음의 양식입니다." # display caption under cover
+  caption: "끈기를 갖고 추적해서 사건을 해결하겠습니다." # display caption under cover
   relative: false # when using page bundles set this to true
   hidden: false # only hide on current single page
 editPost:
@@ -19,4 +19,4 @@ editPost:
 # 참고 : https://github.com/adityatelange/hugo-PaperMod/wiki/Variables
 ---
 
-개발 서적을 읽으며 느낀 점들을 정리할 예정입니다.
+사건이 해결되는대로 최신화하겠습니다.
