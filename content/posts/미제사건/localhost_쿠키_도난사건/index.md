@@ -45,6 +45,8 @@ dependencies {
 ## 상황
 
 - 프로젝트 중 로그인을 구현하기 위해 로컬에서 E2E 테스트를 진행하고 있었습니다.
+- 프론트엔드 : http://localhost:3000
+- 백엔드 : http://localhost:8080
 - 대략적인 시퀀스는 다음과 같습니다.
 
 {{<figure src="login.png" caption="로그인 시퀀스 다이어그램">}}
@@ -77,6 +79,7 @@ public ResponseCookie getTimeoutCookie(String key, String value) {
             .build();
 }
 ```
+
 ### Cors 관련 설정 확인 및 변경
 - Allow Origin 설정
 - Allow Method 설정
@@ -85,12 +88,9 @@ public ResponseCookie getTimeoutCookie(String key, String value) {
 ```java
     public CorsConfigurationSource getSource() {
     CorsConfiguration configuration = new CorsConfiguration();
-    // allow server
-    configuration.addAllowedOrigin("https://mugit.site");
+
     // allow local
     configuration.addAllowedOrigin("http://localhost:3000");
-    configuration.addAllowedOrigin("http://localhost:8080");
-
     configuration.addAllowedHeader("*");
     configuration.setAllowedMethods(asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
     configuration.setAllowCredentials(true);
@@ -102,9 +102,43 @@ public ResponseCookie getTimeoutCookie(String key, String value) {
 }
 ```
 
+### 프론트엔드 쿠키 전달
+
+```javascript
+    fetch(apiUrl + "/users/login", {
+    headers: {
+        Authorization: `Bearer ${accessToken}`,
+    },
+    })
+    .then((response) => {
+        switch (response.status) {
+            case 200: {
+                window.history.go(-1);
+                break;
+            }
+            case 302: {
+                let setCookie = response.headers.get('Set-Cookie');
+                console.log(setCookie) // 애초에 여기에 안찍힘
+                if (setCookie) {
+                    const parsed = cookie.parse(setCookie);
+                    cookies().set('needRegist', parsed['isRegist'], parsed);
+                    cookies().set('snsId', parsed['snsId'], parsed);
+                    cookies().set('snsType', parsed['snsType'], parsed);
+                    cookies().set('email', parsed['email'], parsed);
+                }
+                location.href = `/${locale}/register`;
+                break;
+            }
+        }
+    }).catch((error) => console.log(error));
+```
+
+> 현재 진행경과는 여기까지입니다. 추후 사건이 해결되면 최신화하도록 하겠습니다.
+
 ## References
 
 | URL | 게시일자 | 방문일자 | 작성자 |
 | :-- | :------- | :------- | :----- |
+| https://github.com/ZeroCho/next-app-router-z/blob/master/ch4/src/auth.ts#L56|2024.02.20.|2024.05.02|ZeroCho|
 
 [^1]: 물론 민감한 회원정보가 아닌 이메일 주소, snsId, OAuth 에이전트 정보 정도만 쿠키로 전달했습니다.
