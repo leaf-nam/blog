@@ -2,30 +2,21 @@
 title: '{{ replace .File.ContentBaseName "_" " " | title }}'
 date: {{.Date}}
 weight: #1
-tags: ["review"]
-categories: ["book_title"]
+tags: ["concept"]
+categories: ["concept"]
 author: "Leaf" # ["Me", "You"] multiple authors
-description: "Desc Text."
+description: "헷갈리는 개념들을 정리하는 공간입니다."
 editPost:
   URL: "https://github.com/leaf-nam/blog/blob/main/content/"
   Text: "Suggest Changes" # edit text
   appendFilePath: false # to append file path to Edit link
 # 참고 : https://github.com/adityatelange/hugo-PaperMod/wiki/Variables
 ---
+## 개요
 
-## 한줄평
+## 
 
-## 책을 읽게 된 계기
-
-## 작가 소개
-
-## 핵심요약
-
-## 평가
-
-## 느낀점
-
-## 추천
+## 결론
 
 ## References
 

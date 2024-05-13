@@ -56,8 +56,17 @@ languages:
         - name: 검색
           url: /search/
           weight: 10
+        - name: 개념정리
+          url: posts/concept/
+          weight: 10
         - name: 미세팁
-          url: posts/%EC%9E%91%EA%B3%A0_%EC%86%8C%EC%A4%91%ED%95%9C_%ED%8C%81%EB%93%A4/
+          url: posts/tips/
+          weight: 10
+        - name: 개발서적 리뷰
+          url: posts/review/
+          weight: 10
+        - name: 미제사건
+          url: posts/coldcase/
           weight: 10
         - name: 태그
           url: /tags/

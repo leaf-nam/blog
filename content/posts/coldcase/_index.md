@@ -1,7 +1,7 @@
 ---
 title: "미제사건"
 date: 2024-05-06T18:08:44+09:00
-weight: 3000
+weight: 4000
 tags: ["main"]
 categories: ["coldcase"]
 author: "Leaf" # ["Me", "You"] multiple authors

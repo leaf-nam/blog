@@ -1,9 +1,9 @@
 ---
-title: '{{ replace .File.ContentBaseName "_" " " | title }}'
-date: {{.Date}}
-weight: #1
-tags: ["review"]
-categories: ["book_title"]
+title: 'JPA Cascade vs Mysql Cascade vs Orphan Removal'
+date: 2024-05-13T21:01:16+09:00
+weight: 5001
+tags: ["tips"]
+categories: ["tinytips"]
 author: "Leaf" # ["Me", "You"] multiple authors
 description: "Desc Text."
 editPost:
@@ -12,20 +12,6 @@ editPost:
   appendFilePath: false # to append file path to Edit link
 # 참고 : https://github.com/adityatelange/hugo-PaperMod/wiki/Variables
 ---
-
-## 한줄평
-
-## 책을 읽게 된 계기
-
-## 작가 소개
-
-## 핵심요약
-
-## 평가
-
-## 느낀점
-
-## 추천
 
 ## References
 

@@ -1,5 +1,5 @@
 ---
-title: '{{ replace .File.ContentBaseName "-" " " | title }}'
+title: '{{ replace .File.ContentBaseName "_" " " | title }}'
 date: {{.Date}}
 weight: #1
 tags: ["not allocated"]
