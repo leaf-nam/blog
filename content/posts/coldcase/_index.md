@@ -19,4 +19,4 @@ editPost:
 # 참고 : https://github.com/adityatelange/hugo-PaperMod/wiki/Variables
 ---
 
-사건이 해결되는대로 최신화하겠습니다.
+*사건이 해결되는대로 최신화하겠습니다.*

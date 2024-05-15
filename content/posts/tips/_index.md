@@ -18,6 +18,3 @@ editPost:
   appendFilePath: false # to append file path to Edit link
 # 참고 : https://github.com/adityatelange/hugo-PaperMod/wiki/Variables
 ---
-
-앞으로 여기에 미세한 팁들을 정리하겠습니다.
-서론, 본론 없이 결론만 적을 예정입니다.

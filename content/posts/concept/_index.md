@@ -1,5 +1,5 @@
 ---
-title: "미제사건"
+title: "개념정리"
 date: 2024-05-13T21:01:16+09:00
 weight: 5000
 tags: ["main"]
@@ -18,5 +18,3 @@ editPost:
   appendFilePath: false # to append file path to Edit link
 # 참고 : https://github.com/adityatelange/hugo-PaperMod/wiki/Variables
 ---
-
-잘못된 개념을 바로잡는 공간입니다.
