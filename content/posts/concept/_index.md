@@ -6,6 +6,9 @@ tags: ["main"]
 categories: ["concept"]
 author: "Leaf" # ["Me", "You"] multiple authors
 description: "헷갈리거나 잘못 알고있던 개념을 정리하는 공간입니다."
+disableHLJS: true # to disable highlightjs
+ShowReadingTime: false
+ShowWordCount: false
 cover:
   image: "bulb.png" # image path/url
   alt: "전구" # alt text

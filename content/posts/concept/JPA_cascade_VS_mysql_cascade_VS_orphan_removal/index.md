@@ -1,9 +1,9 @@
 ---
-title: 'JPA Cascade vs Mysql Cascade vs Orphan Removal'
+title: "JPA Cascade vs Mysql Cascade vs Orphan Removal"
 date: 2024-05-13T21:01:16+09:00
 weight: 5001
-tags: [ "concept" ]
-categories: [ "concept" ]
+tags: ["concept"]
+categories: ["concept"]
 author: "Leaf" # ["Me", "You"] multiple authors
 description: "Cascade의 개념 차이에 대해 정리합니다."
 editPost:
@@ -139,11 +139,12 @@ WHERE
 ### 4. REMOVE
 
 - 부모가 삭제될 떄 자식을 함께 삭제합니다. 참고로 Hibernate에는 DELETE라는 속성도 있는데 같은 동작이라고 합니다.
+
 ```java
 // given : cascade = MERGE로 자식도 함께 영속성 컨텍스트로 불러와집니다.
 Person person = entityManager.find(Person.class, 1L);
 
-// when : cascade = REMOVE를 설정한 경우, 
+// when : cascade = REMOVE를 설정한 경우,
 entityManager.remove(person);
 
 // then : 부모가 삭제되기 전 자식을 먼저 삭제합니다.
@@ -155,6 +156,7 @@ DELETE FROM Person WHERE id = 1
 ### 5. DETACH
 
 - 부모가 분리[^5]될 때, 자식도 함께 분리합니다.
+
 ```java
 // given : cascade = MERGE로 자식도 함께 영속성 컨텍스트로 불러와집니다.
 Person person = entityManager.find(Person.class, 1L);
@@ -162,7 +164,7 @@ Phone phone = person.getPhones().get(0);
 assertTrue(entityManager.contains(person));
 assertTrue(entityManager.contains(phone));
 
-// when : cascade = DETACH를 설정한 경우, 
+// when : cascade = DETACH를 설정한 경우,
 entityManager.detach(person);
 
 // then : 부모가 컨텍스트에서 분리될 떄, 자식도 함께 분리합니다.
@@ -189,7 +191,7 @@ entityManager.detach(person);
 assertFalse(entityManager.contains(person));
 assertFalse(entityManager.contains(phone));
 
-// when : 
+// when :
 entityManager.unwrap(Session.class)
 		.lock(person, new LockOptions(LockMode.NONE));
 
@@ -211,17 +213,22 @@ assertTrue(entityManager.contains(phone));
 ## References
 
 | URL | 게시일자 | 방문일자 | 작성자 |
-|:----|:-----|:-----|:----|
+| :-- | :------- | :------- | :----- |
 
 [^1]: Hibernate는 JPA 명세의 구현체입니다.
 [^2]: 쉬운 이해를 위해 별도의 예시를 만들기보다 본문 링크에 있는 예시를 최대한 그대로 시용하겠습니다.
 [^3]: Spring Data JPA의 Repository에서는 save()메서드에 해당합니다.
-[^4]: [JPA 공식문서](https://download.oracle.com/otndocs/jcp/persistence-2_2-mrel-eval-spec/index.html)에서는 Merge에 대해 다음과 같이 설명하고 있습니다.
+[^4]:
+    [JPA 공식문서](https://download.oracle.com/otndocs/jcp/persistence-2_2-mrel-eval-spec/index.html)에서는 Merge에 대해 다음과 같이 설명하고 있습니다.
+
     - The merge operation allows for the propagation of state from detached entities onto persistent entities
-    managed by the entity manager.
-    > 병합(merge) 작업은 분리(detached)된 엔티티에서의 상태를 엔티티 매니저(entity manager)가 관리하는 영속 엔티티로 전파할 수 있도록 합니다.
+      managed by the entity manager.
+      > 병합(merge) 작업은 분리(detached)된 엔티티에서의 상태를 엔티티 매니저(entity manager)가 관리하는 영속 엔티티로 전파할 수 있도록 합니다.
     - 즉, 위 예시에서는 영속 상태의 엔티티를 영속성 컨텍스트에 불러오는 과정에서 Merge 옵션이 있으면 부모와 자식을 한번에 가져오는 것으로 이해할 수 있습니다.
-[^5]: [JPA 공식문서](https://download.oracle.com/otndocs/jcp/persistence-2_2-mrel-eval-spec/index.html)에서는 다음과 같은 상황에서 분리가 발생한다고 설명하고 있습니다.
+
+[^5]:
+    [JPA 공식문서](https://download.oracle.com/otndocs/jcp/persistence-2_2-mrel-eval-spec/index.html)에서는 다음과 같은 상황에서 분리가 발생한다고 설명하고 있습니다.
+
     1. 트랜잭션 스코프(persistence context)의 영속성 컨텍스트를 사용하는 경우, 트랜잭션 커밋 시
     2. 트랜잭션 롤백 시
     3. 엔티티를 영속성 컨텍스트에서 분리(detach)하는 경우

@@ -6,6 +6,9 @@ tags: ["main"]
 categories: ["review"]
 author: "Leaf" # ["Me", "You"] multiple authors
 description: "개발 서적에 대한 리뷰를 작성하는 공간입니다."
+disableHLJS: true # to disable highlightjs
+ShowReadingTime: false
+ShowWordCount: false
 cover:
   image: "leaf_with_book.png" # image path/url
   alt: "책과 잎" # alt text

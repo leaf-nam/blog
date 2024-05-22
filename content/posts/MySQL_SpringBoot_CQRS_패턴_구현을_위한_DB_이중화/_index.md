@@ -18,7 +18,5 @@ cover:
 ---
 
 1. DB 이중화 및 CQRS 패턴의 중요성
-2. MySQL Read-Only DB(Replication) 구현
+2. MySQL Replication Database 구현
 3. SpringBoot DataSource 이중화(CQRS 패턴) 구현
-4. JPA Configuration 계층구조 분석
-5. DataSource Postman 기능테스트

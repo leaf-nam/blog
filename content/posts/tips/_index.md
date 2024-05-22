@@ -6,6 +6,9 @@ tags: ["tips"]
 categories: ["tinytips"]
 author: "Leaf" # ["Me", "You"] multiple authors
 description: "개발중에 만나는 미세한 팁들을 정리하는 공간입니다."
+disableHLJS: true # to disable highlightjs
+ShowReadingTime: false
+ShowWordCount: false
 cover:
   image: "cover.jpeg" # image path/url
   alt: "몬스테라" # alt text

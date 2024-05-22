@@ -6,6 +6,9 @@ tags: ["not allocated"]
 categories: ["not categorized"]
 author: "Leaf" # ["Me", "You"] multiple authors
 description: "Desc Text."
+disableHLJS: true # to disable highlightjs
+ShowReadingTime: false
+ShowWordCount: false
 cover:
   image: "<image path/url>" # image path/url
   alt: "<alt text>" # alt text
