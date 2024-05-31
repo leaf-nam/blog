@@ -59,6 +59,9 @@ languages:
         - name: 개념정리
           url: posts/concept/
           weight: 10
+        - name: 코딩테스트
+          url: posts/cote/
+          weight: 10
         - name: 미세팁
           url: posts/tips/
           weight: 10
