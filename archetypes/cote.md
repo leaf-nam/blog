@@ -3,9 +3,9 @@ title: '{{ replace .File.ContentBaseName "_" " " | title }}'
 date: {{.Date}}
 weight: #1
 tags: ["codingtest", "backjoon", "programmers"] # choose test platform
-categories: ["codingtest"]
+categories: ["algorithm"]
 author: "Leaf" # ["Me", "You"] multiple authors
-description: "Desc Text."
+description: "{{ replace .File.ContentBaseName "_" " " | title }} 문제에 대한 해설입니다."
 editPost:
   URL: "https://github.com/leaf-nam/blog/blob/main/content/"
   Text: "Suggest Changes" # edit text
