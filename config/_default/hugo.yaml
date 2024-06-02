@@ -1,7 +1,7 @@
 # 참고 : https://github.com/adityatelange/hugo-PaperMod/wiki/Variables
 
 # 기본 도메인 주소 : 차후 정적파일이나 소스파일 등의 기본경로가 됨
-baseURL: "https://leaf-nam.github.io"
+baseURL: "https://1eaf.site"
 
 # 해당 페이지의 기본 제목
 title: "Leaf, waiting for Spring"
