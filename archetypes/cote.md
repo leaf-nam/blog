@@ -23,6 +23,8 @@ editPost:
 
 ## 결과
 
+![result](result.png)
+
 ## 리뷰
 
 ## References
