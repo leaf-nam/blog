@@ -1,5 +1,5 @@
 ---
-title: '{{ replace .File.ContentBaseName "_" " " | title }}'
+title: '{{ replace .File.ContentBaseName "_" " " | title }}[java]'
 date: {{.Date}}
 weight: #1
 tags: ["not allocated"]
