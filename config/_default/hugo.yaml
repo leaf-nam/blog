@@ -25,7 +25,7 @@ buildDrafts: false
 buildFuture: false
 buildExpired: false
 
-googleAnalytics: UA-123-45
+googleAnalytics: G-9PNFP00SSG
 
 # 이모지 사용가능여부
 enableEmoji: true
