@@ -15,6 +15,12 @@ theme: ["PaperMod"]
 # SEO(검색엔진 최적화)
 enableRobotsTXT: true
 
+# sitemap 생성
+sitemap:
+  changefreq: "monthly" # always, hourly daily, weekly, monthly, yearly, never
+  filename: "sitemap.xml"
+  priority: 0.5
+
 buildDrafts: false
 buildFuture: false
 buildExpired: false
