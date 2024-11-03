@@ -1,7 +1,7 @@
 ---
 title: "MySQL Replication Database 구현"
 date: 2024-03-13T23:07:00+09:00
-weight: 988
+weight: 3
 tags: ["replication", "mysql", "docker", "shell"]
 categories: ["database"]
 author: "Leaf"

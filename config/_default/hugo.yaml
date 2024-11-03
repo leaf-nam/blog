@@ -94,6 +94,11 @@ params:
 
   DateFormat: "2006. 1. 2."
 
+  mainSections:
+    - posts
+    - concept
+    - tips
+
   # dark, light
   defaultTheme: auto
 

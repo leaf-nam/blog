@@ -1,7 +1,7 @@
 ---
 title: "개발 블로그의 종류와 선택"
 date: 2024-02-29T21:28:56+09:00
-weight: 999
+weight: 5
 tags: ["velog", "tistory", "github", "plan", "choices", "blog"]
 categories: ["blog management"]
 author: "Leaf"

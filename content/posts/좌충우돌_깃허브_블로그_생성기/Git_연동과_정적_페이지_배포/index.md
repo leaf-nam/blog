@@ -1,7 +1,7 @@
 ---
 title: "Git 연동과 정적 페이지 배포"
 date: 2024-03-04T16:50:39+09:00
-weight: 996
+weight: 7
 tags: ["git", "deploy", "hugo", "blog"]
 categories: ["blog management"]
 author: "Leaf"

@@ -1,7 +1,7 @@
 ---
 title: "깃허브 블로그 댓글 구현 : Utterances 도입기"
 date: 2024-03-05T19:08:20+09:00
-weight: 995
+weight: 6
 tags: ["comment", "utterances", "blog"]
 categories: ["blog management"]
 author: "Leaf"
