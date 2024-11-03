@@ -1,5 +1,5 @@
 ---
-title: "백준 12904 A와 B"
+title: "[Java Alogorithm]백준 12904 A와 B"
 date: 2024-06-02T05:51:58+09:00
 weight: #1
 tags: ["codingtest", "backjoon"] # choose test platform

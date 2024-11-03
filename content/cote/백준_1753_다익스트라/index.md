@@ -1,5 +1,5 @@
 ---
-title: "백준 1753 다익스트라"
+title: "[Java Alogorithm]백준 1753 다익스트라"
 date: 2024-06-21T09:55:27+09:00
 weight: #1
 tags: ["codingtest", "backjoon", "programmers", "dijkstra"] # choose test platform

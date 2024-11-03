@@ -1,7 +1,6 @@
 ---
 title: "객체지향의 사실과 오해"
 date: 2024-07-10T11:41:32+09:00
-weight: #1
 tags: ["review"]
 categories: ["book_title"]
 author: "Leaf" # ["Me", "You"] multiple authors

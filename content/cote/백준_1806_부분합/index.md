@@ -1,5 +1,5 @@
 ---
-title: "백준 1806 부분합"
+title: "[Java Alogorithm]백준 1806 부분합"
 date: 2024-06-12T09:03:34+09:00
 weight: #1
 tags: ["codingtest", "backjoon", "programmers"] # choose test platform

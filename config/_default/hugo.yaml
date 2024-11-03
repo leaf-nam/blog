@@ -63,19 +63,19 @@ languages:
           url: /search/
           weight: 10
         - name: 개념정리
-          url: posts/concept/
+          url: /concept/
           weight: 10
         - name: 코딩테스트
-          url: posts/cote/
+          url: /cote/
           weight: 10
         - name: 미세팁
-          url: posts/tips/
+          url: /tips/
           weight: 10
         - name: 개발서적 리뷰
-          url: posts/review/
+          url: /review/
           weight: 10
         - name: 미제사건
-          url: posts/coldcase/
+          url: /coldcase/
           weight: 10
         - name: 태그
           url: /tags/

@@ -1,5 +1,5 @@
 ---
-title: "백준 4195 친구 네트워크"
+title: "[Java Alogorithm]백준 4195 친구 네트워크"
 date: 2024-06-03T06:59:21+09:00
 weight: #1
 tags: ["codingtest", "backjoon", "union-find"] # choose test platform

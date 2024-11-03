@@ -1,9 +1,8 @@
 ---
-title: 'Test Driven Development: By Example'
+title: "Test Driven Development: By Example"
 date: 2024-04-28T23:38:18+09:00
-weight: 3002
-tags: [ "review" ]
-categories: [ "TDD" ]
+tags: ["review"]
+categories: ["TDD"]
 author: "Leaf" # ["Me", "You"] multiple authors
 description: "켄트 백의 TDD에 대한 리뷰입니다."
 editPost:
@@ -79,6 +78,6 @@ editPost:
 ## References
 
 | URL | 게시일자 | 방문일자 | 작성자 |
-|:----|:-----|:-----|:----|
+| :-- | :------- | :------- | :----- |
 
 [^1]: [위키백과 : 켄트 백](https://ko.wikipedia.org/wiki/%EC%BC%84%ED%8A%B8_%EB%B2%A1)

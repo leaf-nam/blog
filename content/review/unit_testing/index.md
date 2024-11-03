@@ -1,7 +1,6 @@
 ---
 title: "Unit Testing"
 date: 2024-04-14T19:37:37+09:00
-weight: 3001
 tags: ["review"]
 categories: ["Unit Testing"]
 author: "Leaf" # ["Me", "You"] multiple authors
