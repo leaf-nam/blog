@@ -1,5 +1,5 @@
 ---
-title: '[Java Alogorithm]{{ replace .File.ContentBaseName "_" " " | title }}'
+title: '[Java]{{ replace .File.ContentBaseName "_" " " | title }}'
 date: {{.Date}}
 weight: #1
 tags: ["codingtest", "backjoon", "programmers"] # choose test platform

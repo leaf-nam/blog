@@ -1,5 +1,5 @@
 ---
-title: "[Java Alogorithm]백준 1976 여행 가자"
+title: "[Java]백준 1976 여행 가자"
 date: 2024-06-20T08:29:30+09:00
 weight: #1
 tags: ["codingtest", "backjoon", "programmers"] # choose test platform

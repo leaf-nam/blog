@@ -1,5 +1,5 @@
 ---
-title: "[Java Alogorithm]HackerRank Lego Blocks"
+title: "[Java]HackerRank Lego Blocks"
 date: 2024-11-03T11:14:50+09:00
 weight: #1
 tags: ["codingtest", "backjoon", "programmers"] # choose test platform

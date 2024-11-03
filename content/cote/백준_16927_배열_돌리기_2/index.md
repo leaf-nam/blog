@@ -1,5 +1,5 @@
 ---
-title: "[Java Alogorithm]백준 16927 배열 돌리기 2"
+title: "[Java]백준 16927 배열 돌리기 2"
 date: 2024-05-31T20:57:13+09:00
 weight: #1
 tags: ["codingtest", "backjoon"] # choose test platform

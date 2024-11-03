@@ -1,5 +1,5 @@
 ---
-title: "[Java Alogorithm]백준 14503 로봇 청소기"
+title: "[Java]백준 14503 로봇 청소기"
 date: 2024-06-19T10:32:37+09:00
 weight: #1
 tags: ["codingtest", "backjoon", "programmers"] # choose test platform

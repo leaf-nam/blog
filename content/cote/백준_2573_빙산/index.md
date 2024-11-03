@@ -1,5 +1,5 @@
 ---
-title: "[Java Alogorithm]백준 2573 빙산"
+title: "[Java]백준 2573 빙산"
 date: 2024-06-27T11:35:43+09:00
 weight: #1
 tags: ["codingtest", "backjoon", "bfs", "implementation"] # choose test platform
