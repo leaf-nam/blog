@@ -171,13 +171,11 @@ params:
 
   analytics:
     google:
-      SiteVerificationTag: "XYZabc"
+      SiteVerificationTag: "l76eAEMadEn1QzS8fLTbrl8ppayZprvV3uuAbMGSy_c"
     bing:
       SiteVerificationTag: "XYZabc"
-    yandex:
-      SiteVerificationTag: "XYZabc"
     naver:
-      SiteVerificationTag: "XYZabc"
+      SiteVerificationTag: "adff811404d441495a954e30579f40297ba14f5e"
 
   editPost:
     URL: "https://github.com/leaf-nam/blog/blob/main/content"
@@ -198,6 +196,11 @@ params:
     minMatchCharLength: 0
     limit: 10 # https://www.fusejs.io/api/methods.html#search 참고
     keys: ["title", "permalink", "summary", "content"]
+
+  # 작성자 정보 추가
+  author:
+    email: spearoad15@gmail.com
+    name: Sangyeop Nam
 
 # Read: https://github.com/adityatelange/hugo-PaperMod/wiki/FAQs#using-hugos-syntax-highlighter-chroma
 pygmentsUseClasses: true
