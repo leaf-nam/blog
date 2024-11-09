@@ -2,7 +2,7 @@
 title: "[Java]HackerRank Lego Blocks"
 date: 2024-11-03T11:14:50+09:00
 weight: #1
-tags: ["codingtest", "backjoon", "programmers"] # choose test platform
+tags: ["codingtest", "hackerrank", "dp"] # choose test platform
 categories: ["algorithm"]
 author: "Leaf" # ["Me", "You"] multiple authors
 description: "HackerRank Lego Blocks 문제에 대한 해설입니다."
