@@ -1,5 +1,5 @@
 ---
-title: "[Java]백준 16236 아기 상어[java]"
+title: "[Java]백준 16236 아기 상어"
 date: 2024-07-08T18:05:08+09:00
 weight: #1
 tags: ["codingtest", "backjoon", "programmers"] # choose test platform
