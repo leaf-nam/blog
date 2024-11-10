@@ -1,7 +1,7 @@
 ---
 title: "DB 이중화 및 CQRS 패턴의 중요성"
 date: 2024-03-11T22:51:52+09:00
-weight: 4
+weight: 1
 tags: ["replication", "architecture", "CQRS"]
 categories: ["database"]
 author: "Leaf"

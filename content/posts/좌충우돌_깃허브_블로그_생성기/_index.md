@@ -1,7 +1,7 @@
 ---
 title: "좌충우돌 깃허브 블로그 생성기"
 date: 2024-02-29T06:16:48+09:00
-weight: 1000
+weight: 3
 tags: ["documentation", "hugo", "papermod", "github", "blog"]
 categories: ["documentation"]
 author: "Leaf"

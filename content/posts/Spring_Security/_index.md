@@ -1,7 +1,7 @@
 ---
 title: "Spring Security 파헤치기"
 date: 2024-11-06T19:19:20+09:00
-weight: 1000
+weight: 1
 tags: ["spring", "security"]
 categories: ["spring"]
 author: "Leaf"

@@ -65,17 +65,14 @@ languages:
         - name: 개념정리
           url: /concept/
           weight: 10
-        - name: 코딩테스트
+        - name: 알고리즘
           url: /cote/
           weight: 10
         - name: 미세팁
           url: /tips/
           weight: 10
-        - name: 개발서적 리뷰
+        - name: 책 리뷰
           url: /review/
-          weight: 10
-        - name: 미제사건
-          url: /coldcase/
           weight: 10
         - name: 태그
           url: /tags/
@@ -110,8 +107,14 @@ params:
 
   # 단어 개수 표시
   ShowWordCount: true
+
+  # 공유버튼 표시
   ShowShareButtons: true
+
+  # 이전, 다음버튼 표시
   ShowPostNavLinks: true
+
+  # 포스팅 경로 표시(foo>bar>bas)
   ShowBreadCrumbs: true
 
   # 코드 카피버튼(shortcode)
@@ -141,11 +144,11 @@ params:
   assets:
     # disableHLJS: true # to disable highlight.js
     # disableFingerprinting: true
-    favicon: "/favicon.ico"
-    favicon16x16: "/favicon-16x16.png"
-    favicon32x32: "/favicon-32x32.png"
-    apple_touch_icon: "/apple-touch-icon.png"
-    safari_pinned_tab: "/safari-pinned-tab.svg"
+    favicon: "/icon/favicon.ico"
+    favicon16x16: "/icon/favicon-16x16.png"
+    favicon32x32: "/icon/favicon-32x32.png"
+    apple_touch_icon: "/icon/apple-touch-icon.png"
+    safari_pinned_tab: "/icon/safari-pinned-tab.svg"
 
   cover:
     hidden: false # hide everywhere but not in structured data
@@ -155,15 +158,53 @@ params:
   label:
     text: "LEAF"
 
+  # profile mode
+  profileMode:
+    enabled: true
+    title: "낙엽의 블로그" # optional default will be site title
+    subtitle: >
+      **백엔드 개발자**입니다.
+
+      > 🍃 장교로 복무하다가 개발이 좋아 전역했습니다. 
+
+
+      > 🍃 객체지향과 TDD에 관심이 많습니다.
+
+
+      > 🍃 소통과 문서화를 중요하게 생각합니다.
+    imageUrl: "logo.png" # optional
+    imageTitle: "leaf" # optional
+    imageWidth: 120 # custom size
+    imageHeight: 120 # custom size
+    buttons:
+      - name: 게시글
+        url: "/posts"
+      - name: 알고리즘
+        url: "/cote"
+      - name: 미세팁
+        url: "/tips"
+      - name: 책 리뷰
+        url: "/review"
+      - name: 검색
+        url: "/search"
+      - name: 카테고리
+        url: "/categories"
+      - name: 태그
+        url: "/tags"
+      - name: 아카이브
+        url: "/archives"
+      - name: Github
+        url: "https://github.com/"
+
   # home-info mode
-  homeInfoParams:
-    Title: "낙엽의 블로그 🍃"
-    Content: >
-      Leaf, waiting for Spring | 봄을 기다리는 낙엽
+  # homeInfoParams:
+  #   Title: "낙엽의 블로그 🍃"
+  #   Content: >
+  #     Leaf, waiting for Spring | 봄을 기다리는 낙엽
 
-      > - **봄**을 찾아 군에서 세상밖으로 나온 **백엔드 개발자**입니다.
+  #     > - **봄**을 찾아 군에서 세상밖으로 나온 **백엔드 개발자**입니다.
 
-      > - 많은 사람들에게 쓰임과 도움이 된다면 그걸로 좋습니다.
+  #     > - 많은 사람들에게 쓰임과 도움이 된다면 그걸로 좋습니다.
 
   socialIcons:
     - name: github
@@ -179,12 +220,12 @@ params:
 
   editPost:
     URL: "https://github.com/leaf-nam/blog/blob/main/content"
-    Text: "Suggest Changes" # edit text
+    Text: "Source Page" # edit text
     appendFilePath: true # to append file path to Edit link
 
-  # canonicalURL:
-  #   URL: "https://github.com/leaf-nam/blog/blob/main/content"
-  #   appendFilePath: true
+  canonicalURL:
+    URL: "https://1eaf.site"
+    appendFilePath: true
 
   # 검색기능 옵션 : https://fusejs.io/api/options.html 참고
   fuseOpts:

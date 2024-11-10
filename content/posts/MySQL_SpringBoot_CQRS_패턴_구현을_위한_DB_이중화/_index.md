@@ -1,11 +1,11 @@
 ---
-title: "MySQL - SpringBoot CQRS 패턴 구현을 위한 DB 이중화"
+title: "[MySQL, Java]Spring CQRS 패턴 구현을 위한 DB 이중화"
 date: 2024-03-10T21:16:28+09:00
-weight: 990
+weight: 2
 tags: ["replication", "mysql", "springboot", "implement"]
 categories: ["database"]
 author: "Leaf"
-description: "CQRS패턴을 구현하기 위해 DB를 이중화하고 실제로 SpringBoot에 적용합니다."
+description: "CQRS패턴을 구현하기 위해 DB를 이중화하고 실제로 Spring에 적용합니다."
 disableHLJS: true # to disable highlightjs
 ShowReadingTime: false
 ShowWordCount: false
@@ -17,6 +17,8 @@ cover:
   hidden: false # only hide on current single page
 ---
 
-1. DB 이중화 및 CQRS 패턴의 중요성
-2. MySQL Replication Database 구현
-3. SpringBoot DataSource 이중화(CQRS 패턴) 구현
+>
+
+1. [DB 이중화 및 CQRS 패턴의 중요성](https://1eaf.site/posts/mysql_springboot_cqrs_%ED%8C%A8%ED%84%B4_%EA%B5%AC%ED%98%84%EC%9D%84_%EC%9C%84%ED%95%9C_db_%EC%9D%B4%EC%A4%91%ED%99%94/mysql_replication_database_%EA%B5%AC%ED%98%84/)
+2. [MySQL Replication Database 구현](https://1eaf.site/posts/mysql_springboot_cqrs_%ED%8C%A8%ED%84%B4_%EA%B5%AC%ED%98%84%EC%9D%84_%EC%9C%84%ED%95%9C_db_%EC%9D%B4%EC%A4%91%ED%99%94/mysql_replication_database_%EA%B5%AC%ED%98%84/)
+3. [SpringBoot DataSource 이중화(CQRS 패턴) 구현](https://1eaf.site/posts/mysql_springboot_cqrs_%ED%8C%A8%ED%84%B4_%EA%B5%AC%ED%98%84%EC%9D%84_%EC%9C%84%ED%95%9C_db_%EC%9D%B4%EC%A4%91%ED%99%94/springboot_datasource_%EC%9D%B4%EC%A4%91%ED%99%94cqrs-%ED%8C%A8%ED%84%B4_%EA%B5%AC%ED%98%84/)

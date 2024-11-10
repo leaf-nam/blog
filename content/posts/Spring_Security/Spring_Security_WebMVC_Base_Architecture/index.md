@@ -1,7 +1,7 @@
 ---
 title: "[Java]Spring Security WebMVC 기본 구조"
 date: 2024-11-06T19:19:20+09:00
-weight: #1
+weight: 1
 tags: ["spring", "security", "architecture"]
 categories: ["spring"]
 author: "Leaf" # ["Me", "You"] multiple authors
