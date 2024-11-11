@@ -89,6 +89,8 @@ languages:
 params:
   env: production # to enable google analytics, opengraph, twitter-cards and schema.
 
+  description: "봄을 기다리는 낙엽의 기술 블로그"
+
   DateFormat: "2006. 1. 2."
 
   mainSections:
