@@ -2,8 +2,8 @@
 title: "[Java]Spring Security WebMVC 기본 구조"
 date: 2024-11-06T19:19:20+09:00
 weight: 1
-tags: ["spring", "security", "architecture"]
-categories: ["spring"]
+tags: ["architecture"]
+categories: ["spring", "security"]
 author: "Leaf" # ["Me", "You"] multiple authors
 description: "Spring Security의 기본 구조인 필터에 대해서 알아봅니다."
 disableHLJS: true # to disable highlightjs
