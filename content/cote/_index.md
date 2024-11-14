@@ -1,6 +1,6 @@
 ---
 title: "코딩테스트"
-date: 2024-06-1T06:26:16+09:00
+date: 2024-06-01T06:26:16+09:00
 weight: 6000
 tags: ["codingtest"]
 categories: ["algorithm"]

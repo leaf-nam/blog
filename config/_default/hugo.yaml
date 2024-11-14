@@ -1,7 +1,9 @@
 # 참고 : https://github.com/adityatelange/hugo-PaperMod/wiki/Variables
 
 # 기본 도메인 주소 : 차후 정적파일이나 소스파일 등의 기본경로가 됨
-baseURL: "https://1eaf.site"
+baseUrl: "https://1eaf.site"
+home:
+  permalink: "https://1eaf.site"
 
 # 해당 페이지의 기본 제목
 title: "Leaf, waiting for Spring"
@@ -245,7 +247,7 @@ params:
     email: spearoad15@gmail.com
     name: Sangyeop Nam
 
-# Read: https://github.com/adityatelange/hugo-PaperMod/wiki/FAQs#using-hugos-syntax-highlighter-chroma
+# Read: https://gohugo.io/getting-started/configuration-markup/#highlight
 pygmentsUseClasses: true
 markup:
   _merge: none
