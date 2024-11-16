@@ -1,11 +1,11 @@
 ---
-title: "[Java]입력값에서 공백 제거하기"
+title: "[Java]String에서 공백 제거하기"
 date: 2024-11-16T23:23:44+09:00
 weight: #1
 tags: ["tips", "string", "empty space"]
 categories: ["tinytips", "java"]
 author: "Leaf" # ["Me", "You"] multiple authors
-description: "Desc Text."
+description: "Java String에서 공백을 제거합니다."
 editPost:
   URL: "https://github.com/leaf-nam/blog/blob/main/content/"
   Text: "Suggest Changes" # edit text
