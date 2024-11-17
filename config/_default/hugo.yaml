@@ -99,6 +99,8 @@ params:
     - posts
     - concept
     - tips
+    - cote
+    - review
 
   # dark, light
   defaultTheme: auto
