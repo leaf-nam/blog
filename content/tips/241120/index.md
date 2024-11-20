@@ -2,7 +2,7 @@
 title: "[Vercel] 가비아 도메인으로 Vercel 홈페이지 배포 시 SSL 인증서 만료 해결"
 date: 2024-11-20T23:24:10+09:00
 weight: #1
-tags: ["tips", "certification", "ssl", "gabia"]
+tags: ["tips", "certificate", "ssl", "gabia"]
 categories: ["tinytips", "vercel"]
 author: "Leaf" # ["Me", "You"] multiple authors
 description: "가비아 도메인으로 Vercel로 배포 시 발생할 수 있는 SSL 인증서 만료 문제를 해결합니다."
@@ -23,7 +23,7 @@ editPost:
 
 ## 원인
 
-[위 페이지](https://vercel.com/guides/renewal-of-ssl-certificates-with-a-vercel-domain) 하단에 다음과 같은 문구를 발견할 수 있었습니다.
+[위 페이지](https://vercel.com/guides/renewal-of-ssl-certificates-with-a-vercel-domain) 하단에서 다음과 같은 문구를 발견할 수 있었습니다.
 
 {{<figure src="renewal.png" caption="도메인 설정이 잘못되면, 갱신이 되지 않을 수 있습니다.">}}
 
@@ -51,9 +51,38 @@ editPost:
 
 ### Try3 : 가비아 TXT 도메인 변경
 
-## 해결
+[다음 페이지](https://github.com/vercel/community/discussions/3654#discussioncomment-6755374)를 참고해서 가비아 DNS 관리 탭에서 레코드를 수정해보았습니다.
+
+{{<figure src="gabia_dns_setting.png" caption="가비아 DNS Record 설정 변경">}}
+
+> 동일하게 Refresh가 반복되면서 Domain이 연결되지 않았습니다.
+
+## 해결!
+
+[Vercel 공식문서](https://vercel.com/docs/projects/domains/working-with-nameservers)를 보면서 해결방법을 찾던 중 Vercel 네임서버를 사용하는 것을 권장한다는 것을 발견했습니다.
+
+{{<figure src="use_vercel_nameserver.png" caption="vercel 네임서버 사용을 권장합니다.">}}
+
+> `자동 DNS 레코드: 네임서버가 Vercel로 지정된 도메인의 경우, 최상위 도메인(apex domain)이나 1단계 서브도메인(first-level subdomains)에 대해 명시적으로 DNS 레코드를 생성할 필요가 없습니다. 이러한 레코드들은 자동으로 생성됩니다. 이는 도메인이나 서브도메인을 프로젝트에 추가할 때 DNS 레코드에 대해 신경 쓸 필요가 없음을 의미합니다. 따라서 실수를 줄일 수 있을 뿐만 아니라, 프로젝트에서 사용하려는 여러 서브도메인이 있는 경우 각 서브도메인마다 CNAME 레코드를 수동으로 입력할 필요도 없어집니다.`
+
+위 페이지를 통해 네임서버를 Vercel로 변경하면 자동 설정이 되면서 문제가 해결되지 않을까 하는 생각에 다음 페이지에서 가비아 네임서버를 Vercel 네임서버로 변경하였습니다.
+
+{{<figure src="gabia_nameserver_setting.png" caption="가비아 DNS Server 설정 변경">}}
+
+이후 아래 페이지와 같이 자동으로 vercel 설정이 변경되면서 SSL인증서를 재발급받을 수 있었습니다.
+
+{{<figure src="vercel_dns_record.png" caption="vercel DNS Record 자동 변경">}}
+
+## 결론
+
+1. 가비아와 Vercel을 연동할때는 **네임서버를 Vercel로 변경**하는 것이 좋다!
+2. **공식문서를 잘보자!**
 
 ## References
 
-| URL | 게시일자 | 방문일자 | 작성자 |
-| :-- | :------- | :------- | :----- |
+| URL                                                                                                       | 게시일자    | 방문일자    | 작성자  |
+| :-------------------------------------------------------------------------------------------------------- | :---------- | :---------- | :------ |
+| [Vercel renewal certificates](https://vercel.com/guides/renewal-of-ssl-certificates-with-a-vercel-domain) | -           | 2024.11.19. | Vercel  |
+| [Vercel working with nameservers](https://vercel.com/docs/projects/domains/working-with-nameservers)      | -           | 2024.11.19. | Vercel  |
+| [Vercel Discussion 1](https://github.com/vercel/next.js/discussions/49142)                                | 2023.03.03. | 2024.11.19. | 3a1b2c3 |
+| [Vercel Discussion 2](https://github.com/vercel/community/discussions/3654#discussioncomment-6755374)     | 2023.08.18. | 2024.11.19. | amyegan |
