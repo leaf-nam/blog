@@ -1,9 +1,9 @@
 ---
-title: "[Vercel] 가비아 도메인으로 Vercel 홈페이지 배포 시 SSL 인증서 만료 해결"
+title: "[DNS] 가비아 도메인으로 Vercel 홈페이지 배포 시 SSL 인증서 만료 해결"
 date: 2024-11-20T23:24:10+09:00
 weight: #1
-tags: ["tips", "certificate", "ssl", "gabia"]
-categories: ["tinytips", "vercel"]
+tags: ["tips", "certificate", "ssl", "gabia", "domain", "vercel"]
+categories: ["tinytips", "dns"]
 author: "Leaf" # ["Me", "You"] multiple authors
 description: "가비아 도메인으로 Vercel로 배포 시 발생할 수 있는 SSL 인증서 만료 문제를 해결합니다."
 editPost:
