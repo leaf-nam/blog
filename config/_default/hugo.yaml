@@ -219,7 +219,7 @@ params:
     - name: github
       url: "https://github.com/leaf-nam"
     - name: gmail
-      url: ""
+      url: "https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=spearoad15@gmail.com"
 
   analytics:
     google:
