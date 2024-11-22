@@ -20,7 +20,7 @@ editPost:
 
 ### 지난 포스팅
 
-- [[Java]Spring Security WebMVC 기본 구조](https://1eaf.site/posts/spring_security/spring_security_webmvc_base_architecture/)
+- [[Java]Spring Security WebMVC 기본 구조](https://1eaf.site/posts/spring_security/1/)
 
 지난 시간의 기본 구조(링크)에 이어, Spring Security에서 제공하는 예외처리와 캐싱, 로깅에 대해 자세히 알아보겠습니다.
 

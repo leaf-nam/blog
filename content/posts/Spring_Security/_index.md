@@ -19,9 +19,10 @@ cover:
 
 [목차]
 
-1. [Java]Spring Security 기본 구조
-2. [Java]Spring Security 예외처리, 캐시, 로깅
-3. [Java]Spring Security OAuth2 도입하기(1) - Spring Security Config 활용하기
-4. [Java]Spring Security OAuth2 도입하기(2) - Controller 직접 구현하기
-5. [Java]Spring Security Custom JWT Filter 구현하기
-6. [Java]Spring Security Cookie 사용하기
+1. **[Java]** Spring Security 기본 구조
+2. **[Java]** Spring Security 예외처리, 캐시, 로깅
+3. **[Java]** Spring Security 인가(Authentication)
+4. **[Java]** Spring Security OAuth2 도입하기(1) - Spring Security Config 활용하기
+5. **[Java]** Spring Security OAuth2 도입하기(2) - Controller 직접 구현하기
+6. **[Java]** Spring Security Custom JWT Filter 구현하기
+7. **[Java]** Spring Security Cookie 사용하기

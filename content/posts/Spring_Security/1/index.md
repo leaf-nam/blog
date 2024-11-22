@@ -119,6 +119,10 @@ Spring에서는 자바 표준 필터를 Spring Container[^2]에 호환하기 위
 
 > 예외처리, 캐싱 관련된 내용도 한번에 작성하려고 했는데, 분량이 너무 길어져서 다음 포스트로 넘기겠습니다.
 
+### 다음 포스팅
+
+- [[Java]Spring Security 예외처리, 캐싱, 로깅](https://1eaf.site/posts/spring_security/2)
+
 ## References
 
 | Link                                                                                                                                                                                                                    | 게시일자    | 방문일자    | 작성자        |
