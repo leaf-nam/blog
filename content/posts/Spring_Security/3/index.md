@@ -55,6 +55,8 @@ AuthenticationManager를 구현한 구현체입니다. 인가 서비스를 제�
 
 ### AuthenticationProvider
 
+인증을 제공하는 객체입니다. ProviderManager에 등록되어 순서대로 실행됩니다.
+
 ### AuthenticationEntryPoint
 
 ### AbstractAuthenticationProcessingFilter
