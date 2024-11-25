@@ -2,7 +2,7 @@
 title: "[Java]Programmers 빛의 경로 사이클"
 date: 2024-11-10T17:33:01+09:00
 weight: #1
-tags: ["codingtest", "programmers", "brute-force"] # choose test platform
+tags: ["codingtest", "programmers", "dfs"] # choose test platform
 categories: ["algorithm"]
 author: "Leaf" # ["Me", "You"] multiple authors
 description: "Programmers 빛의 경로 사이클 문제에 대한 해설입니다."
@@ -195,4 +195,4 @@ class Solution {
 
       > [OpenJDK 14의 공식문서](https://openjdk.org/projects/jdk/14/)를 찾아보았지만, 기본 쓰레드 스택 사이즈 값을 찾을 수 없어 [Oracle Java 8 공식문서](https://docs.oracle.com/javase/8/docs/technotes/tools/unix/java.html)를 확인했습니다. OpenJDK 14에서도 동일한 기본값을 사용할 것으로 보입니다.
 
-    - 1MB(100,000Byte)의 스택 사이즈를 사용해 주어진 100,000번의 메서드를 호출하기 위해서는 메서드의 크기를 1Byte 이내로 사용해야 하지만 이는 불가능하므로 재귀 호출 시 StackOverflow가 발생합니다.
+    - 1MB(1,000,000Byte)의 스택 사이즈를 사용해 주어진 100,000번의 메서드를 호출하기 위해서는 메서드의 크기를 10Byte 이내로 사용해야 하지만 이는 불가능하므로 재귀 호출 시 StackOverflow가 발생합니다.
