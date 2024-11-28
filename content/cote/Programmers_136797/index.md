@@ -111,6 +111,8 @@ class Solution {
             // 좌우 손가락을 움직이면서 최솟값만 저장
             for (int l = 0; l < 10; l++) {
                 for (int r = 0; r < 10; r++) {
+
+                    // 왼손과 오른손이 같은 위치에 올 수 없음 주의
                     if (l == r || dp[i - 1][l][r] == Integer.MAX_VALUE) continue;
                     dp[i][n][r] = Math.min(dp[i][n][r], dp[i-1][l][r] + cal(n, l));
                     dp[i][l][n] = Math.min(dp[i][l][n], dp[i-1][l][r] + cal(n, r));
