@@ -1,6 +1,6 @@
 ---
 title: "[Java]Spring Security 인증(Authentication)과 인가(Authorization)"
-date: 2024-11-22T19:53:33+09:00
+date: 2024-11-29T12:24:33+09:00
 weight: #1
 tags: ["authentication", "authorization"]
 categories: ["spring", "security"]
@@ -40,15 +40,20 @@ Spring Security의 WebMVC와 기타 기능들에 이어 다양한 기능을 지�
 
 ## Authentication
 
+인증은 Spring Security의 핵심 로직입니다.
+
+- 인증이 성공하면, 사용자의 자격을 확인하고, 권한을 부여합니다.
+- 인증이 실패하면, 실패 메시지를 전송하거나 인증 URL로 Redirect를 하는 등의 작업을 수행합니다.
+
 ### SecurityContext
 
-현재 요청(사용자)의 인증 객체(Authentication)를 담고 있는 문맥, 혹은 컨테이너입니다.
+현재 요청(사용자)의 인증 객체(Authentication)를 담고 있는 문맥, 혹은 컨테이너입니다. 인증이 완료된 인증 객체를 저장하는 역할을 합니다.
 
 - 이러한 Context는 쓰레드 로컬 저장소인 `SecurityContextHolder` 내부에 위치하고 있습니다.[^2]
 
 ### Authentication Object
 
-사용자 식별자, 증명, 권한 등의 인증 정보를 담고 있는 객체입니다. `SecurityContext`에 담아 요청 전역에서 사용할 수 있습니다.
+사용자 식별자, 증명, 권한 등의 인증 정보를 담고 있는 객체입니다. 인증된 객체는 `SecurityContext`에 담아 요청 전역에서 사용할 수 있습니다.
 
 - **principal** : 사용자 식별자입니다. 사용자를 구분할 수 있는 고유한 값이 필요합니다.
 - **credentials** : 비밀번호와 같은 증명입니다. 인증이 완료된 이후 외부 노출을 막기 위해 초기화됩니다.
@@ -56,9 +61,11 @@ Spring Security의 WebMVC와 기타 기능들에 이어 다양한 기능을 지�
 
 ### AuthenticationManager
 
-인증을 관리하기 위한 API입니다. Spring Security는 해당 인터페이스를 사용해서 인증 처리를 하기 때문에 이를 구현해야 활용할 수 있습니다.
+인증을 관리하기 위한 API입니다. Spring Security는 해당 인터페이스를 사용해서 인증을 수행하기 때문에 이를 구현해야 활용할 수 있습니다.
 
 - 만약 Spring Security를 사용하지 않고 `Filter`에서 직접 `SecurityContext`에 접근한다면 구현할 필요는 없습니다.
+
+  > 다만, Spring Security에서 제공하는 다양한 캐싱과 로깅, 최적화 등의 기능을 잘 활용하려면 이를 구현하는게 좋습니다.
 
 - **ProviderManager**
 
@@ -81,6 +88,8 @@ Spring Security의 WebMVC와 기타 기능들에 이어 다양한 기능을 지�
 > 인증 오류를 처리한다는 점에서 `ExceptionTranslationFilter`와 동작이 유사합니다. 다만, 내부적으로 발생할 수 있는 오류들을 Try-Catch로 잡아서 처리하기 때문에 인증 과정에서 실패하더라도 `ExceptionTranslationFilter`까지 도달하지 않고 설정된 `AuthenticationFailureHandler`를 사용합니다.[^4]
 
 ## Authorization
+
+인증된 객체는 권한을 인가받게 되는데, 권한에 따라 자원(URL) 별로 접근제어가 가능합니다.
 
 ## 결론
 
