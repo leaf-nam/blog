@@ -91,6 +91,16 @@ Spring Security의 WebMVC와 기타 기능들에 이어 다양한 기능을 지�
 
 인증된 객체는 권한을 인가받게 되는데, 권한에 따라 자원(URL) 별로 접근제어가 가능합니다.
 
+### Authorities
+
+[위](#authentication-object)에서 설명한 것처럼, 인증 객체는 생성과 동시에 권한(`authorities`)을 리스트로 갖게 됩니다.
+
+- 승인된 권한이라는 뜻에서 `GrantedAuthority`라는 클래스의 객체로 저장됩니다.[^5]
+
+### AuthorizationManager
+
+`AuthorizationManager`(인가 관리자)는 이러한 권한을 바탕으로, 접근을 허용할지 아니면 거부할지를  
+
 ## 결론
 
 ## References
@@ -104,12 +114,24 @@ Spring Security의 WebMVC와 기타 기능들에 이어 다양한 기능을 지�
 [^1]: 401은 인증 오류이지만, 영문명은 Unauthorized입니다. 이러한 [개념을 이해하기 좋은 문서](http://web.archive.org/web/20190904190534/https://www.dirv.me/blog/2011/07/18/understanding-403-forbidden/index.html)가 있어 첨부합니다.
 [^2]: `SecurityContext`는 사용자 요청별로 관리되어야 하기 때문에 Thread-Safety하도록 `ThreadLocal 저장소`에 보관됩니다.
 
-    > Thread-Safety가 보장되지 않는다면 현재 사용자가 아닌 다른 사용자의 인증 객체에 접근할 가능성이 있어 보안 이슈가 발생할 수 있습니다.
+      > Thread-Safety가 보장되지 않는다면 현재 사용자가 아닌 다른 사용자의 인증 객체에 접근할 가능성이 있어 보안 이슈가 발생할 수 있습니다.
 
 [^3]:
     만약 사용자 요청을 캐싱하여 반환할 경우, 증명(Credentials)이 지워진 상태로 저장될 수 있습니다. 따라서 캐싱된 요청을 다시 인증하는게 불가능하기 때문에 별도의 인증 로직을 구성하거나 이러한 옵션을 해제해야 합니다.
-    {{< figure src="credential_remove.png" alt="자격증명 삭제 관련 문서" caption="캐싱된 인증은 자격증명이 삭제된 상태로 저장될 수 있습니다." >}}
+    
+    {{<figure src="credential_remove.png" alt="자격증명 삭제 관련 문서" caption="캐싱된 인증은 자격증명이 삭제된 상태로 저장될 수 있습니다.">}}
 
 [^4]:
     실제로 디버깅을 통해 로그인 요청 발생 시 `ExceptionTranslationFilter`의 `AuthenticationEntryPoint`가 아닌 `AbstractAuthenticationProcessingFilter`내부의 `AuthenticationFailureHandler`를 사용하는 것을 확인할 수 있었습니다.
     ![디버깅1](debug1.png)
+
+[^5]: `GrantedAuthority`객체는 기본적으로 `SimpleGrantedAuthority` 구현체를 사용할 수 있는데, 권한 요청 메서드인 `getAuthority()`를 실행했을 때 `ROLE_`형태의 Prefix를 가지는 권한(String)을 가져올 수 있습니다.
+      
+      > 이러한 권한 객체의 Prefix는 다음과 같이 변경해서 사용할 수 있습니다.
+
+      ```java
+        @Bean
+        static GrantedAuthorityDefaults grantedAuthorityDefaults() {
+          return new GrantedAuthorityDefaults("MYPREFIX_");
+        }
+      ```
