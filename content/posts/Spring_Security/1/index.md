@@ -60,7 +60,7 @@ Spring에서는 자바 표준 필터를 Spring Container[^2]에 호환하기 위
 
 > 아래 DelegatingFilterProxy와 FilterChainProxy는 AOP와 객체지향의 프록시 패턴[^3]을 이해하지 않고 있다면, 조금 이해가 어려울 수 있습니다.
 
-### DelagatingFilterProxy
+### DelegatingFilterProxy
 
 {{<figure src="delegatingFilterProxy.png" caption="Bean으로 등록된 Filter를 품고 있는 DelegatingFilterProxy">}}
 
@@ -111,8 +111,6 @@ Spring에서는 자바 표준 필터를 Spring Container[^2]에 호환하기 위
      }
      ```
 
-> 차후 포스팅에서 실제로 Custom Filter로 JWT 인증 필터를 구현해서 등록해볼 예정입니다.
-
 ## 결론
 
 **스프링에서 사용하는 필터는 자바 표준스펙과 호환되며, 중간에 다양한 기능을 끼워넣기 위해 잘 설계되어 있어 Custom Filter를 쉽게 등록할 수 있다!**
@@ -122,6 +120,7 @@ Spring에서는 자바 표준 필터를 Spring Container[^2]에 호환하기 위
 ### 다음 포스팅
 
 - [[Java]Spring Security 예외처리, 캐싱, 로깅](https://1eaf.site/posts/spring_security/2)
+- [[Java]Spring Security 인증(Authentication)과 인가(Authorization)](https://1eaf.site/posts/spring_security/3)
 
 ## References
 

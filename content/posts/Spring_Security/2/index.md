@@ -140,6 +140,10 @@ Spring Security에서 처리하는 예외는 크게 2가지입니다.
 
 **Spring Security는 예외 처리가 잘 분리되어 있고, 처리 과정에서 캐싱과 로깅이 잘 구현되어 있어 개발 및 디버깅하기 쉽다!**
 
+### 다음 포스팅
+
+- [[Java]Spring Security 인증(Authentication)과 인가(Authorization)](https://1eaf.site/posts/spring_security/3)
+
 ## References
 
 | URL                                                                                                                         | 게시일자 | 방문일자    | 작성자 |
