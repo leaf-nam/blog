@@ -9,7 +9,7 @@ description: "Desc Text."
 editPost:
   URL: "https://github.com/leaf-nam/blog/blob/main/content/"
   Text: "Suggest Changes" # edit text
-  appendFilePath: false # to append file path to Edit link
+  appendFilePath: true # to append file path to Edit link
 # 참고 : https://github.com/adityatelange/hugo-PaperMod/wiki/Variables
 ---
 
