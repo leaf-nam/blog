@@ -166,7 +166,11 @@ Spring Security의 로직은 다음 API를 구현하여 활용할 수 있습니�
 1. 인증(Authentication) : `AuthenticationManager`
 2. 인가(Authorization) : `AuthorizationManager`
 
-> 다음 시간부터는 해당 API를 직접 구현하여 JWT를 통한 인증 및 인가 로직을 개발해보겠습니다.
+> 다음 포스팅에서는 Spring Security를 활용하여 TDD[^7] 스타일로 인증 및 인가 로직을 개발해보겠습니다.
+
+### 다음 포스팅
+
+- [[Java]Spring Security(With TDD) 기본 인증 및 인가 구현하기](https://1eaf.site/posts/spring_security/4)
 
 ## References
 
@@ -206,3 +210,5 @@ Spring Security의 로직은 다음 API를 구현하여 활용할 수 있습니�
       예를 들어, **사용자 역할(ROLE_USER)** 은 다음과 같이 **로그인, 게시글 조회, 본인 게시글 수정, 본인 게시글 삭제** 의 권한을 가질 수 있습니다.
 
       > `ROLE_USER = {LOGIN_AUTHORITY, GET_POST_AUTHORITY, PATCH_MY_POST_AUTHORITY, DELETE_MY_POST_AUTHORITY}`
+
+[^7]: Test Driven Development의 준말로, 단위 테스트를 먼저 작성한 후 구현하는 방식의 개발 방법론입니다.
