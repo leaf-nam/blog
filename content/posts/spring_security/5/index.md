@@ -1,6 +1,6 @@
 ---
-title: '[Java]Spring Security(With TDD) JWT 구현하기 - (1)'
-date: 2024-12-05T19:58:51+09:00
+title: '[Java]Spring Security(With TDD) JWT 구현하기'
+date: 2024-12-09T22:01:51+09:00
 weight: #1
 tags: ["authentication", "jwt"]
 categories: ["spring", "security"]
