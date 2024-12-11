@@ -1,6 +1,4 @@
 #!/bin/bash
 
-cd ./public
-rm -rf ./*
-cd ..
+find ./public -mindepth 1 ! -name CNAME -delete
 hugo
