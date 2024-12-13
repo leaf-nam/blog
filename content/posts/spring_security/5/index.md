@@ -918,7 +918,7 @@ class AuthenticationTest {
 
 ![전체 테스트 성공](all_test_success.png)
 
-또한, 다음과 같이 모든 코드의 커버리지를 테스트하고 있습니다.
+또한, 다음과 같이 테스트 코드가 모든 코드의 커버리지를 만족하고 있습니다.
 
 ![테스트 커버리지 100](test_coverage_2.png)
 
