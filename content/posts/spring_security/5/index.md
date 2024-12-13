@@ -1,5 +1,5 @@
 ---
-title: '[Java]Spring Security(With TDD) JWT 구현하기'
+title: '[Java]Spring Security(With TDD) JWT 직접 구현하기'
 date: 2024-12-09T22:01:51+09:00
 weight: #1
 tags: ["authentication", "jwt"]
@@ -63,6 +63,12 @@ JWT는 JSON Web Token의 준말로 [RFC 7519](https://datatracker.ietf.org/doc/h
 
 ## 설계
 
+JWT를 구현하는 두가지 방법이 있습니다.
+1. **Filter 직접 구현**
+2. **Spring Security oauth2-resource-server 활용**
+
+> 실무나 실제 프로젝트에서는 2번 방식이 적절하겠지만[^6], JWT 인증의 내부 로직을 확인해보기 위해 1번 방식으로 우선 구현해보겠습니다.
+
 ### JWT 의존성 추가
 
 다음과 같이 `build.gradle`에 [JWT 파싱을 위한 라이브러리](https://github.com/jwtk/jjwt)를 추가해줍니다.
@@ -92,36 +98,15 @@ JWT를 사용해서 달성하려는 요구사항을 정리해보면 다음과 �
 ### 통합테스트 작성
 
 ```java
-package com.springsecurity.jwt.integration;
 
-import com.springsecurity.jwt.api.ApiController;
-import com.springsecurity.jwt.utility.JwtUtil;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Import;
-import org.springframework.http.HttpHeaders;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
-
-import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+/* 생략 */
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = SecurityConfig.class)
 @WebAppConfiguration
-@Import(ApiController.class)
 public class JWTIntegrationTest {
 
     MockMvc mockMvc;
-
     JwtUtil jwtUtil;
 
     @Autowired
@@ -129,6 +114,7 @@ public class JWTIntegrationTest {
 
     @BeforeEach
     void init() {
+        jwtUtil = new JwtUtil();
         mockMvc = MockMvcBuilders.webAppContextSetup(context)
                 .apply(springSecurity()).build();
     }
@@ -136,7 +122,7 @@ public class JWTIntegrationTest {
     @Test
     @DisplayName("1. 로그인 실패 시 jwt를 발행하지 않는다.")
     void testLoginFailure() throws Exception {
-        // given : 정상 아이디와 잘못된 패스워드
+        // given : 정상 아이디와 잘못된 패스워드(user)
         String id = "user";
         String password = "badPassword";
 
@@ -144,6 +130,20 @@ public class JWTIntegrationTest {
         mockMvc.perform(post("/jwt/token")
                         .param("username", id)
                         .param("password", password))
+                .andDo(print())
+
+                // then : 401(Unauthenticated) 오류
+                .andExpect(status().is(401));
+
+        // given : 정상 아이디와 잘못된 패스워드(admin)
+        id = "admin";
+        password = "badPassword";
+
+        // when : 토큰 발급 시도
+        mockMvc.perform(post("/jwt/token")
+                        .param("username", id)
+                        .param("password", password))
+                .andDo(print())
 
                 // then : 401(Unauthenticated) 오류
                 .andExpect(status().is(401));
@@ -174,7 +174,7 @@ public class JWTIntegrationTest {
         String badToken = "bearer asdf1234";
 
         // when : User API 접근
-        mockMvc.perform(get("/user/resources")
+        mockMvc.perform(get("/jwt/user/resources")
                         .header(HttpHeaders.AUTHORIZATION, badToken))
 
                 // then : 401 오류
@@ -194,7 +194,7 @@ public class JWTIntegrationTest {
                 .andReturn().getResponse().getContentAsString();
 
         // when : Admin API 접근
-        mockMvc.perform(get("/admin/resources")
+        mockMvc.perform(get("/jwt/admin/resources")
                         .header(HttpHeaders.AUTHORIZATION, "Bearer " + userToken))
 
                 // then : 403(Forbidden) 오류
@@ -207,25 +207,46 @@ public class JWTIntegrationTest {
         // given : Admin JWT 획득
         String id = "admin";
         String password = "admin1234";
-        String userToken = mockMvc.perform(post("/jwt/token")
+        String adminToken = mockMvc.perform(post("/jwt/token")
                         .param("username", id)
                         .param("password", password))
                 .andExpect(status().is(200))
                 .andReturn().getResponse().getContentAsString();
 
-        // when : Admin API 접근
-        mockMvc.perform(get("/admin/resources")
-                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + userToken))
+        // when : 권한 없이 PUBLIC API 접근
+        mockMvc.perform(get("/jwt/public/resources")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().is(200))
+
+                // then : Public 자원 획득
+                .andExpect(content().encoding(StandardCharsets.UTF_8))
+                .andExpect(content().string("PUBLIC 자원 획득"));
+
+        // when : Admin 권한으로 USER API 접근
+        mockMvc.perform(get("/jwt/user/resources")
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + adminToken)
+                        .accept(MediaType.APPLICATION_JSON))
+
+                // then : User 자원 획득
+                .andExpect(status().is(200))
+                .andExpect(content().encoding(StandardCharsets.UTF_8))
+                .andExpect(content().string("USER 자원 획득"));
+
+        // when : Admin 권한으로 Admin API 접근
+        mockMvc.perform(get("/jwt/admin/resources")
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + adminToken)
+                        .accept(MediaType.APPLICATION_JSON))
 
                 // then : Admin 자원 획득
                 .andExpect(status().is(200))
+                .andExpect(content().encoding(StandardCharsets.UTF_8))
                 .andExpect(content().string("ADMIN 자원 획득"));
+        ;
     }
 }
-
 ```
 
-위 통합테스트를 작성하면서, 기존에 없던 `JWTUtil`이라는 클래스를 임시로 만들었습니다.
+위 통합테스트를 작성하면서, JWT 발행 및 파싱을 위해 기존에 없던 `JWTUtil`이라는 클래스를 임시로 만들었습니다.
 
 > `TDD`를 하는 만큼 테스트 과정에서 필요한 클래스는 그때그때 만들면서 대응하는 것이 좋습니다.
 
@@ -244,11 +265,14 @@ public class JwtUtil {
 
 ![통합테스트 실패](integration_test_failure.png)
 
+
+## 구현
+
 ### JwtUtil 단위테스트 작성
 
 우선, 임시로 만든 `JwtUtil`클래스의 기능을 채우기 위해 단위테스트를 작성하겠습니다.
 
-> 처음에는 어색할 수 있지만, 테스트를 먼저 작성하고 구현하는 것에 익숙해져야 합니다. 
+> 처음에는 어색할 수 있지만, **TDD를 위해서는 테스트를 먼저 작성하고 구현**하는 것에 익숙해져야 합니다.
 
 - 이를 위해 요구사항을 분석하자면 다음과 같습니다.
   1. 유효하지 않은 토큰 검증 시 런타임 오류를 반환한다.
@@ -257,7 +281,7 @@ public class JwtUtil {
   4. 사용자 권한별 정상적인 토큰을 발급한다.`(Happy Case)`
   5. 유효하지 않은 토큰 파싱 시 런타임 오류를 반환한다.
   6. 정상적인 토큰을 파싱한다.`(Happy Case)`
-  > 토큰 검증 뿐 아니라, 토큰 API에서 사용할 권한별 토큰을 만드는 로직과 파싱하는 로직을 포함시켰습니다.
+  > **토큰 검증** 뿐 아니라, 토큰 API에서 사용할 **권한별 토큰을 만드는 로직**과 **파싱하는 로직**을 포함시켰습니다.
 
 ```java
 package com.springsecurity.jwt.utility;
@@ -281,6 +305,9 @@ class JwtUtilTest {
     // sub : admin, role : admin 이지만 유효하지 않은 secret key 를 사용한 토큰
     String invalidToken3 = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsInJvbGUiOiJhZG1pbiJ9.wpTc_a19-bJNZ7oeYghAmxks3tk2mjcP6xTqYe2u86c";
 
+    // sub : admin, role : ADMIN, 유효한 secret key 를 사용한 토큰
+    String validToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsInJvbGUiOiJBRE1JTiJ9.VYYrrkyu4kmM4zWtl_gFk9leBM8xu-XxxIYUtY9_2n0";
+
     @BeforeEach
     void init() {
         suit = new JwtUtil();
@@ -300,8 +327,6 @@ class JwtUtilTest {
     @Test
     @DisplayName("2. 유효한 토큰 검증 시 오류가 발생하지 않는다.(Happy Case)")
     void testValidateToken() {
-        // sub : admin, role : admin, 유효한 secret key 를 사용한 토큰
-        String validToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsInJvbGUiOiJBRE1JTiJ9.JPTeQnDLHeqqF2phvhfh_29tLucdzGWBDEeDyJhnmdk";
         suit.validate(validToken);
     }
 
@@ -368,10 +393,6 @@ class JwtUtilTest {
     }
 }
 ```
-> 해시알고리즘과 같은 훨씬 구체적인 보안 요구사항이 있을 수 있지만, 예제인 만큼 전반적인 JWT의 동작 방식을 이해하는 것에 집중하겠습니다.
-
-## 구현
-구현은 우선 단위테스트를 모두 성공한 후, 통합테스트를 완성시키는 순서로 진행하겠습니다.
 
 ### JWTUtil 구현
 
@@ -412,6 +433,7 @@ public class JwtUtil {
 // JwtUtil.java
 
     /* 생략 */
+
     public void validate(String token) {
         Jwts.parser()
                 .verifyWith(secretKey())
@@ -423,9 +445,9 @@ public class JwtUtil {
         // https://randomkeygen.com/ 에서 생성한 504-bit WPA Key
         return Keys.hmacShaKeyFor("+*jhLeu04kw7M~tQew<Ym<d%,\"{(PC$p64acJ}lH_;d:'nD/^s+y7O=j!FBia5b".getBytes(StandardCharsets.UTF_8));
     }
-    /* 생략 */
+    
 ```
-> 참고로 예제 프로젝트이므로 비밀키를 노출했지만, 실제 프로젝트라면 별도의 환경변수로 분리해서 노출되지 않도록 주의해야 합니다.
+> 참고로 예제 프로젝트이므로 비밀키를 노출했지만, 실제 프로젝트라면 **별도의 환경변수로 분리해서 노출되지 않도록 주의**해야 합니다.
 
 이후 다음과 같이 검증 로직 테스트가 정상 동작합니다.
 
@@ -437,20 +459,21 @@ public class JwtUtil {
 // JwtUtil.java
 
     /* 생략 */
+
     public String issue(String userName, String Role) {
             return Jwts.builder()
                     .subject(userName)
                     .claim("role",Role)
                     .signWith(secretKey())
                     .compact();
-        }
-    /* 생략 */
+    }
+    
 ```
 이후 다음과 같이 발행 테스트의 `Happy Case`가 정상 동작하지만, `ADMIN` 혹은 `USER` 권한을 제외한 다른 권한은 사용할 수 없다는 3번 테스트는 실패합니다.
 
 ![단위테스트 실패 2](unittest_failure_2.png)
 
-이를 위해 `Role`을 담은 별도의 `enum`으로 분리하고 다음과 같이 메서드를 수정합니다.
+단순히 String 값 비교로 구현할 수 있지만, 차후 확장성을 위해 `Role`을 담은 별도의 `enum`으로 분리하고 다음과 같이 메서드를 수정합니다.
 ```java
 // Role.java
 package com.springsecurity.jwt;
@@ -484,9 +507,12 @@ public enum Role {
 
 ![단위테스트 성공 2](unittest_success_2.png)
 
-마지막으로 [다음 페이지를 참고](https://github.com/jwtk/jjwt?tab=readme-ov-file#reading-a-jwt)하여 토큰 파싱 로직을 작성하였습니다.
+마지막으로 [다음 페이지를 참고](https://github.com/jwtk/jjwt?tab=readme-ov-file#reading-a-jwt)하여 토큰 파싱 로직을 작성합니다.
 
 ```java
+// JwtUtil.java
+
+    /* 생략 */
 // JwtUtil.java
 
     /* 생략 */
@@ -506,7 +532,7 @@ public enum Role {
                 .parseSignedClaims(token)
                 .getPayload();
     }
-}
+
 ```
 
 이제 모든 단위 테스트가 성공합니다.
@@ -517,79 +543,135 @@ public enum Role {
 
 ![단위 테스트 커버리지](test_coverage.png)
 
-> `JwtUtil`의 모든 메서드에 대한 단위테스트가 성공했기 때문에, 통합테스트에서는 세부적인 테스트를 작성하지 않아도 빠르게 유효성을 검증할 수 있습니다.
+> `JwtUtil`의 모든 메서드에 대한 단위테스트가 성공했기 때문에, 통합테스트에서는 해당 클래스에 대한 세부적인 테스트를 작성하지 않아도 됩니다.
 
-### Token API 구현
+### API 구현
 
-우선, 토큰을 발행하는 API를 다음과 같이 `APIController`에 생성하겠습니다.
+이제 본격적으로 통합테스트를 성공시키기 위해, 우선 토큰과 자원을 반환하는 API를 다음과 같이 `JwtApiController`에 생성하겠습니다.
 
-> 예제이므로, `Controller`에서 요청 정보를 모두 검증하도록 하겠습니다.
+> 예제이므로, 사용자 정보를 검증하는 별도의 `Service`를 만들지 않고 `Controller`에서 요청 정보를 모두 검증하도록 하겠습니다.
 
 ```java
-// ApiController.java
-    
-    /* 생략 */
+// JwtApiController.java
+package com.springsecurity.jwt.api;
 
-    @PostMapping("/jwt/token")
-    public ResponseEntity<String> getToken(@RequestParam String userName, @RequestParam String password) {
+import com.springsecurity.jwt.Role;
+import com.springsecurity.jwt.utility.JwtUtil;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-        if (userName.equals("user") && password.equals("user1234"))
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("/jwt")
+public class JwtApiController {
+
+    private final JwtUtil jwtUtil;
+
+    @GetMapping("/admin/resources")
+    public String getAdminResources() {
+        return "ADMIN 자원 획득";
+    }
+
+    @GetMapping("/user/resources")
+    public String getUserResources() {
+        return "USER 자원 획득";
+    }
+
+    @GetMapping("/public/resources")
+    public String getPublicResources() {
+        return "PUBLIC 자원 획득";
+    }
+
+    @PostMapping("/token")
+    public ResponseEntity<String> getToken(@RequestParam String username, @RequestParam String password) {
+
+        // USER 회원 로그인 시 USER 권한 토큰 발행
+        if (username.equals("user") && password.equals("user1234"))
             return new ResponseEntity<>(jwtUtil.issue("user", Role.USER.name()), HttpStatus.OK);
 
-        else if (userName.equals("admin") && password.equals("admin1234"))
+        // Admin 회원 로그인 시 ADMIN 권한 토큰 발행
+        if (username.equals("admin") && password.equals("admin1234"))
             return new ResponseEntity<>(jwtUtil.issue("admin", Role.ADMIN.name()), HttpStatus.OK);
 
-        else return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        // 로그인 실패 시 401 오류
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
-    
-    /* 생략 */
-
+}
 ```
 
 하지만, 통합테스트를 실행해보면 여전히 3번 테스트를 제외하고는 모든 테스트가 실패하고 있습니다.
 
 ![통합테스트 실패](integration_test_failure_2.png)
 
-> 테스트 실패 메시지를 확인해보면 `403` 오류가 발생하고 있는데, 이를 통해 `SecurityFilterChain`에서 해당 API를 차단하고 있음을 알 수 있습니다.
+> 테스트 실패 메시지를 확인해보면 `403` 오류가 발생하고 있는데, `SecurityFilterChain`에 해당 API와 관련된 설정을 해주지 않고 있어 `Spring Security`에서 해당 `EntryPoint`를 차단했기 때문입니다.
 
-따라서, 다음과 같이 해당 API를 모든 요청에 대해 승인하고, 매번 Test마다 CSRF 토큰을 요청에 포함하는 것이 번거로우니 CSRF도 해제하도록 하겠습니다.
+다음과 같이 `JWT` 관련된 설정을 `JwtSecurityConfig`에 작성 후 `Bean`으로 등록합니다.
+- `SecurityMatcher URL` 설정 : [지난 시간](https://1eaf.site/posts/spring_security/4/#api%EB%B3%84-%EA%B6%8C%ED%95%9C-%EB%B6%80%EC%97%AC)에 작성했던 `SecurityConfig`와 `URL`기반으로 설정을 분리하기 위함입니다. 
+- `CSRF` 토큰 해제 : 해당 옵션을 해제하지 않고 `JWT` 로그인 시 `CSRF` 토큰이 없으면 오류가 발생할 수 있습니다. `JWT`는 `stateless`한 인증 방식이기 때문에 **`CSRF`토큰을 구현하기가 제한**됩니다.
+- `Session Management` 해제 : `JWT`는 `Session` 방식을 사용하지 않기 때문에 **이를 해제해주어야 세션 정보를 서버에 별도로 저장하지 않습니다.**
+- 권한별 인가 로직 작성 : `API`별 필요한 권한을 명시합니다.
+- `CustomAuthenticationEntryPoint` 등록 : [지난 시간](https://1eaf.site/posts/spring_security/4/#authenticationentrypoint-%EC%84%A4%EC%A0%95)에 생성한 해당 클래스를 `ExceptionHandler`로 등록해야 인증 실패 시 `302`오류가 발생하지 않습니다.
 
-또한, 지난 시간에 `SecurityConfig` 내부에 등록했던 `mvcHandlerMappingIntrospector`는 통합테스트에만 사용하기 때문에 `TestConfig` 내부로 이동하겠습니다.
-
-마지막으로 통합테스트 내부에 `TestConfig`와 `JwtUtil`을 불러오고, `JwtUtil` 객체는 `init`메서드에서 생성자를 통해 새로 만들어줍니다.
 ```java
-// SecurityConfig.java
+// JwtSecurityConfig.java
 
-    /* 생략 */
-
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        return http
-                .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/public/**").permitAll()
-                        .requestMatchers("/user/**").hasRole("USER")
-                        .requestMatchers("/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/jwt/token").permitAll()
-                        .anyRequest().authenticated())
-                .formLogin(Customizer.withDefaults())
-                .exceptionHandling(handler -> handler
-                        .authenticationEntryPoint(new CustomAuthenticationEntryPoint()))
-                .build();
-    }
-    
-    /* 생략 */
-
-// src > test > java > com > springsecurity > jwt > config > TestConfig.java
-    
 package com.springsecurity.jwt.config;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+@Configuration
+@EnableWebSecurity
+public class JwtSecurityConfig {
+
+    @Bean  // CustomAuthenticationEntryPoint Bean 파라미터 주입(Spring DI)
+    public SecurityFilterChain jwtFilterChain(HttpSecurity http, CustomAuthenticationEntryPoint customAuthenticationEntryPoint) throws Exception {
+        return http
+                .securityMatcher("/jwt/**")
+                .csrf(csrf -> csrf.ignoringRequestMatchers("/jwt/token"))
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers("/jwt/public/**").permitAll()
+                        .requestMatchers("/jwt/user/**").hasRole("USER")
+                        .requestMatchers("/jwt/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/jwt/token").permitAll()
+                        .anyRequest().authenticated())
+                .exceptionHandling(handler -> handler
+                        .authenticationEntryPoint(customAuthenticationEntryPoint))
+                .build();
+    }
+}
+```
+
+또한, 지난 시간에 `SecurityConfig` 내부에 등록했던 `mvcHandlerMappingIntrospector`는 통합테스트에만 사용하기 때문에 `IntegrationTestConfig` 내부로 이동하겠습니다.
+
+이와 함께 테스트에 필요한 의존성들(`JwtApiController`, `JwtUtil`, `CustomAuthenticationEntryPoint`)도 `@Import`어노테이션을 활용해 `IntegrationTestConfig` 내부에서 불러오겠습니다.
+
+```java 
+/* 테스트 경로(src > test > java > com > springsecurity > jwt > config)에 설정 클래스 생성 */
+// IntegrationTestConfig.java
+
+package com.springsecurity.jwt.config;
+
+import com.springsecurity.jwt.api.JwtApiController;
+import com.springsecurity.jwt.utility.JwtUtil;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
 @Configuration
-public class TestConfig {
+@Import({JwtApiController.class, JwtUtil.class, CustomAuthenticationEntryPoint.class})
+public class IntegrationTestConfig {
     @Bean(name = "mvcHandlerMappingIntrospector")
     public HandlerMappingIntrospector mvcHandlerMappingIntrospector() {
         return new HandlerMappingIntrospector();
@@ -599,16 +681,16 @@ public class TestConfig {
 // JwtIntegrationTest.java
 
 /* 생략 */
-    
+
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = SecurityConfig.class)
+@ContextConfiguration(classes = JwtSecurityConfig.class)
 @WebAppConfiguration
 
-// JwtUtil, TestConfig 불러오기
-@Import({ApiController.class, JwtUtil.class, TestConfig.class})
+// IntegrationTestConfig 불러오기
+@Import({IntegrationTestConfig.class})
 public class JWTIntegrationTest {
-    MockMvc mockMvc;
 
+    MockMvc mockMvc;
     JwtUtil jwtUtil;
 
     @Autowired
@@ -616,113 +698,239 @@ public class JWTIntegrationTest {
 
     @BeforeEach
     void init() {
-        
-        // JwtUtil 생성
+
+        // JwtUtil 객체 초기화
         jwtUtil = new JwtUtil();
         mockMvc = MockMvcBuilders.webAppContextSetup(context)
                 .apply(springSecurity()).build();
     }
 
     /* 생략 */
-
+}
 ```
 
 위와 같이 수정 후 테스트를 돌려보면, 다음과 같이 1 ~ 3번 테스트가 성공합니다.
 
 ![통합테스트 성공](integration_test_success.png)
 
-### Authentication 구현
+### JWTAuthenticationFilter 단위테스트 작성
 
 4 ~ 5번 테스트가 실패하는 원인은 현재 `Authorization Header`의 `JWT`를 통해 권한 정보를 불러오는 기능을 만들지 않았기 때문입니다.
 
-이를 구현하기 위해 `JWT`를 통해 권한을 가져오는 `AuthenticationFilter`와 `AuthenticationProvider`를 `SecurityFilterChain`에 등록해야 합니다.[^6] 
+이를 구현하기 위해 `JWT`를 통해 권한을 가져오는 `AuthenticationFilter`를 `SecurityFilterChain`에 등록해야 합니다.[^7]
 
-다음과 같이 필요한 클래스들을 구현한 뒤, SecurityFilter에 등록합니다.
+- 우선 다음과 같이 테스트를 작성합니다.
 
-```java
-// JwtAuthenticationFilter.java
+  ```java
+  package com.springsecurity.jwt.config;
+  
+  import com.springsecurity.jwt.utility.JwtUtil;
+  import jakarta.servlet.ServletException;
+  import org.junit.jupiter.api.DisplayName;
+  import org.junit.jupiter.api.Test;
+  import org.springframework.http.HttpHeaders;
+  import org.springframework.mock.web.MockFilterChain;
+  import org.springframework.mock.web.MockHttpServletRequest;
+  import org.springframework.mock.web.MockHttpServletResponse;
+  import org.springframework.security.core.Authentication;
+  import org.springframework.security.core.context.SecurityContextHolder;
+  
+  import java.io.IOException;
+  
+  import static org.assertj.core.api.Assertions.assertThat;
+  
+  class JwtAuthenticationFilterTest {
+  
+      @Test
+      @DisplayName("Bearer 제거 테스트")
+      void testDeleteBearer() {
+          String header = "Bearer test";
+          String token = header.split("Bearer ")[1];
+          assertThat(token).isEqualTo("test");
+      }
+  
+      @Test
+      @DisplayName("Bearer 파싱 테스트")
+      void testDeleteBearer2() throws ServletException, IOException {
+          // given
+          JwtUtil jwtUtil = new JwtUtil();
+          JwtAuthenticationFilter suit = new JwtAuthenticationFilter(jwtUtil);
+          MockHttpServletRequest request = new MockHttpServletRequest();
+          request.addHeader(HttpHeaders.AUTHORIZATION, "Bearer " + jwtUtil.issue("user", "USER"));
+  
+          // when
+          suit.doFilterInternal(request, new MockHttpServletResponse(), new MockFilterChain());
+          Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+  
+          // then
+          assertThat(authentication.getAuthorities()).anySatisfy(auth -> assertThat(auth.getAuthority()).isEqualTo("ROLE_USER"));
+      }
+  }
+  ```
 
-package com.springsecurity.jwt.config;
+### JWTAuthenticationFilter 구현
+다음과 같이 `JwtAuthenticationFilter`를 구현합니다.
+> 첫번째 단위테스트와 같은 방식으로 `split()`메서드를 통해 토큰의 `prefix`인 `Bearer `를 제거할 수 있습니다. 
 
-import com.springsecurity.jwt.Role;
-import com.springsecurity.jwt.utility.JwtUtil;
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpHeaders;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
-import org.springframework.web.filter.OncePerRequestFilter;
-
-import java.io.IOException;
-import java.util.List;
-
-@Component
-@RequiredArgsConstructor
-public class JwtAuthenticationFilter extends OncePerRequestFilter {
-
-    private final JwtUtil jwtUtil;
-
-    @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String header = request.getHeader(HttpHeaders.AUTHORIZATION);
-        if (header != null && header.startsWith("Bearer ")) {
-            String token = header.split("Bearer ")[1];
-            String name = jwtUtil.parseName(token);
-            String role = jwtUtil.parseRole(token);
-            SecurityContextHolder.getContext().setAuthentication(
-                    UsernamePasswordAuthenticationToken.authenticated(name, token,
-                            List.of(new SimpleGrantedAuthority(Role.getAuthority(role)))));
+  ```java
+  package com.springsecurity.jwt.config;
+  
+  import com.springsecurity.jwt.Role;
+  import com.springsecurity.jwt.utility.JwtUtil;
+  import jakarta.servlet.FilterChain;
+  import jakarta.servlet.ServletException;
+  import jakarta.servlet.http.HttpServletRequest;
+  import jakarta.servlet.http.HttpServletResponse;
+  import lombok.RequiredArgsConstructor;
+  import org.springframework.http.HttpHeaders;
+  import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+  import org.springframework.security.core.authority.SimpleGrantedAuthority;
+  import org.springframework.security.core.context.SecurityContextHolder;
+  import org.springframework.stereotype.Component;
+  import org.springframework.web.filter.OncePerRequestFilter;
+  
+  import java.io.IOException;
+  import java.util.List;
+  
+  @Component
+  @RequiredArgsConstructor
+  public class JwtAuthenticationFilter extends OncePerRequestFilter {
+  
+      private final JwtUtil jwtUtil;
+  
+      @Override
+      protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+          String header = request.getHeader(HttpHeaders.AUTHORIZATION);
+          if (header != null && header.startsWith("Bearer ")) {
+              String token = header.split("Bearer ")[1];
+              String name = jwtUtil.parseName(token);
+              String role = jwtUtil.parseRole(token);
+              SecurityContextHolder.getContext().setAuthentication(
+                      UsernamePasswordAuthenticationToken.authenticated(name, token,
+                              List.of(new SimpleGrantedAuthority(Role.getAuthority(role)))));
+          }
+          filterChain.doFilter(request, response);
+      }
+  }
+  
+  // Role.class
+  
+    /* 생략 */
+  
+    public static String getAuthority(String role) {
+        switch (Role.valueOf(role)) {
+            case USER -> {
+                return "ROLE_USER";
+            }
+            case ADMIN -> {
+                return "ROLE_ADMIN";
+            }
         }
-        filterChain.doFilter(request, response);
+        throw new EnumConstantNotPresentException(Role.class, role);
     }
-}
-```
+    
+  ```
+
 > 해당 필터에서는 `request header`에 있는 토큰을 파싱하여 토큰에 명시된 권한이 있는 인증 객체를 생성하고, 이를 `SecurityContext`에 보관하는 역할을 수행합니다.
 
+이제 모든 단위테스트가 통과합니다.
+
+![단위테스트 성공 4](unittest_success_4.png)
+
+이후 다음과 같이 `JwtSecurityFilter`와 테스트 설정에 해당 클래스를 등록합니다.
+
 ```java
-package com.springsecurity.jwt.config;
+// JwtSecurityFilter.class
 
-import com.springsecurity.jwt.utility.JwtUtil;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.stereotype.Component;
+/* 생략 */
 
-import java.util.Arrays;
-
-@Component
-@RequiredArgsConstructor
-@Slf4j
-public class JwtAuthenticationProvider implements AuthenticationProvider {
-
-    private final JwtUtil jwtUtil;
-
-    @Override
-    public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        try {
-            jwtUtil.validate((String) authentication.getCredentials());
-        } catch (RuntimeException e) {
-            log.error(Arrays.toString(e.getStackTrace()));
-        }
-        return authentication;
+    @Bean // CustomAuthenticationEntryPoint, JwtAuthenticationFilter Bean DI
+    public SecurityFilterChain jwtFilterChain(HttpSecurity http, CustomAuthenticationEntryPoint customAuthenticationEntryPoint, JwtAuthenticationFilter jwtAuthenticationFilter) throws Exception {
+        return http
+                .securityMatcher("/jwt/**")
+                .csrf(csrf -> csrf.ignoringRequestMatchers("/jwt/token"))
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                
+                // UsernamePasswordAuthenticationFilter 이후에 JWT 인증 필터 실행
+                .addFilterAfter(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                
+                .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers("/jwt/public/**").permitAll()
+                        .requestMatchers("/jwt/user/**").hasRole("USER")
+                        .requestMatchers("/jwt/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/jwt/token").permitAll()
+                        .anyRequest().authenticated())
+                .exceptionHandling(handler -> handler
+                        .authenticationEntryPoint(customAuthenticationEntryPoint))
+                .build();
     }
+    
+/* 생략 */
 
-    @Override
-    public boolean supports(Class<?> authentication) {
-        return false;
+// JwtIntegrationTest.class
+
+/* 생략 */
+    
+@Configuration
+
+// JwtAuthenticationFilter 추가
+@Import({JwtApiController.class, JwtUtil.class, JwtAuthenticationFilter.class, CustomAuthenticationEntryPoint.class})
+public class IntegrationTestConfig {
+    @Bean(name = "mvcHandlerMappingIntrospector")
+    public HandlerMappingIntrospector mvcHandlerMappingIntrospector() {
+        return new HandlerMappingIntrospector();
     }
 }
+
+/* 생략 */
+
 ```
-> 해당 `Provider`는 `Credentials`을 검증하는 역할을 수행합니다. 사실 해당 과정은 토큰을 파싱하면서 이미 수행하기 때문에 반드시 성공하지만, `Spring Security`의 인증 과정을 학습하는 것이 목표임으로 별도로 분리했습니다. 
+
+이제 다음과 같이 모든 테스트케이스가 성공하는 것을 확인할 수 있습니다.
+
+![통합테스트 성공 2](integration_test_success_2.png)
+
+기존 테스트들도 모두 성공하는지 돌려보겠습니다.
+
+![전체 테스트 실패](all_test_failure.png)
+
+> 리팩토링하는 과정에서 `mvcHandlerMappingIntrospector`를 다른 경로로 옮기면서 기존 테스트가 실패했습니다. 이를 성공시키기 위해 다음과 같이 설정을 변경합니다.
+
+```java
+// AuthenticationTest.class
+
+/* 생략 */
+
+@ExtendWith(SpringExtension.class)
+@ContextConfiguration(classes = SecurityConfig.class)
+@WebAppConfiguration
+
+// 통합테스트 설정(IntegrationConfig) 추가
+@Import({ApiController.class, IntegrationTestConfig.class})
+class AuthenticationTest {
+    
+    /* 생략 */
+    
+}
+```
+
+이제 모든 테스트가 성공합니다.
+
+![전체 테스트 성공](all_test_success.png)
+
+또한, 다음과 같이 모든 코드의 커버리지를 테스트하고 있습니다.
+
+![테스트 커버리지 100](test_coverage_2.png)
+
+> 모든 로직을 검증하고 있으니, 리팩토링 시마다 버그가 발생할 가능성도 현저히 낮아집니다. 이게 `TDD`의 가장 큰 장점입니다! 
+
 ## 결론
 
+이번 시간에는 TDD를 활용해 JWT 인증 필터를 구현해보았습니다.
+> 분량이 너무 길어져서 한번 끊고 가야하나 생각했지만, TDD의 흐름이 끊기는 것 같아서 일단 한 포스트에 전부 작성했습니다. 다음부터는 개념적인 내용과 구현을 분리해서 분량을 잘 조절해보겠습니다.
+
+다음 시간에는 `Spring oauth2-resource-server`를 활용해서 JWT를 구현해보겠습니다.
+> 필터를 직접 구현하는 것보다 훨--씬 간편합니다!
 
 ### 다음 포스팅
 
@@ -745,5 +953,6 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
 
       `access token`이 탈취되면 해당 사용자의 권한이 모두 탈취되기 때문에, 이를 방지하기 위해 보통 토큰 만료시간을 짧게 설정합니다. 이러한 경우, 사용자는 매번 다시 인증과정을 거쳐 토큰을 발급받아야 하는데, 이러한 번거로움을 줄이기 위해 유효한 `Refresh Token`을 보유한 사용자는 즉시 `Access Token`을 재발급해줍니다.
 
-[^6]: 해당 인증 로직의 구체적인 아키텍쳐는 [다음 포스트](https://1eaf.site/posts/spring_security/3/#authentication)를 참고하시기 바랍니다.
+[^6]: `Spring oauth2-resource-server`는 훌륭한 Spring 개발자분들이 Spring Security과 가장 호환성이 좋고 사용하기 간편한 방식으로 설계해 두었기 때문입니다.
 
+[^7]: 해당 인증 로직의 구체적인 아키텍쳐는 [다음 포스트](https://1eaf.site/posts/spring_security/3/#authentication)를 참고하시기 바랍니다.
