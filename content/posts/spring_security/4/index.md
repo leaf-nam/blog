@@ -2,7 +2,7 @@
 title: '[Java]Spring Security(With TDD) 기본 인증 및 인가 구현하기'
 date: 2024-12-05T19:58:51+09:00
 weight: #1
-tags: ["authentication", "jwt"]
+tags: ["authentication", "authorization"]
 categories: ["spring", "security"]
 author: "Leaf" # ["Me", "You"] multiple authors
 description: "TDD로 Spring Security의 기본 인증 및 인가를 구현합니다."

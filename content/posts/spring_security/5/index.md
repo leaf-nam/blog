@@ -933,6 +933,8 @@ class AuthenticationTest {
 
 ### 다음 포스팅
 
+[[Java]Spring Security(With TDD) JWT oauth2-resource-server 활용헤서 간편하게 구현하기](https://1eaf.site/posts/spring_security/6)
+
 ## References
 
 | URL                                                                                                    | 게시일자 | 방문일자        | 작성자    |
