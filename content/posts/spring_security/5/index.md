@@ -928,6 +928,8 @@ class AuthenticationTest {
 이번 시간에는 TDD를 활용해 JWT 인증 필터를 구현해보았습니다.
 > 분량이 너무 길어져서 한번 끊고 가야하나 생각했지만, TDD의 흐름이 끊기는 것 같아서 일단 한 포스트에 전부 작성했습니다. 다음부터는 개념적인 내용과 구현을 분리해서 분량을 잘 조절해보겠습니다.
 
+- 해당 프로젝트의 전체 코드는 [다음 깃허브 링크](https://github.com/leaf-nam/spring_security_example)에서 확인하실 수 있습니다.
+
 다음 시간에는 `Spring oauth2-resource-server`를 활용해서 JWT를 구현해보겠습니다.
 > 필터를 직접 구현하는 것보다 훨--씬 간편합니다!
 
