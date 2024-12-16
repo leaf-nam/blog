@@ -25,13 +25,13 @@ editPost:
 - [[Java]Spring Security 인증(Authentication)과 인가(Authorization)](https://1eaf.site/posts/spring_security/3)
 - [[Java]Spring Security(With TDD) 기본 인증 및 인가 구현하기](https://1eaf.site/posts/spring_security/4)
 
-지금까지 Spring Security의 기본 개념을 학습하고, 기본 인증 및 인가를 구현했습니다.
+지금까지 `Spring Security`의 기본 개념을 학습하고, 기본 인증 및 인가를 구현했습니다.
 
-이번 시간에는 JWT의 기본 개념을 익히고, 프로젝트에 인증 및 인가 로직에 활용해보겠습니다.
+이번 시간에는 `JWT`의 기본 개념을 익히고, 프로젝트의 인증 및 인가 로직에 활용해보겠습니다.
 
 ### JWT
 
-JWT는 JSON Web Token의 준말로 [RFC 7519](https://datatracker.ietf.org/doc/html/rfc7519) 명세에 정의된 토큰입니다.
+`JWT`는 `JSON Web Token`의 준말로 [RFC 7519](https://datatracker.ietf.org/doc/html/rfc7519) 명세에 정의된 토큰입니다.
   
   - 위 명세에 따르면, JWT는 다음과 같이 정의할 수 있습니다.
 
@@ -130,7 +130,6 @@ public class JWTIntegrationTest {
         mockMvc.perform(post("/jwt/token")
                         .param("username", id)
                         .param("password", password))
-                .andDo(print())
 
                 // then : 401(Unauthenticated) 오류
                 .andExpect(status().is(401));
@@ -143,7 +142,6 @@ public class JWTIntegrationTest {
         mockMvc.perform(post("/jwt/token")
                         .param("username", id)
                         .param("password", password))
-                .andDo(print())
 
                 // then : 401(Unauthenticated) 오류
                 .andExpect(status().is(401));
@@ -202,7 +200,7 @@ public class JWTIntegrationTest {
     }
 
     @Test
-    @DisplayName("5. 정상적인 jwt로 특정 권한의 api를 사용할 수 있다.`(Happy Case)`")
+    @DisplayName("5. 정상적인 jwt로 특정 권한의 api를 사용할 수 있다.(Happy Case)")
     void testHappyCase() throws Exception {
         // given : Admin JWT 획득
         String id = "admin";
@@ -637,7 +635,7 @@ public class JwtSecurityConfig {
     public SecurityFilterChain jwtFilterChain(HttpSecurity http, CustomAuthenticationEntryPoint customAuthenticationEntryPoint) throws Exception {
         return http
                 .securityMatcher("/jwt/**")
-                .csrf(csrf -> csrf.ignoringRequestMatchers("/jwt/token"))
+                .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/jwt/public/**").permitAll()
@@ -670,7 +668,11 @@ import org.springframework.context.annotation.Import;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
 @Configuration
-@Import({JwtApiController.class, JwtUtil.class, CustomAuthenticationEntryPoint.class})
+
+// IntegrationTest에 필요한 의존성 불러오기
+@Import({JwtApiController.class, 
+        JwtUtil.class, 
+        CustomAuthenticationEntryPoint.class})
 public class IntegrationTestConfig {
     @Bean(name = "mvcHandlerMappingIntrospector")
     public HandlerMappingIntrospector mvcHandlerMappingIntrospector() {
@@ -719,7 +721,7 @@ public class JWTIntegrationTest {
 
 이를 구현하기 위해 `JWT`를 통해 권한을 가져오는 `AuthenticationFilter`를 `SecurityFilterChain`에 등록해야 합니다.[^7]
 
-- 우선 다음과 같이 테스트를 작성합니다.
+- 우선 다음과 같이 요구사항에 맞는 테스트를 작성합니다.
 
   ```java
   package com.springsecurity.jwt.config;
