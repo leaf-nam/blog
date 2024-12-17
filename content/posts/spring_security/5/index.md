@@ -605,7 +605,10 @@ public class JwtApiController {
 
 > 테스트 실패 메시지를 확인해보면 `403` 오류가 발생하고 있는데, `SecurityFilterChain`에 해당 API와 관련된 설정을 해주지 않고 있어 `Spring Security`에서 해당 `EntryPoint`를 차단했기 때문입니다.
 
-다음과 같이 `JWT` 관련된 설정을 `JwtSecurityConfig`에 작성 후 `Bean`으로 등록합니다.
+### JwtSecurityConfig 구현
+
+`Spring Security` 설정을 위해 다음과 같이 `JWT` 관련된 설정을 `JwtSecurityConfig`에 작성 후 `Bean`으로 등록합니다.
+
 - `SecurityMatcher URL` 설정 : [지난 시간](https://1eaf.site/posts/spring_security/4/#api%EB%B3%84-%EA%B6%8C%ED%95%9C-%EB%B6%80%EC%97%AC)에 작성했던 `SecurityConfig`와 `URL`기반으로 설정을 분리하기 위함입니다. 
 - `CSRF` 토큰 해제 : 해당 옵션을 해제하지 않고 `JWT` 로그인 시 `CSRF` 토큰이 없으면 오류가 발생할 수 있습니다. `JWT`는 `stateless`한 인증 방식이기 때문에 **`CSRF`토큰을 구현하기가 제한**됩니다.
 - `Session Management` 해제 : `JWT`는 `Session` 방식을 사용하지 않기 때문에 **이를 해제해주어야 세션 정보를 서버에 별도로 저장하지 않습니다.**
@@ -932,8 +935,7 @@ class AuthenticationTest {
 
 - 해당 프로젝트의 전체 코드는 [다음 깃허브 링크](https://github.com/leaf-nam/spring_security_example)에서 확인하실 수 있습니다.
 
-다음 시간에는 `Spring oauth2-resource-server`를 활용해서 JWT를 구현해보겠습니다.
-> 필터를 직접 구현하는 것보다 훨--씬 간편합니다!
+다음 시간에는 `Spring oauth2-resource-server`를 활용해서 `JWT`를 구현해보겠습니다.
 
 ### 다음 포스팅
 
@@ -958,6 +960,6 @@ class AuthenticationTest {
 
       `access token`이 탈취되면 해당 사용자의 권한이 모두 탈취되기 때문에, 이를 방지하기 위해 보통 토큰 만료시간을 짧게 설정합니다. 이러한 경우, 사용자는 매번 다시 인증과정을 거쳐 토큰을 발급받아야 하는데, 이러한 번거로움을 줄이기 위해 유효한 `Refresh Token`을 보유한 사용자는 즉시 `Access Token`을 재발급해줍니다.
 
-[^6]: `Spring oauth2-resource-server`는 훌륭한 Spring 개발자분들이 Spring Security과 가장 호환성이 좋고 사용하기 간편한 방식으로 설계해 두었기 때문입니다.
+[^6]: `Spring oauth2-resource-server`는 `Spring Security`와 가장 호환성이 좋은 방식으로 구현되었으며, 이미 검증된 라이브러리이기 때문에 안정성이 높습니다.
 
 [^7]: 해당 인증 로직의 구체적인 아키텍쳐는 [다음 포스트](https://1eaf.site/posts/spring_security/3/#authentication)를 참고하시기 바랍니다.
