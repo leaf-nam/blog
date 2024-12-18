@@ -2,7 +2,7 @@
 title: '[Java]Programmers 순위 검색(2021 KAKAO BLIND RECRUITMENT)'
 date: 2024-12-04T12:55:12+09:00
 weight: #1
-tags: ["codingtest", "backjoon", "programmers"] # choose test platform
+tags: ["codingtest", "programmers"] # choose test platform
 categories: ["algorithm"]
 author: "Leaf" # ["Me", "You"] multiple authors
 description: "Programmers 순위 검색(2021 KAKAO BLIND RECRUITMENT) 문제에 대한 해설입니다."
