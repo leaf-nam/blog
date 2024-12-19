@@ -96,14 +96,34 @@ JWT를 사용해서 달성하려는 요구사항을 정리해보면 다음과 �
 5. 정상적인 jwt로 특정 권한의 api를 사용할 수 있다.`(Happy Case)`
 
 ### 통합테스트 작성
+ 
+- `Spring`의 통합테스트 모듈인 `MockMVC`에서는 `jwt`를 쉽게 `Mocking`할 수 있는 메서드를 제공합니다.
+  - 다음과 같이 사용할 수 있습니다.
+  ```java
+  public testClass {
+  
+  /* 생략 */
+  
+  mockMvc.perform(get("/jwt/admin/resources")
+  
+                // 특정 권한을 가진 JWT 요청에 함께 전송
+                .with(jwt().authorities(new SimpleGrantedAuthority(role))));
+  
+  /* 생략 */
+  
+  }
+  ```
+  > 더 자세한 사용법은 [다음 링크](https://docs.spring.io/spring-security/reference/servlet/test/mockmvc/oauth2.html)를 참고하시기 바랍니다.
 
 ```java
+package com.springsecurity.jwt.integration;
 
 /* 생략 */
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = SecurityConfig.class)
+@ContextConfiguration(classes = JwtSecurityConfig.class)
 @WebAppConfiguration
+@Import(IntegrationTestConfig.class)
 public class JWTIntegrationTest {
 
     MockMvc mockMvc;
@@ -122,25 +142,21 @@ public class JWTIntegrationTest {
     @Test
     @DisplayName("1. 로그인 실패 시 jwt를 발행하지 않는다.")
     void testLoginFailure() throws Exception {
-        // given : 정상 아이디와 잘못된 패스워드(user)
-        String id = "user";
+        // given : 유저와 관리자 아이디, 잘못된 패스워드
+        String userId = "user", adminId = "admin";
         String password = "badPassword";
 
-        // when : 토큰 발급 시도
+        // when : 사용자 토큰 발급 시도
         mockMvc.perform(post("/jwt/token")
-                        .param("username", id)
+                        .param("username", userId)
                         .param("password", password))
 
                 // then : 401(Unauthenticated) 오류
                 .andExpect(status().is(401));
 
-        // given : 정상 아이디와 잘못된 패스워드(admin)
-        id = "admin";
-        password = "badPassword";
-
-        // when : 토큰 발급 시도
+        // when : 관리자 토큰 발급 시도
         mockMvc.perform(post("/jwt/token")
-                        .param("username", id)
+                        .param("username", adminId)
                         .param("password", password))
 
                 // then : 401(Unauthenticated) 오류
@@ -150,19 +166,24 @@ public class JWTIntegrationTest {
     @Test
     @DisplayName("2. 정상 로그인 시 jwt를 발행한다.(Happy Case)")
     void testLoginSuccess() throws Exception {
-        // given : 정상 아이디, 패스워드
-        String id = "user";
-        String password = "user1234";
+        // given : 유저와 관리자 아이디, 패스워드
+        String userId = "user", adminId = "admin";
+        String userPass = "user1234", adminPass = "admin1234";
 
-        // when : 토큰 발급
-        String token = mockMvc.perform(post("/jwt/token")
-                        .param("username", id)
-                        .param("password", password))
+        // when : 유저 및 관리자 토큰 발급
+        String userToken = mockMvc.perform(post("/jwt/token")
+                        .param("username", userId).param("password", userPass))
+                .andExpect(status().is(200))
+                .andReturn().getResponse().getContentAsString();
+        
+        String adminToken = mockMvc.perform(post("/jwt/token")
+                        .param("username", adminId).param("password", adminPass))
                 .andExpect(status().is(200))
                 .andReturn().getResponse().getContentAsString();
 
         // then : 정상 토큰여부 확인(JwtUtil)
-        jwtUtil.validate(token);
+        jwtUtil.validate(userToken);
+        jwtUtil.validate(adminToken);
     }
 
     @Test
@@ -182,64 +203,36 @@ public class JWTIntegrationTest {
     @Test
     @DisplayName("4. 권한이 부족한 jwt에 인가할 수 없다.")
     void testAuthorization() throws Exception {
-        // given : User JWT 획득
-        String id = "user";
-        String password = "user1234";
-        String userToken = mockMvc.perform(post("/jwt/token")
-                        .param("username", id)
-                        .param("password", password))
-                .andExpect(status().is(200))
-                .andReturn().getResponse().getContentAsString();
+        // given : USER 권한
+        String role = "ROLE_USER";
 
         // when : Admin API 접근
         mockMvc.perform(get("/jwt/admin/resources")
-                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + userToken))
+                        .with(jwt().authorities(new SimpleGrantedAuthority(role))))
 
                 // then : 403(Forbidden) 오류
                 .andExpect(status().is(403));
     }
 
     @Test
-    @DisplayName("5. 정상적인 jwt로 특정 권한의 api를 사용할 수 있다.(Happy Case)")
+    @DisplayName("5. 정상적인 jwt로 특정 권한의 api를 사용할 수 있다.`(Happy Case)`")
     void testHappyCase() throws Exception {
-        // given : Admin JWT 획득
-        String id = "admin";
-        String password = "admin1234";
-        String adminToken = mockMvc.perform(post("/jwt/token")
-                        .param("username", id)
-                        .param("password", password))
-                .andExpect(status().is(200))
-                .andReturn().getResponse().getContentAsString();
+        // given : ADMIN 권한
+        String role = "ROLE_ADMIN";
 
-        // when : 권한 없이 PUBLIC API 접근
-        mockMvc.perform(get("/jwt/public/resources")
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().is(200))
+        // 권한 없이 PUBLIC API 접근
+        mockMvc.perform(get("/jwt/public/resources"))
+                .andExpect(status().is(200));
 
-                // then : Public 자원 획득
-                .andExpect(content().encoding(StandardCharsets.UTF_8))
-                .andExpect(content().string("PUBLIC 자원 획득"));
-
-        // when : Admin 권한으로 USER API 접근
+        // Admin 권한으로 USER API 접근
         mockMvc.perform(get("/jwt/user/resources")
-                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + adminToken)
-                        .accept(MediaType.APPLICATION_JSON))
+                        .with(jwt().authorities(new SimpleGrantedAuthority(role))))
+                .andExpect(status().is(200));
 
-                // then : User 자원 획득
-                .andExpect(status().is(200))
-                .andExpect(content().encoding(StandardCharsets.UTF_8))
-                .andExpect(content().string("USER 자원 획득"));
-
-        // when : Admin 권한으로 Admin API 접근
+        // Admin 권한으로 Admin API 접근
         mockMvc.perform(get("/jwt/admin/resources")
-                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + adminToken)
-                        .accept(MediaType.APPLICATION_JSON))
-
-                // then : Admin 자원 획득
-                .andExpect(status().is(200))
-                .andExpect(content().encoding(StandardCharsets.UTF_8))
-                .andExpect(content().string("ADMIN 자원 획득"));
-        ;
+                        .with(jwt().authorities(new SimpleGrantedAuthority(role))))
+                .andExpect(status().is(200));
     }
 }
 ```
@@ -943,10 +936,10 @@ class AuthenticationTest {
 
 ## References
 
-| URL                                                                                                    | 게시일자 | 방문일자        | 작성자    |
-|:-------------------------------------------------------------------------------------------------------|:-----|:------------|:-------|
-| [Spring 공식문서](https://docs.spring.io/spring-security/reference/servlet/authentication/passwords)       | -    | 2024.12.06. | Spring |
-| [RFC 7519](https://datatracker.ietf.org/doc/html/rfc7519)                                              |2015.05. | 2024.12.06. | IETF|
+| URL                                                                                              | 게시일자     | 방문일자        | 작성자    |
+|:-------------------------------------------------------------------------------------------------|:---------|:------------|:-------|
+| [Spring 공식문서](https://docs.spring.io/spring-security/reference/servlet/authentication/passwords) | -        | 2024.12.06. | Spring |
+| [RFC 7519](https://datatracker.ietf.org/doc/html/rfc7519)                                        | 2015.05. | 2024.12.06. | IETF   |
 
 [^1]: [`stateless`](https://ko.wikipedia.org/wiki/%EB%AC%B4%EC%83%81%ED%83%9C_%ED%94%84%EB%A1%9C%ED%86%A0%EC%BD%9C)는 무상태 프로토콜을 뜻하며, 웹 통신의 기초인 HTTP 프로토콜도 이러한 특성을 가집니다. 서버에서 세션이나 기타 상태를 보관하지 않기 때문에 수평적인 확장(Scale-out)이 용이합니다.
 

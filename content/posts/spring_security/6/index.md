@@ -34,8 +34,7 @@ editPost:
 
 ### 요구사항 분석
 
-요구 사항은 [지난 포스트](https://1eaf.site/posts/spring_security/5/#%EC%9A%94%EA%B5%AC%EC%82%AC%ED%95%AD-%EB%B6%84%EC%84%9D)와
-동일합니다.
+요구 사항은 [지난 포스트](https://1eaf.site/posts/spring_security/5/#%EC%9A%94%EA%B5%AC%EC%82%AC%ED%95%AD-%EB%B6%84%EC%84%9D)와 동일합니다.
 
 1. 로그인 실패 시 jwt를 발행하지 않는다.
 2. 정상 로그인 시 jwt를 발행한다.`(Happy Case)`
@@ -45,9 +44,7 @@ editPost:
 
 ### 통합 테스트
 
-통합
-테스트도 [지난 시간](https://1eaf.site/posts/spring_security/5/#%ED%86%B5%ED%95%A9%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%9E%91%EC%84%B1)
-에 사용한 것을 그대로 사용하겠습니다.
+통합 테스트도 [지난 시간](https://1eaf.site/posts/spring_security/5/#%ED%86%B5%ED%95%A9%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%9E%91%EC%84%B1)에 사용한 것을 그대로 사용하겠습니다.
 
 - 다만, 기존 테스트와 `URL` 기반으로 요청을 분리하기 위해 다음과 같이 일부 테스트 코드를 변경하였습니다.
 
@@ -83,28 +80,22 @@ public class JWTIntegrationV2Test {
     @Test
     @DisplayName("1. 로그인 실패 시 jwt를 발행하지 않는다.")
     void testLoginFailure() throws Exception {
-        // given : 정상 아이디와 잘못된 패스워드(user)
-        String id = "user";
+        // given : 유저와 관리자 아이디, 잘못된 패스워드
+        String userId = "user", adminId = "admin";
         String password = "badPassword";
 
-        // when : 토큰 발급 시도
+        // when : 사용자 토큰 발급 시도
         mockMvc.perform(post("/jwt/v2/token")
-                        .param("username", id)
+                        .param("username", userId)
                         .param("password", password))
-                .andDo(print())
 
                 // then : 401(Unauthenticated) 오류
                 .andExpect(status().is(401));
 
-        // given : 정상 아이디와 잘못된 패스워드(admin)
-        id = "admin";
-        password = "badPassword";
-
-        // when : 토큰 발급 시도
+        // when : 관리자 토큰 발급 시도
         mockMvc.perform(post("/jwt/v2/token")
-                        .param("username", id)
+                        .param("username", adminId)
                         .param("password", password))
-                .andDo(print())
 
                 // then : 401(Unauthenticated) 오류
                 .andExpect(status().is(401));
@@ -113,19 +104,23 @@ public class JWTIntegrationV2Test {
     @Test
     @DisplayName("2. 정상 로그인 시 jwt를 발행한다.(Happy Case)")
     void testLoginSuccess() throws Exception {
-        // given : 정상 아이디, 패스워드
-        String id = "user";
-        String password = "user1234";
+        // given : 유저와 관리자 아이디, 패스워드
+        String userId = "user", adminId = "admin";
+        String userPass = "user1234", adminPass = "admin1234";
 
         // when : 토큰 발급
-        String token = mockMvc.perform(post("/jwt/v2/token")
-                        .param("username", id)
-                        .param("password", password))
+        String userToken = mockMvc.perform(post("/jwt/v2/token")
+                        .param("username", userId).param("password", userPass))
+                .andExpect(status().is(200))
+                .andReturn().getResponse().getContentAsString();
+        String adminToken = mockMvc.perform(post("/jwt/v2/token")
+                        .param("username", adminId).param("password", adminPass))
                 .andExpect(status().is(200))
                 .andReturn().getResponse().getContentAsString();
 
         // then : 정상 토큰여부 확인(JwtUtil)
-        jwtUtil.validate(token);
+        jwtUtil.validate(userToken);
+        jwtUtil.validate(adminToken);
     }
 
     @Test
@@ -145,18 +140,12 @@ public class JWTIntegrationV2Test {
     @Test
     @DisplayName("4. 권한이 부족한 jwt에 인가할 수 없다.")
     void testAuthorization() throws Exception {
-        // given : User JWT 획득
-        String id = "user";
-        String password = "user1234";
-        String userToken = mockMvc.perform(post("/jwt/v2/token")
-                        .param("username", id)
-                        .param("password", password))
-                .andExpect(status().is(200))
-                .andReturn().getResponse().getContentAsString();
+        // given : USER 권한
+        String role = "ROLE_USER";
 
         // when : Admin API 접근
         mockMvc.perform(get("/jwt/v2/admin/resources")
-                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + userToken))
+                        .with(jwt().authorities(new SimpleGrantedAuthority(role))))
 
                 // then : 403(Forbidden) 오류
                 .andExpect(status().is(403));
@@ -165,46 +154,24 @@ public class JWTIntegrationV2Test {
     @Test
     @DisplayName("5. 정상적인 jwt로 특정 권한의 api를 사용할 수 있다.`(Happy Case)`")
     void testHappyCase() throws Exception {
-        // given : Admin JWT 획득
-        String id = "admin";
-        String password = "admin1234";
-        String adminToken = mockMvc.perform(post("/jwt/v2/token")
-                        .param("username", id)
-                        .param("password", password))
-                .andExpect(status().is(200))
-                .andReturn().getResponse().getContentAsString();
+        // given : ADMIN 권한
+        String role = "ROLE_ADMIN";
 
-        // when : 권한 없이 PUBLIC API 접근
-        mockMvc.perform(get("/jwt/v2/public/resources")
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().is(200))
+        // 권한 없이 PUBLIC API 접근
+        mockMvc.perform(get("/jwt/v2/public/resources"))
+                .andExpect(status().is(200));
 
-                // then : Public 자원 획득
-                .andExpect(content().encoding(StandardCharsets.UTF_8))
-                .andExpect(content().string("PUBLIC 자원 획득"));
-
-        // when : Admin 권한으로 USER API 접근
+        // Admin 권한으로 USER API 접근
         mockMvc.perform(get("/jwt/v2/user/resources")
-                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + adminToken)
-                        .accept(MediaType.APPLICATION_JSON))
+                        .with(jwt().authorities(new SimpleGrantedAuthority(role))))
+                .andExpect(status().is(200));
 
-                // then : User 자원 획득
-                .andExpect(status().is(200))
-                .andExpect(content().encoding(StandardCharsets.UTF_8))
-                .andExpect(content().string("USER 자원 획득"));
-
-        // when : Admin 권한으로 Admin API 접근
+        // Admin 권한으로 Admin API 접근
         mockMvc.perform(get("/jwt/v2/admin/resources")
-                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + adminToken)
-                        .accept(MediaType.APPLICATION_JSON))
-
-                // then : Admin 자원 획득
-                .andExpect(status().is(200))
-                .andExpect(content().encoding(StandardCharsets.UTF_8))
-                .andExpect(content().string("ADMIN 자원 획득"));
+                        .with(jwt().authorities(new SimpleGrantedAuthority(role))))
+                .andExpect(status().is(200));
     }
 }
-
 ```
 
 - 위와 같이 `Spring Security` 설정을 변경 후, 컴파일 오류를 해결하기 위해 다음과 같이 임시로 `JwtSecurityConfigV2`를 생성합니다.
@@ -351,6 +318,7 @@ public class JwtApiControllerV2 {
 ```
 
 해당 `Controller`를 통합 테스트에 사용하기 위해 다음과 같이 `IntegrationTestConfig`를 수정합니다.
+> 해당 클래스는 [이전 포스트](https://1eaf.site/posts/spring_security/5/#jwtsecurityconfig-%EA%B5%AC%ED%98%84)에서 통합 테스트 시 필요한 설정과 의존관계를 한번에 불러오기 위해 별도로 분리한 설정파일입니다. 
 
 ```java
 package com.springsecurity.jwt.config;
