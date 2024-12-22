@@ -2,7 +2,7 @@
 title: '[Java]코드트리 메두사와 전사들 문제 해설'
 date: 2024-12-21T10:01:55+09:00
 weight: #1
-tags: ["codingtest", "backjoon", "programmers"] # choose test platform
+tags: ["codingtest", "codetree", "implementation", "bfs", "search"] # choose test platform
 categories: ["algorithm"]
 author: "Leaf" # ["Me", "You"] multiple authors
 description: "코드트리 메두사와 전사들 문제에 대한 해설입니다."
