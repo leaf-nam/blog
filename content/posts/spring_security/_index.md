@@ -16,7 +16,3 @@ cover:
   relative: true # when using page bundles set this to true
   hidden: false # only hide on current single page
 ---
-
-[남은 포스트]
-- **[Java]** Spring Security(With TDD) OAuth2 구현하기
-- **[Java]** Spring Security(With TDD) OTT 구현하기
