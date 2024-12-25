@@ -64,9 +64,6 @@ languages:
         - name: 검색
           url: /search/
           weight: 10
-        - name: 개념정리
-          url: /concept/
-          weight: 10
         - name: 알고리즘
           url: /cote/
           weight: 10
