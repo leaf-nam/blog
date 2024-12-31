@@ -1,7 +1,7 @@
 ---
 title: "JPA Cascade vs Orphan Removal"
 date: 2024-05-13T21:01:16+09:00
-weight: 5001
+#weight: 5001
 tags: ["concept", "JPA", "Hibernate"]
 categories: ["concept", "JPA"]
 author: "Leaf" # ["Me", "You"] multiple authors
