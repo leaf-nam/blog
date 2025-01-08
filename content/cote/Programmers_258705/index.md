@@ -1,11 +1,11 @@
 ---
-title: '[Java]Programmers 산 모양 타일링'
+title: '[Java]Programmers 산 모양 타일링(2024 KAKAO WINTER INTERNSHIP)'
 date: 2025-01-07T13:47:29+09:00
 weight: #1
 tags: ["codingtest", "programmers", "dp"] # choose test platform
 categories: ["algorithm"]
 author: "Leaf" # ["Me", "You"] multiple authors
-description: "Programmers 산 모양 타일링 문제에 대한 해설입니다."
+description: "2024 KAKAO WINTER INTERNSHIP 산 모양 타일링 문제에 대한 해설입니다."
 editPost:
   URL: "https://github.com/leaf-nam/blog/blob/main/content/"
   Text: "Suggest Changes" # edit text
@@ -15,7 +15,7 @@ editPost:
 
 ## 출처
 
-- [프로그래머스 산 모양 타일링](https://school.programmers.co.kr/learn/courses/30/lessons/258705)
+- [2024 KAKAO WINTER INTERNSHIP 산 모양 타일링](https://school.programmers.co.kr/learn/courses/30/lessons/258705)
 
 ## 접근
 
@@ -52,7 +52,7 @@ editPost:
    - 위와 같이 해당 지점이 산 모양일 경우, **이전 타일로 2가지**, **전전 타일로 1가지**를 합쳐 현재 타일을 만들 수 있습니다.
    - 전체 경우는
 
-    `3번 타일 경우의 수 X 2 + 2번 타일 경우의 수 = 4 * 2 + 3 = 8` 입니다.
+    `3번 타일 경우의 수 X 2 + 2번 타일 경우의 수 = 4 * 2 + 3 = 11` 입니다.
 
 5. 이를 일반화하면 다음과 같습니다.
     ```java
