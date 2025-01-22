@@ -54,6 +54,8 @@ editPost:
 
   ![img_5.png](img_5.png)
   - 위와 같이 1번 시작점에서 `Intensity = 3`으로 방문했던 지점이라면, 3번 시작점에서는 어떻게 해도 `Intensity`를 줄일 수 없기 때문에 해당 정점은 더이상 방문할 필요가 없습니다. 
+- 더 나아가서, 탐색 과정에서 해당 정점을 이미 더 작은 가중치로 다시 방문할 필요가 없기 때문에 최적화가 가능합니다.
+> 최소 가중치만 방문하는 점에서 다익스트라 알고리즘이 됩니다.
 
 ### 도착지 최적화
 - 도착지를 `Set`에 삽입하면, 해당 지점이 도착지인지 `O(1)`로 판단할 수 있기 때문에 도착여부를 빠르게 파악할 수 있습니다.
@@ -92,26 +94,30 @@ class Solution {
         for (int summit : summits)
             summitSet.add(summit);
         
-        // 각 시작지점에서 BFS 수행
+        // 각 시작지점에서 다익스트라 수행
         for (int start : gates){          
-            bfs(n, start, adjList, isVisited, summitSet);
+            dijkstra(n, start, adjList, isVisited, summitSet);
         }
         
         return answer;
     }
     
-    void bfs(int n, int start, List<int[]>[] adjList, int[] isVisited, Set<Integer> summitSet) {
+    void dijkstra(int n, int start, List<int[]>[] adjList, int[] isVisited, Set<Integer> summitSet) {
         
-        // BFS
-        Deque<int[]> q = new ArrayDeque<>();
-        
+        // Dijkstra를 위한 PriorityQueue
+        PriorityQueue<int[]> q = new PriorityQueue<>((o1, o2) -> Integer.compare(o1[1], o2[1]));
+
+
         isVisited[start] = 0;
         q.offer(new int[] {start, 0});
         
         while (!q.isEmpty()) {
             int[] now = q.poll();
+
+            // 탐색 과정에서 더 작은 가중치가 발생한 경우 탐색 종료
+            if (now[1] > isVisited[now[0]]) continue;
             
-            // 도착지점에서 탐색 종료
+            // 도착지점일 경우 탐색 종료
             if (summitSet.contains(now[0])) continue;
             
             for (int[] adjs : adjList[now[0]]) {
@@ -155,7 +161,7 @@ class Solution {
 
 - 소요 시간 : 1시간 30분
 
-![img_6.png](img_6.png)
+![img_7.png](img_7.png)
 
 ## 리뷰
 
