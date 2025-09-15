@@ -20,9 +20,9 @@ editPost:
 
 ### 지난 포스팅
 
-- [[Java]Spring Security WebMVC 기본 구조](https://1eaf.site/posts/spring_security/1)
-- [[Java]Spring Security 예외처리, 캐싱, 로깅](https://1eaf.site/posts/spring_security/2)
-- [[Java]Spring Security 인증(Authentication)과 인가(Authorization)](https://1eaf.site/posts/spring_security/3)
+- [[Java]Spring Security WebMVC 기본 구조](https://leaf-nam.github.io/posts/spring_security/1)
+- [[Java]Spring Security 예외처리, 캐싱, 로깅](https://leaf-nam.github.io/posts/spring_security/2)
+- [[Java]Spring Security 인증(Authentication)과 인가(Authorization)](https://leaf-nam.github.io/posts/spring_security/3)
 
 지금까지 Spring Security의 핵심 개념에 대해 알아보았습니다.
 이번 시간에는 TDD[^1]로 실제 프로젝트를 생성하고 인증 및 인가 로직을 구현해보겠습니다.
@@ -310,7 +310,7 @@ class AuthenticationTest {
 
 ### 다음 포스팅
 
-- [[Java]Spring Security(With TDD) JWT 구현하기](https://1eaf.site/posts/spring_security/5)
+- [[Java]Spring Security(With TDD) JWT 구현하기](https://leaf-nam.github.io/posts/spring_security/5)
 
 ## References
 
@@ -333,6 +333,6 @@ class AuthenticationTest {
       
       > 원래 테스트를 성공시키기 위해 설정 코드를 추가하는 것은 바람직하지 않으나, 아직은 프로젝트 규모가 크지 않고 테스트에 집중하기 위해 별도의 테스트 설정 파일을 생성하지는 않았습니다. 
 
-[^5]: `AuthenticationEntryPoint`에 대한 자세한 설명은 [인증 오류 관련 이전 포스팅](https://1eaf.site/posts/spring_security/2/#authenticationexception)을 참고바랍니다.
+[^5]: `AuthenticationEntryPoint`에 대한 자세한 설명은 [인증 오류 관련 이전 포스팅](https://leaf-nam.github.io/posts/spring_security/2/#authenticationexception)을 참고바랍니다.
 
-[^6]: `RoleHierarchy`에 대한 자세한 설명은 [인가 관련 이전 포스팅](https://1eaf.site/posts/spring_security/3/#%EA%B3%84%EC%B8%B5%EC%A0%81-%EC%97%AD%ED%95%A0hierarchical-roles)을 참고바랍니다.
+[^6]: `RoleHierarchy`에 대한 자세한 설명은 [인가 관련 이전 포스팅](https://leaf-nam.github.io/posts/spring_security/3/#%EA%B3%84%EC%B8%B5%EC%A0%81-%EC%97%AD%ED%95%A0hierarchical-roles)을 참고바랍니다.

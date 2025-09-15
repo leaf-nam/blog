@@ -119,8 +119,8 @@ Spring에서는 자바 표준 필터를 Spring Container[^2]에 호환하기 위
 
 ### 다음 포스팅
 
-- [[Java]Spring Security 예외처리, 캐싱, 로깅](https://1eaf.site/posts/spring_security/2)
-- [[Java]Spring Security 인증(Authentication)과 인가(Authorization)](https://1eaf.site/posts/spring_security/3)
+- [[Java]Spring Security 예외처리, 캐싱, 로깅](https://leaf-nam.github.io/posts/spring_security/2)
+- [[Java]Spring Security 인증(Authentication)과 인가(Authorization)](https://leaf-nam.github.io/posts/spring_security/3)
 
 ## References
 

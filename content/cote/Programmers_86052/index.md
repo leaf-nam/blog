@@ -72,7 +72,7 @@ int nc = c + dc[d]; // 다음 위치로 이동
 nc += C; nc %= C; // 벽 크기만큼 더해준 뒤, 모듈러 연산을 통해 반대쪽 위치로 이동
 ```
 
-> Modular 연산을 통해 반대방향으로 이동하는 동작 원리는 [연속 부분 수열 합의 개수](https://1eaf.site/cote/programmers_%EC%97%B0%EC%86%8D_%EB%B6%80%EB%B6%84_%EC%88%98%EC%97%B4_%ED%95%A9%EC%9D%98_%EA%B0%9C%EC%88%98/) 풀이에 자세히 설명되어 있습니다.
+> Modular 연산을 통해 반대방향으로 이동하는 동작 원리는 [연속 부분 수열 합의 개수](https://leaf-nam.github.io/cote/programmers_%EC%97%B0%EC%86%8D_%EB%B6%80%EB%B6%84_%EC%88%98%EC%97%B4_%ED%95%A9%EC%9D%98_%EA%B0%9C%EC%88%98/) 풀이에 자세히 설명되어 있습니다.
 
 ## 풀이
 

@@ -20,10 +20,10 @@ editPost:
 
 ### 지난 포스팅
 
-- [[Java]Spring Security WebMVC 기본 구조](https://1eaf.site/posts/spring_security/1)
-- [[Java]Spring Security 예외처리, 캐싱, 로깅](https://1eaf.site/posts/spring_security/2)
-- [[Java]Spring Security 인증(Authentication)과 인가(Authorization)](https://1eaf.site/posts/spring_security/3)
-- [[Java]Spring Security(With TDD) 기본 인증 및 인가 구현하기](https://1eaf.site/posts/spring_security/4)
+- [[Java]Spring Security WebMVC 기본 구조](https://leaf-nam.github.io/posts/spring_security/1)
+- [[Java]Spring Security 예외처리, 캐싱, 로깅](https://leaf-nam.github.io/posts/spring_security/2)
+- [[Java]Spring Security 인증(Authentication)과 인가(Authorization)](https://leaf-nam.github.io/posts/spring_security/3)
+- [[Java]Spring Security(With TDD) 기본 인증 및 인가 구현하기](https://leaf-nam.github.io/posts/spring_security/4)
 
 지금까지 `Spring Security`의 기본 개념을 학습하고, 기본 인증 및 인가를 구현했습니다.
 
@@ -602,11 +602,11 @@ public class JwtApiController {
 
 `Spring Security` 설정을 위해 다음과 같이 `JWT` 관련된 설정을 `JwtSecurityConfig`에 작성 후 `Bean`으로 등록합니다.
 
-- `SecurityMatcher URL` 설정 : [지난 시간](https://1eaf.site/posts/spring_security/4/#api%EB%B3%84-%EA%B6%8C%ED%95%9C-%EB%B6%80%EC%97%AC)에 작성했던 `SecurityConfig`와 `URL`기반으로 설정을 분리하기 위함입니다. 
+- `SecurityMatcher URL` 설정 : [지난 시간](https://leaf-nam.github.io/posts/spring_security/4/#api%EB%B3%84-%EA%B6%8C%ED%95%9C-%EB%B6%80%EC%97%AC)에 작성했던 `SecurityConfig`와 `URL`기반으로 설정을 분리하기 위함입니다. 
 - `CSRF` 토큰 해제 : 해당 옵션을 해제하지 않고 `JWT` 로그인 시 `CSRF` 토큰이 없으면 오류가 발생할 수 있습니다. `JWT`는 `stateless`한 인증 방식이기 때문에 **`CSRF`토큰을 구현하기가 제한**됩니다.
 - `Session Management` 해제 : `JWT`는 `Session` 방식을 사용하지 않기 때문에 **이를 해제해주어야 세션 정보를 서버에 별도로 저장하지 않습니다.**
 - 권한별 인가 로직 작성 : `API`별 필요한 권한을 명시합니다.
-- `CustomAuthenticationEntryPoint` 등록 : [지난 시간](https://1eaf.site/posts/spring_security/4/#authenticationentrypoint-%EC%84%A4%EC%A0%95)에 생성한 해당 클래스를 `ExceptionHandler`로 등록해야 인증 실패 시 `302`오류가 발생하지 않습니다.
+- `CustomAuthenticationEntryPoint` 등록 : [지난 시간](https://leaf-nam.github.io/posts/spring_security/4/#authenticationentrypoint-%EC%84%A4%EC%A0%95)에 생성한 해당 클래스를 `ExceptionHandler`로 등록해야 인증 실패 시 `302`오류가 발생하지 않습니다.
 
 ```java
 // JwtSecurityConfig.java
@@ -932,7 +932,7 @@ class AuthenticationTest {
 
 ### 다음 포스팅
 
-[[Java]Spring Security(With TDD) JWT 라이브러리 활용해서 간편하게 구현하기](https://1eaf.site/posts/spring_security/6)
+[[Java]Spring Security(With TDD) JWT 라이브러리 활용해서 간편하게 구현하기](https://leaf-nam.github.io/posts/spring_security/6)
 
 ## References
 
@@ -955,4 +955,4 @@ class AuthenticationTest {
 
 [^6]: `Spring oauth2-resource-server`는 `Spring Security`와 가장 호환성이 좋은 방식으로 구현되었으며, 이미 검증된 라이브러리이기 때문에 안정성이 높습니다.
 
-[^7]: 해당 인증 로직의 구체적인 아키텍쳐는 [다음 포스트](https://1eaf.site/posts/spring_security/3/#authentication)를 참고하시기 바랍니다.
+[^7]: 해당 인증 로직의 구체적인 아키텍쳐는 [다음 포스트](https://leaf-nam.github.io/posts/spring_security/3/#authentication)를 참고하시기 바랍니다.

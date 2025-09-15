@@ -20,11 +20,11 @@ editPost:
 
 ### 지난 포스팅
 
-- [[Java]Spring Security WebMVC 기본 구조](https://1eaf.site/posts/spring_security/1)
-- [[Java]Spring Security 예외처리, 캐싱, 로깅](https://1eaf.site/posts/spring_security/2)
-- [[Java]Spring Security 인증(Authentication)과 인가(Authorization)](https://1eaf.site/posts/spring_security/3)
-- [[Java]Spring Security(With TDD) 기본 인증 및 인가 구현하기](https://1eaf.site/posts/spring_security/4)
-- [[Java]Spring Security(With TDD) JWT 직접 구현하기](https://1eaf.site/posts/spring_security/5)
+- [[Java]Spring Security WebMVC 기본 구조](https://leaf-nam.github.io/posts/spring_security/1)
+- [[Java]Spring Security 예외처리, 캐싱, 로깅](https://leaf-nam.github.io/posts/spring_security/2)
+- [[Java]Spring Security 인증(Authentication)과 인가(Authorization)](https://leaf-nam.github.io/posts/spring_security/3)
+- [[Java]Spring Security(With TDD) 기본 인증 및 인가 구현하기](https://leaf-nam.github.io/posts/spring_security/4)
+- [[Java]Spring Security(With TDD) JWT 직접 구현하기](https://leaf-nam.github.io/posts/spring_security/5)
 
 저번 시간에는 `JWT`의 **인증 필터를 직접 구현**해서 인증 로직을 완성했습니다.
 
@@ -34,7 +34,7 @@ editPost:
 
 ### 요구사항 분석
 
-요구 사항은 [지난 포스트](https://1eaf.site/posts/spring_security/5/#%EC%9A%94%EA%B5%AC%EC%82%AC%ED%95%AD-%EB%B6%84%EC%84%9D)와 동일합니다.
+요구 사항은 [지난 포스트](https://leaf-nam.github.io/posts/spring_security/5/#%EC%9A%94%EA%B5%AC%EC%82%AC%ED%95%AD-%EB%B6%84%EC%84%9D)와 동일합니다.
 
 1. 로그인 실패 시 jwt를 발행하지 않는다.
 2. 정상 로그인 시 jwt를 발행한다.`(Happy Case)`
@@ -44,7 +44,7 @@ editPost:
 
 ### 통합 테스트
 
-통합 테스트도 [지난 시간](https://1eaf.site/posts/spring_security/5/#%ED%86%B5%ED%95%A9%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%9E%91%EC%84%B1)에 사용한 것을 그대로 사용하겠습니다.
+통합 테스트도 [지난 시간](https://leaf-nam.github.io/posts/spring_security/5/#%ED%86%B5%ED%95%A9%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%9E%91%EC%84%B1)에 사용한 것을 그대로 사용하겠습니다.
 
 - 다만, 기존 테스트와 `URL` 기반으로 요청을 분리하기 위해 다음과 같이 일부 테스트 코드를 변경하였습니다.
 
@@ -221,10 +221,10 @@ dependencies {
 - `Session Management` 해제 : `JWT`는 `Session` 방식을 사용하지 않기 때문에 **이를 해제해주어야 세션 정보를 서버에 별도로 저장하지 않습니다.**
 - 권한별 인가 로직 작성 : `API`별 필요한 권한을 명시합니다.
 - `CustomAuthenticationEntryPoint`
-  등록 : [저번에](https://1eaf.site/posts/spring_security/4/#authenticationentrypoint-%EC%84%A4%EC%A0%95) 생성한 해당 클래스를
+  등록 : [저번에](https://leaf-nam.github.io/posts/spring_security/4/#authenticationentrypoint-%EC%84%A4%EC%A0%95) 생성한 해당 클래스를
   `ExceptionHandler`로 등록해야 인증 실패 시 `302`오류가 발생하지 않습니다.
 
-> [지난 시간](https://1eaf.site/posts/spring_security/5/#jwtsecurityconfig-%EA%B5%AC%ED%98%84)에 생성한 `JwtSecurityConfig`설정과
+> [지난 시간](https://leaf-nam.github.io/posts/spring_security/5/#jwtsecurityconfig-%EA%B5%AC%ED%98%84)에 생성한 `JwtSecurityConfig`설정과
 > 대부분 동일하지만, 요청 `URL`을 다르게 설정하기 때문에 두 필터가 모두 `SecurityFilterChain`에 등록되어 각각 적용됩니다.
 
 ```java
@@ -268,7 +268,7 @@ public class JwtSecurityConfigV2 {
 
 ### API 구현
 
-[지난 시간](https://1eaf.site/posts/spring_security/5/#api-%EA%B5%AC%ED%98%84)과 마찬가지로, 다음과 같이 `JwtApiControllerV2`에 모든 `API`
+[지난 시간](https://leaf-nam.github.io/posts/spring_security/5/#api-%EA%B5%AC%ED%98%84)과 마찬가지로, 다음과 같이 `JwtApiControllerV2`에 모든 `API`
 를 생성하겠습니다.
 
 ```java
@@ -318,7 +318,7 @@ public class JwtApiControllerV2 {
 ```
 
 해당 `Controller`를 통합 테스트에 사용하기 위해 다음과 같이 `IntegrationTestConfig`를 수정합니다.
-> 해당 클래스는 [이전 포스트](https://1eaf.site/posts/spring_security/5/#jwtsecurityconfig-%EA%B5%AC%ED%98%84)에서 통합 테스트 시 필요한 설정과 의존관계를 한번에 불러오기 위해 별도로 분리한 설정파일입니다. 
+> 해당 클래스는 [이전 포스트](https://leaf-nam.github.io/posts/spring_security/5/#jwtsecurityconfig-%EA%B5%AC%ED%98%84)에서 통합 테스트 시 필요한 설정과 의존관계를 한번에 불러오기 위해 별도로 분리한 설정파일입니다. 
 
 ```java
 package com.springsecurity.jwt.config;
@@ -434,7 +434,7 @@ public class JwtSecurityConfigV2 {
 
 > 해당 프로젝트의 전체 코드는 [**다음 깃허브 링크**](https://github.com/leaf-nam/spring_security_example)에서 확인하실 수 있습니다.
 
-- 해당 라이브러리에서도 내부적으로는 [지난 시간](https://1eaf.site/posts/spring_security/5)에 구현한 `JWT 인증 필터`와 유사한 로직이 진행됩니다.
+- 해당 라이브러리에서도 내부적으로는 [지난 시간](https://leaf-nam.github.io/posts/spring_security/5)에 구현한 `JWT 인증 필터`와 유사한 로직이 진행됩니다.
 
 > 그러나 개인적으로는 필터를 직접 구현하는 것보다 **많은 사용자들에게서 이미 검증된 라이브러리를 사용**하는 것이 더욱 안전해 보이고, 예기치 못한 오류를 방지할 수 있을 것 같습니다.
 

@@ -223,4 +223,4 @@ public class Main {
 | :-- | :------- | :------- | :----- |
 |[Backtracking](https://ko.wikipedia.org/wiki/%ED%87%B4%EA%B0%81%EA%B2%80%EC%83%89)| 2022.02.08. | 2024.12.10. | Wikipedia|
 
-[^1]: `Trie` 자료구조에 대한 자세한 설명은 [다음 링크](https://1eaf.site/cote/hackerrank_no_prefix_set/#trie)를 참고하시기 바랍니다.
+[^1]: `Trie` 자료구조에 대한 자세한 설명은 [다음 링크](https://leaf-nam.github.io/cote/hackerrank_no_prefix_set/#trie)를 참고하시기 바랍니다.

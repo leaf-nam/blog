@@ -20,8 +20,8 @@ editPost:
 
 ### 지난 포스팅
 
-- [[Java]Spring Security WebMVC 기본 구조](https://1eaf.site/posts/spring_security/1)
-- [[Java]Spring Security 예외처리, 캐싱, 로깅](https://1eaf.site/posts/spring_security/2)
+- [[Java]Spring Security WebMVC 기본 구조](https://leaf-nam.github.io/posts/spring_security/1)
+- [[Java]Spring Security 예외처리, 캐싱, 로깅](https://leaf-nam.github.io/posts/spring_security/2)
 
 Spring Security의 WebMVC와 기타 기능들에 이어 다양한 기능을 지원하는 인가 로직에 대해 알아보겠습니다.
 
@@ -89,7 +89,7 @@ Spring Security의 WebMVC와 기타 기능들에 이어 다양한 기능을 지�
 
 ### AbstractAuthenticationProcessingFilter
 
-인증의 주요 흐름을 담고 있는 필터입니다. [ExceptionTranslationFilter](https://1eaf.site/posts/spring_security/2/#exceptiontranslationfilter)에서 이미 살펴보았던 `AuthenticationEntryPoint`를 통해 받은 요청에서 사용자 정보(principals) 및 증명(credentials)을 가져와서 인증을 시도합니다.
+인증의 주요 흐름을 담고 있는 필터입니다. [ExceptionTranslationFilter](https://leaf-nam.github.io/posts/spring_security/2/#exceptiontranslationfilter)에서 이미 살펴보았던 `AuthenticationEntryPoint`를 통해 받은 요청에서 사용자 정보(principals) 및 증명(credentials)을 가져와서 인증을 시도합니다.
 
 {{<figure src="abstractAuthenticationProcessingFilter.png" caption="인증 필터의 주요 흐름">}}
 
@@ -170,7 +170,7 @@ Spring Security의 로직은 다음 API를 구현하여 활용할 수 있습니�
 
 ### 다음 포스팅
 
-- [[Java]Spring Security(With TDD) 기본 인증 및 인가 구현하기](https://1eaf.site/posts/spring_security/4)
+- [[Java]Spring Security(With TDD) 기본 인증 및 인가 구현하기](https://leaf-nam.github.io/posts/spring_security/4)
 
 ## References
 

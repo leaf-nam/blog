@@ -20,7 +20,7 @@ editPost:
 
 ### 지난 포스팅
 
-- [[Java]Spring Security WebMVC 기본 구조](https://1eaf.site/posts/spring_security/1/)
+- [[Java]Spring Security WebMVC 기본 구조](https://leaf-nam.github.io/posts/spring_security/1/)
 
 지난 시간의 기본 구조(링크)에 이어, Spring Security에서 제공하는 예외처리와 캐싱, 로깅에 대해 자세히 알아보겠습니다.
 
@@ -37,7 +37,7 @@ Spring Security에서 처리하는 예외는 크게 2가지입니다.
 
 ### ExceptionTranslationFilter
 
-- [Security Filter Chain](https://1eaf.site/posts/spring_security/spring_security_webmvc_base_architecture/#spring-security-%ED%95%84%ED%84%B0)에는 ExceptionTranslationFilter가 기본으로 세팅되어 있습니다.
+- [Security Filter Chain](https://leaf-nam.github.io/posts/spring_security/spring_security_webmvc_base_architecture/#spring-security-%ED%95%84%ED%84%B0)에는 ExceptionTranslationFilter가 기본으로 세팅되어 있습니다.
 
 {{<figure src="exceptionTranslationFilter.png" caption="ExceptionTranslationFilter는 하위 필터의 오류를 처리합니다.">}}
 
@@ -142,7 +142,7 @@ Spring Security에서 처리하는 예외는 크게 2가지입니다.
 
 ### 다음 포스팅
 
-- [[Java]Spring Security 인증(Authentication)과 인가(Authorization)](https://1eaf.site/posts/spring_security/3)
+- [[Java]Spring Security 인증(Authentication)과 인가(Authorization)](https://leaf-nam.github.io/posts/spring_security/3)
 
 ## References
 
