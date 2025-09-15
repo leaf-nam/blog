@@ -1,9 +1,9 @@
 # 참고 : https://github.com/adityatelange/hugo-PaperMod/wiki/Variables
 
 # 기본 도메인 주소 : 차후 정적파일이나 소스파일 등의 기본경로가 됨
-baseUrl: "https://1eaf.site"
+baseUrl: "https://leaf-nam.github.io"
 home:
-  permalink: "https://1eaf.site"
+  permalink: "https://leaf-nam.github.io"
 
 # 해당 페이지의 기본 제목
 title: "Leaf, waiting for Spring"
@@ -232,7 +232,7 @@ params:
     appendFilePath: true # to append file path to Edit link
 
   canonicalURL:
-    URL: "https://1eaf.site"
+    URL: "https://leaf-nam.github.io"
     appendFilePath: true
 
   # 검색기능 옵션 : https://fusejs.io/api/options.html 참고
