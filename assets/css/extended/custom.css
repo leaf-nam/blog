@@ -1,0 +1,25 @@
+/* 라이트모드 */
+:root {
+  --code-bg: #f5f5f5;
+  --code-color: #111;
+}
+
+/* 다크모드 */
+.dark {
+  --code-bg: #1e1e1e;
+  --code-color: #e6e6e6;
+}
+
+code {
+  background: var(--code-bg);
+  color: var(--code-color);
+  font-weight: 500;
+  font-family: 
+    "JetBrains Mono",   /* 있으면 사용 */
+    "Fira Code",        /* 없으면 */
+    "Consolas",         /* Windows */
+    "Menlo",            /* macOS */
+    "Monaco",
+    "Courier New",
+    monospace;          /* 최후 fallback */
+}
